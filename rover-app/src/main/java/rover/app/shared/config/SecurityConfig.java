@@ -1,4 +1,4 @@
-package rover.app.platform.auth;
+package rover.app.shared.config;
 
 import org.springframework.context.annotation.Configuration;
 //import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;

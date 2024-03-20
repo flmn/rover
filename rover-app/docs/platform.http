@@ -1,0 +1,4 @@
+GET http://localhost:8000/api/platform/enums
+Content-Type: application/json
+
+###
