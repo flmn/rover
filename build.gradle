@@ -9,11 +9,19 @@ subprojects {
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
 
-    group = 'sm'
-    version = '0.0.1'
+    group = 'rover'
+    version = '0.1.0'
 
     java {
-        sourceCompatibility = '21'
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
+    springBoot {
+        buildInfo()
     }
 
     dependencyManagement {
