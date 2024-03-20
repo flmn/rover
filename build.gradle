@@ -16,6 +16,12 @@ subprojects {
         sourceCompatibility = '21'
     }
 
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.data:spring-data-bom:${springDataVersion}"
+        }
+    }
+
     repositories {
         mavenCentral()
     }
