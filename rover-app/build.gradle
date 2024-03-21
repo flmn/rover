@@ -6,13 +6,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-
-    implementation "org.jobrunr:jobrunr-spring-boot-3-starter:${jobrunrVersion}"
-
-    implementation "com.github.f4b6a3:tsid-creator:${tsidCreatorVersion}"
-
-    runtimeOnly 'org.postgresql:postgresql'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

@@ -13,6 +13,8 @@ dependencies {
 
     implementation "org.jobrunr:jobrunr-spring-boot-3-starter:${jobrunrVersion}"
 
+    implementation "com.github.f4b6a3:tsid-creator:${tsidCreatorVersion}"
+
     runtimeOnly 'org.postgresql:postgresql'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

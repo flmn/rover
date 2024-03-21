@@ -3,7 +3,7 @@ package rover.app.platform.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import rover.app.platform.service.EnumService;
+import rover.core.platform.service.EnumService;
 
 @RestController
 @RequestMapping("/api/platform/enums")
