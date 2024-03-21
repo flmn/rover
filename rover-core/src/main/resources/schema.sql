@@ -33,6 +33,20 @@ create unique index if not exists platform_enum_member_uk
     on platform_enum_member
         using btree (enum_id, label, value);
 
+create table if not exists platform_file
+(
+    id          varchar(36)  not null primary key,
+
+    name        varchar(50)  not null,
+    description varchar(500) not null default '',
+
+    is_deleted  boolean      not null default false,
+    created_at  timestamptz  not null default now(),
+    updated_at  timestamptz           default null,
+    deleted_at  timestamptz           default null,
+    version     integer      not null default 0
+);
+
 create table if not exists fleet_airline
 (
     id         varchar(36) not null primary key,

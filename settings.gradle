@@ -2,4 +2,5 @@ rootProject.name = 'rover-platform'
 
 include 'rover-app'
 include 'rover-core'
+include 'rover-ef'
 include 'rover-job'

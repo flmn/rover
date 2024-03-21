@@ -8,13 +8,9 @@ bootJar {
 }
 
 dependencies {
-    implementation project(':rover-ef')
-
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-
-    implementation "org.jobrunr:jobrunr-spring-boot-3-starter:${jobrunrVersion}"
 
     implementation("com.github.ben-manes.caffeine:caffeine:${caffeineVersion}")
     implementation "com.github.f4b6a3:tsid-creator:${tsidCreatorVersion}"
