@@ -1,7 +1,13 @@
-dependencies {
-    implementation project(':rover-core')
+jar {
+    enabled = true
+}
 
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+bootJar {
+    enabled = false
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 

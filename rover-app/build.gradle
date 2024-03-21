@@ -1,4 +1,6 @@
 dependencies {
+    implementation project(':rover-core')
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -7,6 +9,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 
     implementation "org.jobrunr:jobrunr-spring-boot-3-starter:${jobrunrVersion}"
+
+    implementation "com.github.f4b6a3:tsid-creator:${tsidCreatorVersion}"
 
     runtimeOnly 'org.postgresql:postgresql'
 
