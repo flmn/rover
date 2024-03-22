@@ -2,6 +2,7 @@ package rover.ef.enumeration.service;
 
 import org.springframework.stereotype.Service;
 import rover.ef.enumeration.entity.EnumEntity;
+import rover.ef.enumeration.entity.EnumMemberEntity;
 import rover.ef.enumeration.repository.EnumMemberRepository;
 import rover.ef.enumeration.repository.EnumRepository;
 
@@ -24,5 +25,9 @@ public class EnumService {
 
     public Optional<EnumEntity> getEnum(String id) {
         return enumRepository.findById(id);
+    }
+
+    public List<EnumMemberEntity> listEnumMembers(String enumId) {
+        return enumMemberRepository.findByEnumId(enumId);
     }
 }

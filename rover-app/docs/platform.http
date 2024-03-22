@@ -12,4 +12,9 @@ Content-Type: application/json
 GET http://localhost:8000/api/platform/enums/Aircraft.AcType
 Content-Type: application/json
 
+### members
+
+GET http://localhost:8000/api/platform/enums/Aircraft.AcType/members
+Content-Type: application/json
+
 ###

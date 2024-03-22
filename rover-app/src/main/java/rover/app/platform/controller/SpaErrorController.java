@@ -4,17 +4,31 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
+import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
+import org.springframework.boot.web.error.ErrorAttributeOptions;
+import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 @Controller
-public class SpaErrorController implements ErrorController {
+@RequestMapping({"${server.error.path:${error.path:/error}}"})
+public class SpaErrorController extends AbstractErrorController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping("/error")
-    public String handleError(HttpServletRequest request, HttpServletResponse response) {
+    public SpaErrorController(ErrorAttributes errorAttributes, List<ErrorViewResolver> errorViewResolvers) {
+        super(errorAttributes, errorViewResolvers);
+    }
+
+    @RequestMapping(produces = {"text/html"})
+    public Object errorHtml(HttpServletRequest request, HttpServletResponse response) {
         HttpStatus status = getStatus(request);
 
         if (status == HttpStatus.NOT_FOUND) {
@@ -29,21 +43,22 @@ public class SpaErrorController implements ErrorController {
             }
         }
 
+        Map<String, Object> model = Collections.unmodifiableMap(this.getErrorAttributes(request, ErrorAttributeOptions.of(ErrorAttributeOptions.Include.BINDING_ERRORS)));
+
         response.setStatus(status.value());
 
-        return "error";
+        return new ModelAndView("error", model);
     }
 
-    private HttpStatus getStatus(HttpServletRequest request) {
-        Integer statusCode = (Integer) request.getAttribute("jakarta.servlet.error.status_code");
-        if (statusCode == null) {
-            return HttpStatus.INTERNAL_SERVER_ERROR;
+    @RequestMapping
+    public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) {
+        HttpStatus status = this.getStatus(request);
+        if (status == HttpStatus.NO_CONTENT) {
+            return new ResponseEntity<>(status);
         } else {
-            try {
-                return HttpStatus.valueOf(statusCode);
-            } catch (Exception e) {
-                return HttpStatus.INTERNAL_SERVER_ERROR;
-            }
+            Map<String, Object> body = this.getErrorAttributes(request, ErrorAttributeOptions.of(ErrorAttributeOptions.Include.BINDING_ERRORS));
+
+            return new ResponseEntity<>(body, status);
         }
     }
 

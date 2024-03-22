@@ -25,8 +25,6 @@ create table if not exists ef_enum_member
 
     created_at    timestamptz not null default now(),
     updated_at    timestamptz          default null,
-    is_deleted    boolean     not null default false,
-    deleted_at    timestamptz          default null,
     version       integer     not null default 0
 );
 

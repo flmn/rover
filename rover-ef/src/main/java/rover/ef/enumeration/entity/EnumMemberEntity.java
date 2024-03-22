@@ -39,12 +39,6 @@ public class EnumMemberEntity {
     @Column("updated_at")
     private LocalDateTime updatedAt;
 
-    @Column("is_deleted")
-    private Boolean isDeleted = Boolean.FALSE;
-
-    @Column("deleted_at")
-    private LocalDateTime deletedAt;
-
     @Version
     private Integer version = 0;
 
@@ -110,22 +104,6 @@ public class EnumMemberEntity {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public Boolean getIsDeleted() {
-        return isDeleted;
-    }
-
-    public void setIsDeleted(Boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    public LocalDateTime getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(LocalDateTime deletedAt) {
-        this.deletedAt = deletedAt;
     }
 
     public Integer getVersion() {

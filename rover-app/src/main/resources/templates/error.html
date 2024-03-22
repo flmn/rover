@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Error</title>
 </head>
 <body>
-<h1>Error</h1>
-<a href="/">Go Home</a>
+<h1><span th:text="${status}"></span> <span th:text="${error}"></span></h1>
+<p th:text="${timestamp}"></p>
+<a href="/">返回首页</a>
 </body>
 </html>

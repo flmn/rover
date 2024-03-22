@@ -5,31 +5,30 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Table("ef_enum")
 public class EnumEntity {
 
-    @MappedCollection(idColumn = "enum_id")
-    Set<EnumMemberEntity> members; // todo lazy?
+    @Id
+    private String id;
 
     @Column("name")
     private String name;
 
     @Column("description")
     private String description;
-    @Id
-    private String id;
+
     @CreatedDate
     @Column("created_at")
     private LocalDateTime createdAt;
+
     @LastModifiedDate
     @Column("updated_at")
     private LocalDateTime updatedAt;
+
     @Version
     private Integer version = 0;
 
@@ -79,13 +78,5 @@ public class EnumEntity {
 
     public void setVersion(Integer version) {
         this.version = version;
-    }
-
-    public Set<EnumMemberEntity> getMembers() {
-        return members;
-    }
-
-    public void setMembers(Set<EnumMemberEntity> members) {
-        this.members = members;
     }
 }

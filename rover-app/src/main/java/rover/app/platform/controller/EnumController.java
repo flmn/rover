@@ -26,6 +26,11 @@ public class EnumController {
     public Object getEnum(@PathVariable String id) {
         var opt = enumService.getEnum(id);
 
-        return opt.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found"));
+        return opt.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/{id}/members")
+    public Object listMembers(@PathVariable String id) {
+        return enumService.listEnumMembers(id);
     }
 }
