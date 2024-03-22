@@ -1,4 +1,4 @@
-package rover.ef.domain;
+package rover.ef.entity.domain;
 
 public record FieldDef(String name,
                        String column,
@@ -8,5 +8,5 @@ public record FieldDef(String name,
                        String defaultValue,
                        boolean isPrimary,
                        boolean isUnique,
-                       int displayOrder) {
+                       int naturalOrder) {
 }

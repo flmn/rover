@@ -1,4 +1,4 @@
-package rover.ef.domain;
+package rover.ef.entity.domain;
 
 import java.util.LinkedHashMap;
 
@@ -7,6 +7,10 @@ public record EntityDef(String name,
                         String idField,
                         String nameField,
                         LinkedHashMap<String, FieldDef> fieldDefs) {
+
+    public FieldDef getFieldDef(String fieldName) {
+        return fieldDefs.get(fieldName);
+    }
 
     @Override
     public String toString() {

@@ -1,10 +1,10 @@
-package rover.ef.registry;
+package rover.ef.entity.registry;
 
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import rover.ef.domain.EntityDef;
+import rover.ef.entity.domain.EntityDef;
 
 import java.util.Set;
 import java.util.StringJoiner;

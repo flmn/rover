@@ -1,10 +1,10 @@
 package rover.core.features.fleet.entitydef;
 
 import org.springframework.stereotype.Component;
-import rover.ef.domain.DataType;
-import rover.ef.domain.EntityDef;
-import rover.ef.domain.FieldDef;
-import rover.ef.registry.EntityDefLoader;
+import rover.ef.entity.domain.DataType;
+import rover.ef.entity.domain.EntityDef;
+import rover.ef.entity.domain.FieldDef;
+import rover.ef.entity.registry.EntityDefLoader;
 import rover.ef.util.FieldUtils;
 
 import java.util.LinkedHashMap;
@@ -20,10 +20,10 @@ public class FleetStaticEntityDefLoader implements EntityDefLoader {
 
     private EntityDef airline() {
         var fields = new LinkedHashMap<String, FieldDef>();
-        int displayOrder = 0;
+        int naturalOrder = 0;
 
         // ID
-        FieldUtils.addId(fields, displayOrder);
+        FieldUtils.addId(fields, naturalOrder);
 
         // Code
         {
@@ -35,7 +35,7 @@ public class FleetStaticEntityDefLoader implements EntityDefLoader {
                     "",
                     false,
                     true,
-                    ++displayOrder);
+                    ++naturalOrder);
             fields.put(code.name(), code);
         }
 
@@ -49,15 +49,15 @@ public class FleetStaticEntityDefLoader implements EntityDefLoader {
                     "",
                     false,
                     true,
-                    ++displayOrder);
+                    ++naturalOrder);
             fields.put(name.name(), name);
         }
 
         // CreatedAt, UpdatedAt, IsDeleted, DeletedAt
-        FieldUtils.addCreatedAt(fields, ++displayOrder);
-        FieldUtils.addUpdatedAt(fields, ++displayOrder);
-        FieldUtils.addIsDeleted(fields, ++displayOrder);
-        FieldUtils.addDeletedAt(fields, ++displayOrder);
+        FieldUtils.addCreatedAt(fields, ++naturalOrder);
+        FieldUtils.addUpdatedAt(fields, ++naturalOrder);
+        FieldUtils.addIsDeleted(fields, ++naturalOrder);
+        FieldUtils.addDeletedAt(fields, ++naturalOrder);
 
         return new EntityDef(FleetEntities.AIRLINE,
                 FleetEntities.AIRLINE_TABLE,

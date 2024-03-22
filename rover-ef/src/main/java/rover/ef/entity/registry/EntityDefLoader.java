@@ -1,6 +1,6 @@
-package rover.ef.registry;
+package rover.ef.entity.registry;
 
-import rover.ef.domain.EntityDef;
+import rover.ef.entity.domain.EntityDef;
 
 import java.util.List;
 

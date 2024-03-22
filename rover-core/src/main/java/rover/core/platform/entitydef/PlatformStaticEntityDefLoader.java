@@ -1,9 +1,9 @@
 package rover.core.platform.entitydef;
 
 import org.springframework.stereotype.Component;
-import rover.ef.domain.EntityDef;
-import rover.ef.domain.FieldDef;
-import rover.ef.registry.EntityDefLoader;
+import rover.ef.entity.domain.EntityDef;
+import rover.ef.entity.domain.FieldDef;
+import rover.ef.entity.registry.EntityDefLoader;
 import rover.ef.util.FieldUtils;
 
 import java.util.LinkedHashMap;
@@ -19,16 +19,16 @@ public class PlatformStaticEntityDefLoader implements EntityDefLoader {
 
     private EntityDef file() {
         var fields = new LinkedHashMap<String, FieldDef>();
-        int displayOrder = 0;
+        int naturalOrder = 0;
 
         // ID
-        FieldUtils.addId(fields, displayOrder);
+        FieldUtils.addId(fields, naturalOrder);
 
         // CreatedAt, UpdatedAt, IsDeleted, DeletedAt
-        FieldUtils.addCreatedAt(fields, ++displayOrder);
-        FieldUtils.addUpdatedAt(fields, ++displayOrder);
-        FieldUtils.addIsDeleted(fields, ++displayOrder);
-        FieldUtils.addDeletedAt(fields, ++displayOrder);
+        FieldUtils.addCreatedAt(fields, ++naturalOrder);
+        FieldUtils.addUpdatedAt(fields, ++naturalOrder);
+        FieldUtils.addIsDeleted(fields, ++naturalOrder);
+        FieldUtils.addDeletedAt(fields, ++naturalOrder);
 
         return new EntityDef(PlatformEntities.FILE,
                 PlatformEntities.FILE_TABLE,

@@ -1,4 +1,4 @@
-package rover.ef.repository;
+package rover.ef.entity.repository;
 
 import org.springframework.stereotype.Repository;
 

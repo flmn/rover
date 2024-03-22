@@ -1,4 +1,4 @@
-package rover.ef.domain;
+package rover.ef.entity.domain;
 
 public enum DataType {
     INTEGER(1),

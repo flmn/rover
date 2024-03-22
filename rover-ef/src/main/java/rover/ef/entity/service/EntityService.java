@@ -1,4 +1,4 @@
-package rover.ef.service;
+package rover.ef.entity.service;
 
 import org.springframework.stereotype.Service;
 
