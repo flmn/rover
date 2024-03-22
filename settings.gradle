@@ -1,4 +1,4 @@
-rootProject.name = 'rover-platform'
+rootProject.name = 'rover'
 
 include 'rover-app'
 include 'rover-core'

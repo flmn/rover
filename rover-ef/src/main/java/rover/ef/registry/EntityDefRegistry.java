@@ -23,14 +23,14 @@ public class EntityDefRegistry {
     @PostConstruct
     public void init() {
         for (var loader : entityDefLoaders) {
-            var map = loader.loadEntityDefs();
-            if (map != null && !map.isEmpty()) {
-                defMap.putAll(map);
+            var list = loader.loadEntityDefs();
+            if (list != null && !list.isEmpty()) {
+                list.forEach(def -> defMap.put(def.name(), def));
             }
         }
 
-        StringJoiner joiner = new StringJoiner(", ", "[", "]");
-        defMap.forEachKey(1, joiner::add);
+        var joiner = new StringJoiner(", ", "[", "]");
+        defMap.forEachValue(1, def -> joiner.add(def.toString()));
 
         logger.info("#Loaders: {}, #EntityDefs: {}, Entities: {}.",
                 entityDefLoaders.size(),
