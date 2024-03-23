@@ -14,7 +14,7 @@ const AppLayout = () => {
         >
             <AppShell.Navbar p="sm">
                 <AppShell.Section>
-                    <Title order={3} fw="bolder">Rover 管理信息系统</Title>
+                    <Title order={1} fw="bolder">Rover</Title>
                 </AppShell.Section>
                 <AppShell.Section grow my="md" component={ScrollArea}>
                     <Anchor href="/">

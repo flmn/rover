@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { Title } from "@mantine/core";
+import { Container, Grid, Group, Title } from "@mantine/core";
 import { Enum } from "@/components/enum.tsx";
 import { fetchEnums } from "@/apis/enums.ts";
 
@@ -14,14 +14,23 @@ const Page = () => {
     const enums = enumsQuery.data
 
     return (
-        <div>
-            <Title order={4}>数据字典管理</Title>
-            <div>
-                {enums.map((e) => (
-                    <Enum data={e} key={e.id}/>
-                ))}
-            </div>
-        </div>
+        <>
+            <Group h={48} mb="sm" justify="space-between">
+                <Title order={3}>数据字典管理</Title>
+            </Group>
+            <Grid>
+                <Grid.Col span={3}>
+                    <Container bg="grey" p="sm">
+                        {enums.map((enumEntity) => (
+                            <Enum enumEntity={enumEntity} key={enumEntity.id}/>
+                        ))}
+                    </Container>
+                </Grid.Col>
+                <Grid.Col span={9}>
+
+                </Grid.Col>
+            </Grid>
+        </>
     );
 }
 

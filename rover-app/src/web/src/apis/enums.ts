@@ -1,5 +1,15 @@
 import ky from "ky";
 
-export const fetchEnums = async () => {
-    return ky.get('/api/platform/enums').json()
+export interface EnumEntity {
+    id: string;
+    name: string;
+    description: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export async function fetchEnums(): Promise<EnumEntity[]> {
+    const response = await ky.get('/api/platform/enums').json()
+
+    return response as EnumEntity[];
 }
