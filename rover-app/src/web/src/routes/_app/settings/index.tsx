@@ -4,11 +4,11 @@ import { Button } from "@mantine/core";
 const Page = () => {
     return (
         <div>
-            <Button variant="filled" size="sm">Button</Button>
+            <Button variant="filled" size="sm">Settings</Button>
         </div>
     );
 }
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute('/_app/settings/')({
     component: Page,
 })

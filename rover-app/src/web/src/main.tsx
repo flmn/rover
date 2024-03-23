@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.layer.css';
 import { theme } from '@/theme';
@@ -15,10 +17,15 @@ declare module '@tanstack/react-router' {
     }
 }
 
+const queryClient = new QueryClient()
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <MantineProvider theme={theme} classNamesPrefix="mt">
-            <RouterProvider router={router}/>
-        </MantineProvider>
+        <QueryClientProvider client={queryClient}>
+            <MantineProvider theme={theme} classNamesPrefix="mt">
+                <RouterProvider router={router}/>
+            </MantineProvider>
+            <ReactQueryDevtools position={'bottom'}/>
+        </QueryClientProvider>
     </React.StrictMode>,
 )
