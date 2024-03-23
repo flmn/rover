@@ -1,4 +1,4 @@
-import { createLazyFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "@mantine/core";
 
 const Page = () => {
@@ -9,6 +9,6 @@ const Page = () => {
     );
 }
 
-export const Route = createLazyFileRoute('/_app/fleet/aircraft')({
+export const Route = createFileRoute('/_app/fleet/aircraft')({
     component: Page,
 })
