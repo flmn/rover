@@ -26,20 +26,6 @@ create table if not exists fleet_airline
     version    integer     not null default 0
 );
 
-create table if not exists ent_fleet_airline
-(
-    id         varchar(36) not null primary key,
-
-    code       varchar(4)  not null,
-    name       varchar(20) not null,
-
-    is_deleted boolean     not null default false,
-    created_at timestamptz not null default now(),
-    updated_at timestamptz          default null,
-    deleted_at timestamptz          default null,
-    version    integer     not null default 0
-);
-
 create table if not exists fleet_fleet
 (
     id          varchar(36)  not null primary key,
