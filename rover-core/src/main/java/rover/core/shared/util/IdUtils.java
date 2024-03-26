@@ -4,10 +4,19 @@ import com.github.f4b6a3.tsid.Tsid;
 import com.github.f4b6a3.tsid.TsidFactory;
 
 import java.time.Instant;
+import java.util.UUID;
 
 public final class IdUtils {
 
     private IdUtils() {
+    }
+
+    public static String newUuid() {
+        return UUID.randomUUID().toString();
+    }
+
+    public static String newCompactUuid() {
+        return newUuid().replace("-", "");
     }
 
     public static String newTsid() {
