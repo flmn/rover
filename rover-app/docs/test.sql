@@ -1,3 +1,6 @@
+insert into platform_user (id, email, password)
+values ('00vchk38dg640', 'admin@admin.com', 'password');
+
 insert into ef_enum (id, name)
 values ('Aircraft.AcType', '机型');
 
