@@ -13,6 +13,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.security:spring-security-crypto'
 
     implementation "org.jobrunr:jobrunr-spring-boot-3-starter:${jobrunrVersion}"
 
