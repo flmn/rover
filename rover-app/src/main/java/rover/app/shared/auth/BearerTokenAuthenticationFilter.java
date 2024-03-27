@@ -39,7 +39,7 @@ public class BearerTokenAuthenticationFilter extends AbstractAuthenticationProce
 
         String token = authorization.substring(BEARER.length());
 
-        Authentication authenticationRequest = new BearerTokenAuthenticationToken(token);
+        Authentication authenticationRequest = BearerTokenAuthenticationToken.unauthenticated(token);
 
         return getAuthenticationManager().authenticate(authenticationRequest);
     }

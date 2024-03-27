@@ -16,8 +16,8 @@ public class RoverUserDetails implements UserDetails, CredentialsContainer {
     private final boolean enabled;
     private String password;
 
-    public RoverUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-        this(username, password, true, true, true, true, authorities);
+    public RoverUserDetails(String email, String password, Collection<? extends GrantedAuthority> authorities) {
+        this(email, password, true, true, true, true, authorities);
     }
 
     public RoverUserDetails(String email, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {

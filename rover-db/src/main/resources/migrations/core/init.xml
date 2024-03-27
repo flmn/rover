@@ -29,6 +29,49 @@
         </createTable>
         <addUniqueConstraint tableName="platform_user" columnNames="email" constraintName="platform_user_email_uk"/>
     </changeSet>
+    <changeSet author="jitao" id="create table platform_role">
+        <createTable tableName="platform_role">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamptz" defaultValue="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamptz"/>
+            <column name="version" type="int" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="platform_role" columnNames="name" constraintName="platform_role_name_uk"/>
+    </changeSet>
+    <changeSet author="jitao" id="create table platform_token">
+        <createTable tableName="platform_token">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="token" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamptz" defaultValue="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamptz"/>
+            <column name="version" type="int" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="platform_token" columnNames="user_id,type,token"
+                             constraintName="platform_token_uk"/>
+    </changeSet>
     <changeSet author="jitao" id="create table ent_fleet_airline">
         <createTable tableName="ent_fleet_airline">
             <column name="id" type="varchar(36)">
