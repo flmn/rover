@@ -2,8 +2,7 @@ package rover.app.shared.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -22,15 +21,7 @@ public class SecurityConfig {
     );
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-//        authenticationManagerBuilder.authenticationProvider(opaqueTokenAuthenticationProvider);
-
-        return authenticationManagerBuilder.build();
-    }
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationConfiguration authenticationConfiguration) throws Exception {
         http
                 .sessionManagement(configurer -> configurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -45,9 +36,9 @@ public class SecurityConfig {
                         .requestMatchers(PROTECTED_URLS)
                         .authenticated()
                 )
-                .authenticationManager(authenticationManager)
+                .authenticationManager(authenticationConfiguration.getAuthenticationManager())
                 .addFilterBefore(
-                        new BearerTokenAuthenticationFilter(PROTECTED_URLS, authenticationManager),
+                        new BearerTokenAuthenticationFilter(PROTECTED_URLS, authenticationConfiguration.getAuthenticationManager()),
                         UsernamePasswordAuthenticationFilter.class
                 );
 

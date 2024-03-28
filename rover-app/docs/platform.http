@@ -12,6 +12,7 @@ Authorization: Bearer b5f6563886c747ab960e732044b42c7b
 
 GET http://localhost:8000/api/platform/enums/Aircraft.AcType
 Content-Type: application/json
+Authorization: Bearer b5f6563886c747ab960e732044b42c7b
 
 ### members
 

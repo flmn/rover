@@ -42,6 +42,8 @@ public class OpaqueTokenAuthenticationProvider implements AuthenticationProvider
 
                     return authenticationResult;
                 }
+            } else {
+                throw new BadCredentialsException("Bad credentials");
             }
         }
 

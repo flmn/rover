@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import java.math.BigDecimal;
 
 @Configuration
-public class JacksonConfiguration {
+public class JacksonConfig {
 
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jacksonCustomizer() {
