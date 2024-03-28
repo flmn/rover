@@ -4,7 +4,6 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.Assert;
 
 import java.util.Collection;
 
@@ -18,7 +17,6 @@ public class BearerTokenAuthenticationToken extends AbstractAuthenticationToken 
                                            boolean authenticated) {
         super(authorities);
 
-        Assert.hasText(accessToken, "token cannot be empty");
         this.accessToken = accessToken;
         this.principal = principal;
 

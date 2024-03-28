@@ -1,7 +1,5 @@
 package rover.app.shared.auth;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -15,7 +13,6 @@ import java.util.Optional;
 
 @Component
 public class OpaqueTokenAuthenticationProvider implements AuthenticationProvider {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final TokenService tokenService;
     private final UserDetailsService userDetailsService;
 
@@ -28,8 +25,6 @@ public class OpaqueTokenAuthenticationProvider implements AuthenticationProvider
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         if (authentication instanceof BearerTokenAuthenticationToken authenticationRequest) {
-            logger.info("accessToken: {}", authenticationRequest.getAccessToken());
-
             Optional<TokenEntity> opt = tokenService.getAccessToken(authenticationRequest.getAccessToken());
 
             if (opt.isPresent()) {

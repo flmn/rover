@@ -69,7 +69,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addUniqueConstraint tableName="platform_token" columnNames="user_id,type,token"
+        <addUniqueConstraint tableName="platform_token" columnNames="type,token"
                              constraintName="platform_token_uk"/>
     </changeSet>
     <changeSet author="jitao" id="create table ent_fleet_airline">

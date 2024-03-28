@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -37,6 +38,9 @@ public class SecurityConfig {
                         .authenticated()
                 )
                 .authenticationManager(authenticationConfiguration.getAuthenticationManager())
+                .securityContext(securityContext -> securityContext
+                        .securityContextRepository(new RequestAttributeSecurityContextRepository())
+                )
                 .addFilterBefore(
                         new BearerTokenAuthenticationFilter(PROTECTED_URLS, authenticationConfiguration.getAuthenticationManager()),
                         UsernamePasswordAuthenticationFilter.class
