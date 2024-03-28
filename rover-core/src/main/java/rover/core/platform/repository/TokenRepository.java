@@ -10,5 +10,6 @@ import java.util.Optional;
 @Repository
 public interface TokenRepository extends BaseRepository<TokenEntity, String> {
 
+    Optional<TokenEntity> findByUserIdAndType(String userId, TokenType type);
     Optional<TokenEntity> findByTypeAndToken(TokenType type, String token);
 }

@@ -1,3 +1,5 @@
+### login
+
 POST http://localhost:8000/auth/login
 Content-Type: application/json
 
@@ -6,4 +8,13 @@ Content-Type: application/json
   "password": "admin123"
 }
 
-###
+### bad login
+
+POST http://localhost:8000/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@admin.com",
+  "password": "admin"
+}
+

@@ -5,13 +5,35 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import rover.core.platform.entity.UserEntity;
+import rover.core.platform.service.UserService;
+
+import java.util.Optional;
 
 @Service
 public class RoverUserDetailsService implements UserDetailsService {
+    private final UserService userService;
+
+    public RoverUserDetailsService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+        Optional<UserEntity> opt = userService.getById(userId);
 
-        return new RoverUserDetails("email", "password", AuthorityUtils.NO_AUTHORITIES);
+        if (opt.isEmpty()) {
+            return null;
+        }
+
+        UserEntity userEntity = opt.get();
+
+        return new RoverUserDetails(userEntity.getEmail(),
+                null,
+                userEntity.getEnabled(),
+                true,
+                true,
+                !userEntity.getLocked(),
+                AuthorityUtils.NO_AUTHORITIES);
     }
 }

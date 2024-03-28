@@ -22,7 +22,7 @@ public abstract class BaseEntity {
     private LocalDateTime updatedAt;
 
     @Version
-    private Integer version = 0;
+    private Integer version;
 
     public String getId() {
         return id;

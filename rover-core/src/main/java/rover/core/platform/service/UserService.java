@@ -2,7 +2,7 @@ package rover.core.platform.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import rover.core.platform.dto.LoginResult;
+import rover.core.platform.entity.TokenEntity;
 import rover.core.platform.entity.UserEntity;
 import rover.core.platform.repository.UserRepository;
 import rover.core.shared.util.IdUtils;
@@ -23,7 +23,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public LoginResult login(String email, String password) {
+    public Optional<TokenEntity> login(String email, String password) {
         Optional<UserEntity> opt = userRepository.findByEmail(email);
 
         if (opt.isPresent()) {
@@ -32,11 +32,13 @@ public class UserService {
             if (passwordEncoder.matches(password, user.getPassword())) {
                 String accessToken = IdUtils.newCompactUuid();
 
-                return new LoginResult(accessToken);
+                TokenEntity tokenEntity = tokenService.saveAccessToken(user.getId(), accessToken);
+
+                return Optional.of(tokenEntity);
             }
         }
 
-        return null;
+        return Optional.empty();
     }
 
     public Optional<UserEntity> getById(String id) {

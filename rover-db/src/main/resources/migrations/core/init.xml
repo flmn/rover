@@ -10,9 +10,15 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="email" type="varchar(255)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" unique="true" uniqueConstraintName="platform_user_email_uk"/>
             </column>
             <column name="password" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_enabled" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_locked" type="boolean" defaultValueBoolean="false">
                 <constraints nullable="false"/>
             </column>
             <column name="created_at" type="timestamptz" defaultValue="now()">
@@ -27,7 +33,6 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addUniqueConstraint tableName="platform_user" columnNames="email" constraintName="platform_user_email_uk"/>
     </changeSet>
     <changeSet author="jitao" id="create table platform_role">
         <createTable tableName="platform_role">
@@ -59,6 +64,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="token" type="varchar(64)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="platform_token_token_uk"/>
+            </column>
+            <column name="expires_at" type="timestamptz">
                 <constraints nullable="false"/>
             </column>
             <column name="created_at" type="timestamptz" defaultValue="now()">
@@ -69,8 +77,8 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addUniqueConstraint tableName="platform_token" columnNames="type,token"
-                             constraintName="platform_token_uk"/>
+        <addUniqueConstraint tableName="platform_token" columnNames="user_id,type"
+                             constraintName="platform_token_user_type_uk"/>
     </changeSet>
     <changeSet author="jitao" id="create table ent_fleet_airline">
         <createTable tableName="ent_fleet_airline">

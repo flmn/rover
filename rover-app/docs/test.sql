@@ -1,8 +1,9 @@
 insert into platform_user (id, email, password)
-values ('00vchk38dg640', 'admin@admin.com', '$2a$10$9JH0KnjwB1KNXQhKv7OdbuNcMeoxLRgvfQY.RhZrmhXQPCAa/9i/.');
+values ('usr-00vchk38dg640', 'admin@admin.com', '$2a$10$9JH0KnjwB1KNXQhKv7OdbuNcMeoxLRgvfQY.RhZrmhXQPCAa/9i/.');
 
-insert into platform_token (id, user_id, type, token)
-values ('00w3n62q8a8am', '00vchk38dg640', 'ACCESS_TOKEN', 'b5f6563886c747ab960e732044b42c7b');
+insert into platform_token (id, user_id, type, token, expires_at)
+values ('tkn-00w3n62q8a8am', 'usr-00vchk38dg640', 'ACCESS_TOKEN', 'aed1edb934a44923be6635dcbb9e4381',
+        '2024-03-29 19:17:18');
 
 insert into ef_enum (id, name)
 values ('Aircraft.AcType', '机型');

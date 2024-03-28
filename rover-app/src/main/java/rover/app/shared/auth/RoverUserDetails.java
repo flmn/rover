@@ -4,6 +4,7 @@ import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -16,12 +17,8 @@ public class RoverUserDetails implements UserDetails, CredentialsContainer {
     private final boolean enabled;
     private String password;
 
-    public RoverUserDetails(String email, String password, Collection<? extends GrantedAuthority> authorities) {
-        this(email, password, true, true, true, true, authorities);
-    }
-
     public RoverUserDetails(String email, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
-        Assert.isTrue(email != null && !email.isEmpty() && password != null, "Cannot pass null or empty values to constructor");
+        Assert.isTrue(StringUtils.hasLength(email), "Cannot pass null or empty values to constructor");
         this.email = email;
         this.password = password;
         this.enabled = enabled;

@@ -4,8 +4,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,7 +19,6 @@ import java.io.IOException;
 
 public class BearerTokenAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
     private static final String BEARER = "Bearer ";
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     protected BearerTokenAuthenticationFilter(RequestMatcher requiresAuthenticationRequestMatcher, AuthenticationManager authenticationManager) {
         super(requiresAuthenticationRequestMatcher, authenticationManager);
@@ -29,7 +26,6 @@ public class BearerTokenAuthenticationFilter extends AbstractAuthenticationProce
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-        logger.info("attemptAuthentication");
         String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (!StringUtils.hasLength(authorization)) {
             throw new AuthenticationCredentialsNotFoundException(String.format("Can not found header %s", HttpHeaders.AUTHORIZATION));

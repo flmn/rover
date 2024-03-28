@@ -1,18 +1,19 @@
 ### test
 
 GET http://localhost:8000/api/platform/test
+Authorization: Bearer 275e36f8118b46a18933c289a1184c87
 
 ### enums
 
 GET http://localhost:8000/api/platform/enums
 Content-Type: application/json
-Authorization: Bearer b5f6563886c747ab960e732044b42c7b
+Authorization: Bearer 275e36f8118b46a18933c289a1184c87
 
 ### get enum
 
 GET http://localhost:8000/api/platform/enums/Aircraft.AcType
 Content-Type: application/json
-Authorization: Bearer b5f6563886c747ab960e732044b42c7b
+Authorization: Bearer 275e36f8118b46a18933c289a1184c87
 
 ### members
 

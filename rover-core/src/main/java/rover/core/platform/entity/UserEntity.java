@@ -6,12 +6,19 @@ import rover.core.shared.entity.SoftDeletableEntity;
 
 @Table("platform_user")
 public class UserEntity extends SoftDeletableEntity {
+    public static final String ID_PREFIX = "usr";
 
     @Column("email")
     private String email;
 
     @Column("password")
     private String password;
+
+    @Column("is_enabled")
+    private Boolean isEnabled;
+
+    @Column("is_locked")
+    private Boolean isLocked;
 
     public String getEmail() {
         return email;
@@ -27,5 +34,21 @@ public class UserEntity extends SoftDeletableEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Boolean getEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    public Boolean getLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(Boolean locked) {
+        isLocked = locked;
     }
 }

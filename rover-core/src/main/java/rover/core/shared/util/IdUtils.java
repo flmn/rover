@@ -2,6 +2,7 @@ package rover.core.shared.util;
 
 import com.github.f4b6a3.tsid.Tsid;
 import com.github.f4b6a3.tsid.TsidFactory;
+import org.springframework.util.StringUtils;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -23,6 +24,16 @@ public final class IdUtils {
         Tsid tsid = TsidFactoryHolder.INSTANCE.create();
 
         return tsid.toLowerCase();
+    }
+
+    public static String newTsid(String prefix) {
+        if (StringUtils.hasLength(prefix)) {
+            prefix = prefix + "-";
+        } else {
+            prefix = "";
+        }
+
+        return String.format("%s%s", prefix, newTsid());
     }
 
     private static class TsidFactoryHolder {

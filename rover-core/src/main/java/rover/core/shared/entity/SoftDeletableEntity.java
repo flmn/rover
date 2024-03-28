@@ -12,12 +12,12 @@ public abstract class SoftDeletableEntity extends BaseEntity {
     @Column("deleted_at")
     private LocalDateTime deletedAt;
 
-    public Boolean getIsDeleted() {
+    public Boolean getDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(Boolean isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 
     public LocalDateTime getDeletedAt() {

@@ -6,6 +6,7 @@ import rover.core.shared.entity.BaseEntity;
 
 @Table("platform_role")
 public class RoleEntity extends BaseEntity {
+    public static final String ID_PREFIX = "rol";
 
     @Column("name")
     private String name;
