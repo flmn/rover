@@ -15,10 +15,10 @@ public class UserEntity extends SoftDeletableEntity {
     private String password;
 
     @Column("is_enabled")
-    private Boolean isEnabled;
+    private Boolean isEnabled = true;
 
     @Column("is_locked")
-    private Boolean isLocked;
+    private Boolean isLocked = false;
 
     public String getEmail() {
         return email;

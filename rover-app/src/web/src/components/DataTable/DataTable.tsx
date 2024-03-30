@@ -1,5 +1,6 @@
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { Table } from "@mantine/core";
+import { Group, Stack, Table, Text } from "@mantine/core";
+import classes from './DataTable.module.css';
 
 interface DataTableProps<T> {
     columns: ColumnDef<T, any>[],
@@ -14,9 +15,10 @@ export function DataTable<T>(props: DataTableProps<T>) {
     })
 
     return (
-        <>
-            <Table.ScrollContainer minWidth={800} h={600}>
-                <Table verticalSpacing="xs">
+        <Stack gap={100}>
+            <Table.ScrollContainer minWidth={800} h="100" className={classes.table}>
+                <Table striped highlightOnHover withTableBorder withColumnBorders withRowBorders={false} stickyHeader
+                       stickyHeaderOffset={0}>
                     <Table.Thead>
                         {table.getHeaderGroups().map(headerGroup => (
                             <Table.Tr key={headerGroup.id}>
@@ -46,6 +48,9 @@ export function DataTable<T>(props: DataTableProps<T>) {
                     </Table.Tbody>
                 </Table>
             </Table.ScrollContainer>
-        </>
+            <Group py="sm">
+                <Text>共 {table.getFilteredRowModel().rows.length} 条记录</Text>
+            </Group>
+        </Stack>
     );
 }

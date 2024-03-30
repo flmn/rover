@@ -23,6 +23,7 @@
     "@tanstack/react-router": "^1.24.0",
     "@tanstack/react-table": "^8.15.0",
     "@tanstack/router-devtools": "^1.24.0",
+    "clsx": "^2.1.0",
     "dayjs": "^1.11.10",
     "ky": "^1.2.0",
     "react": "^18.2.0",

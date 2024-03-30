@@ -23,6 +23,6 @@ public class TestController {
     public Object test(@AuthenticationPrincipal RoverUserDetails user) {
         logger.info("user: {}", user);
 
-        return "test";
+        return testService.test2();
     }
 }

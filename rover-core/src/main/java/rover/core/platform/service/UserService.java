@@ -36,6 +36,18 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+    public Optional<UserEntity> create(String email, String password, boolean enabled) {
+        UserEntity entity = new UserEntity();
+        entity.setId(IdUtils.newTsid(UserEntity.ID_PREFIX));
+        entity.setEmail(email);
+        entity.setPassword(passwordEncoder.encode(password));
+        entity.setEnabled(enabled);
+
+        entity = userRepository.save(entity);
+
+        return Optional.of(entity);
+    }
+
     public Optional<TokenEntity> login(String email, String password) {
         Optional<UserEntity> opt = userRepository.findByEmail(email);
 
