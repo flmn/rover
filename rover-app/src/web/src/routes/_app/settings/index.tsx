@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "@mantine/core";
 
-const Page = () => {
+const Index = () => {
     return (
         <div>
             <Button variant="filled" size="sm">Settings</Button>
@@ -10,5 +10,5 @@ const Page = () => {
 }
 
 export const Route = createFileRoute('/_app/settings/')({
-    component: Page,
+    component: Index,
 })

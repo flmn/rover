@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "@mantine/core";
 
-const Page = () => {
+const Aircrafts = () => {
     return (
         <div>
             <Button variant="filled" size="sm">Aircraft</Button>
@@ -9,6 +9,6 @@ const Page = () => {
     );
 }
 
-export const Route = createFileRoute('/_app/fleet/aircraft')({
-    component: Page,
+export const Route = createFileRoute('/_app/fleet/aircrafts')({
+    component: Aircrafts,
 })

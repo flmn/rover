@@ -10,10 +10,10 @@ import rover.ef.enumeration.service.EnumService;
 
 @RestController
 @RequestMapping("/api/platform/enums")
-public class EnumController {
+public class EnumsController {
     private final EnumService enumService;
 
-    public EnumController(EnumService enumService) {
+    public EnumsController(EnumService enumService) {
         this.enumService = enumService;
     }
 

@@ -7,6 +7,7 @@ import rover.core.platform.entity.UserEntity;
 import rover.core.platform.repository.UserRepository;
 import rover.core.shared.util.IdUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +22,18 @@ public class UserService {
         this.userRepository = userRepository;
         this.tokenService = tokenService;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    public List<UserEntity> listUsers() {
+        return userRepository.findAll();
+    }
+
+    public Optional<UserEntity> getById(String id) {
+        return userRepository.findById(id);
+    }
+
+    public Optional<UserEntity> getByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     public Optional<TokenEntity> login(String email, String password) {
@@ -39,13 +52,5 @@ public class UserService {
         }
 
         return Optional.empty();
-    }
-
-    public Optional<UserEntity> getById(String id) {
-        return userRepository.findById(id);
-    }
-
-    public Optional<UserEntity> getByEmail(String email) {
-        return userRepository.findByEmail(email);
     }
 }

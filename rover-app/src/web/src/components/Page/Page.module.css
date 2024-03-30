@@ -1,0 +1,17 @@
+.stack {
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 240px;
+    right: 0;
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+}
+
+.content {
+    width: 100%;
+}

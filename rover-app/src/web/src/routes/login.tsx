@@ -6,7 +6,7 @@ import { IconInfoCircle } from "@tabler/icons-react";
 import { login } from "@/apis/auth.ts";
 import classes from './login.module.css';
 
-const Page = () => {
+const Login = () => {
     const navigate = useNavigate()
     const [failed, setFailed] = useState(false);
     const form = useForm({
@@ -68,5 +68,5 @@ const Page = () => {
 }
 
 export const Route = createFileRoute('/login')({
-    component: Page,
+    component: Login,
 })

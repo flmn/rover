@@ -21,16 +21,20 @@ const AppLayout = () => {
                         Dashboard
                     </Anchor>
                     <br/>
-                    <Anchor href="/fleet/aircraft">
-                        Fleet/Aircraft
+                    <Anchor href="/fleet/aircrafts">
+                        Fleet/Aircrafts
                     </Anchor>
                     <br/>
                     <Anchor href="/settings">
                         Settings
                     </Anchor>
                     <br/>
-                    <Anchor href="/settings/enum">
-                        Settings/Enum
+                    <Anchor href="/settings/users">
+                        Settings/Users
+                    </Anchor>
+                    <br/>
+                    <Anchor href="/settings/enums">
+                        Settings/Enums
                     </Anchor>
                 </AppShell.Section>
                 <AppShell.Section h={60}>
@@ -39,7 +43,9 @@ const AppLayout = () => {
                     </Anchor>
                 </AppShell.Section>
             </AppShell.Navbar>
-            <AppShell.Main><Outlet/></AppShell.Main>
+            <AppShell.Main>
+                <Outlet/>
+            </AppShell.Main>
         </AppShell>
     )
 }

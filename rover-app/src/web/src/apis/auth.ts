@@ -13,6 +13,16 @@ export function isAuthenticated(): boolean {
     return accessToken != null && accessToken.length > 0;
 }
 
+export function getAuthHeader(): { Authorization: string } | null {
+    let accessToken = localStorage.getItem(TOKEN_KEY);
+
+    if (accessToken != null && accessToken.length > 0) {
+        return {Authorization: `Bearer ${accessToken}`}
+    } else {
+        return null;
+    }
+}
+
 export async function login(data: any): Promise<boolean> {
     const response = ky.post('/auth/login', {
         json: data

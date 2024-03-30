@@ -1,15 +1,13 @@
 import ky from "ky";
-
-export interface EnumEntity {
-    id: string;
-    name: string;
-    description: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
+import { EnumEntity } from "@/types/enum.ts";
+import { getAuthHeader } from "@/apis/auth.ts";
 
 export async function fetchEnums(): Promise<EnumEntity[]> {
-    const response = await ky.get('/api/platform/enums').json()
+    let authHeader = getAuthHeader();
+
+    const response = await ky.get('/api/platform/enums', {
+        headers: {...authHeader}
+    }).json()
 
     return response as EnumEntity[];
 }
