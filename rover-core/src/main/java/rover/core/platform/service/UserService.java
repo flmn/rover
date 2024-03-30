@@ -1,5 +1,7 @@
 package rover.core.platform.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import rover.core.platform.entity.TokenEntity;
@@ -7,7 +9,6 @@ import rover.core.platform.entity.UserEntity;
 import rover.core.platform.repository.UserRepository;
 import rover.core.shared.util.IdUtils;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,8 +25,10 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<UserEntity> listUsers() {
-        return userRepository.findAll();
+    public Page<UserEntity> listUsers(int pageNumber, int pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+
+        return userRepository.findAll(pageRequest);
     }
 
     public Optional<UserEntity> getById(String id) {

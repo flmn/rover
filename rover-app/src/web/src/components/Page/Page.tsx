@@ -1,5 +1,4 @@
 import { Group, Stack, Title } from "@mantine/core";
-import classes from "./Page.module.css";
 
 interface PageProps {
     title: string
@@ -8,11 +7,11 @@ interface PageProps {
 
 export function Page(props: PageProps) {
     return (
-        <Stack justify="start" align="start" gap={0} className={classes.stack}>
-            <Group p="md" className={classes.header} justify="space-between">
+        <Stack justify="start" align="start" gap={0} h="100vh">
+            <Group id="header" p="md" w="100%" h={60} justify="space-between">
                 <Title order={3}>{props.title}</Title>
             </Group>
-            <Stack p="xs" className={classes.content}>
+            <Stack p="xs" w="100%">
                 {props.children}
             </Stack>
         </Stack>

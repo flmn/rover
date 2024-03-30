@@ -4,7 +4,9 @@ import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { MantineProvider } from '@mantine/core';
-import '@mantine/core/styles.layer.css';
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
+import 'mantine-react-table/styles.css';
 import { theme } from '@/theme';
 import './index.css'
 import { routeTree } from './routeTree.gen'

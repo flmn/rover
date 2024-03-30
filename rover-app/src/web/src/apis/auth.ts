@@ -13,14 +13,14 @@ export function isAuthenticated(): boolean {
     return accessToken != null && accessToken.length > 0;
 }
 
-export function getAuthHeader(): { Authorization: string } | null {
+export async function fetchWithAuthHeader(url: string) {
     let accessToken = localStorage.getItem(TOKEN_KEY);
 
-    if (accessToken != null && accessToken.length > 0) {
-        return {Authorization: `Bearer ${accessToken}`}
-    } else {
-        return null;
-    }
+    return await ky.get(url, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    }).json()
 }
 
 export async function login(data: any): Promise<boolean> {

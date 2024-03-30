@@ -1,11 +1,8 @@
-export interface UserEntity {
+export interface UserVO {
     id: string;
     email: string;
-    password: string;
     isEnabled: boolean;
     isLocked: boolean;
     createdAt: Date;
-    updatedAt: Date;
-    isDeleted: boolean;
-    deletedAt: Date;
+    updatedAt?: Date;
 }

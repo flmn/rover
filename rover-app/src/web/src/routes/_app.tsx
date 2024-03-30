@@ -10,7 +10,7 @@ const AppLayout = () => {
                 width: 240,
                 breakpoint: 'sm',
             }}
-            padding="sm"
+            padding="0"
         >
             <AppShell.Navbar p="sm">
                 <AppShell.Section>

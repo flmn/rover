@@ -6,7 +6,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import rover.app.platform.vo.EnumVO;
+import rover.app.shared.vo.ListResultMetaVO;
+import rover.app.shared.vo.ListResultVO;
 import rover.ef.enumeration.service.EnumService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/platform/enums")
@@ -18,8 +24,13 @@ public class EnumsController {
     }
 
     @GetMapping
-    public Object listEnums() {
-        return enumService.listEnums();
+    public ListResultVO<EnumVO> listEnums() {
+        List<EnumVO> records = enumService.listEnums()
+                .stream()
+                .map(EnumVO::from)
+                .collect(Collectors.toList());
+
+        return new ListResultVO<>(new ListResultMetaVO(records.size()), records);
     }
 
     @GetMapping("/{id}")

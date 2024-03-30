@@ -1,21 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { Container, Grid } from "@mantine/core";
 import { Page } from "@/components/Page";
 import { Enum } from "@/components/routes/settings/enum.tsx";
-import { fetchEnums } from "@/apis/enums.ts";
+import { useFetchEnums } from "@/hooks/use-fetch-enums.ts";
 
 const Enums = () => {
-    const query = useQuery({queryKey: ['enums'], queryFn: fetchEnums})
-    const enums = query.data
+    const {data} = useFetchEnums()
+
+    const records = data?.records ?? [];
 
     return (
         <Page title="数据字典管理">
             <Grid>
                 <Grid.Col span={3}>
                     <Container bg="grey" p="sm">
-                        {enums?.map((enumEntity) => (
-                            <Enum enumEntity={enumEntity} key={enumEntity.id}/>
+                        {records?.map((enumVO) => (
+                            <Enum enumVO={enumVO} key={enumVO.id}/>
                         ))}
                     </Container>
                 </Grid.Col>
