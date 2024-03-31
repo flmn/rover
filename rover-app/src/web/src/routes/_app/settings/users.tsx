@@ -1,8 +1,14 @@
 import { useMemo, useState } from "react";
-import { ActionIcon, Menu, rem, Tooltip } from "@mantine/core";
+import { ActionIcon, Badge, Button, Group, Menu, rem, Tooltip } from "@mantine/core";
 import { IconEdit, IconRefresh, IconTrash } from "@tabler/icons-react";
 import { createFileRoute } from "@tanstack/react-router";
-import { MantineReactTable, type MRT_ColumnDef, MRT_PaginationState, useMantineReactTable } from 'mantine-react-table';
+import {
+    MantineReactTable,
+    type MRT_ColumnDef,
+    MRT_PaginationState,
+    MRT_SortingState,
+    useMantineReactTable
+} from 'mantine-react-table';
 import { MRT_Localization_ZH_HANS } from 'mantine-react-table/locales/zh-Hans/index.esm.mjs';
 import { Page } from "@/components/Page";
 import { UserVO } from "@/types/user.ts";
@@ -30,23 +36,29 @@ const Users = () => {
             },
             {
                 accessorKey: 'isEnabled',
-                header: '激活',
+                header: '是否激活',
                 size: 80,
+                filterVariant: 'checkbox',
                 Cell: ({cell}) => (
-                    <span>{cell.getValue<boolean>().toLocaleString()}</span>
+                    cell.getValue<boolean>() ? <Badge variant="light">正常</Badge>
+                        : <Badge color="gray" variant="light">禁用</Badge>
                 ),
             },
             {
                 accessorKey: 'isLocked',
-                header: '锁定',
+                header: '是否锁定',
                 size: 80,
+                filterVariant: 'checkbox',
                 Cell: ({cell}) => (
-                    <span>{cell.getValue<boolean>().toLocaleString()}</span>
+                    cell.getValue<boolean>() && <Badge color="red" variant="light">
+                        已锁定
+                    </Badge>
                 ),
             },
             {
                 accessorKey: 'createdAt',
                 header: '创建时间',
+                filterVariant: 'date-range',
                 Cell: ({cell}) => (
                     <span>{dayjs(cell.getValue<Date>()).format('YYYY-MM-DD日 HH:mm:ss')}</span>
                 ),
@@ -62,6 +74,7 @@ const Users = () => {
         [],
     );
 
+    const [sorting, setSorting] = useState<MRT_SortingState>([]);
     const [pagination, setPagination] = useState<MRT_PaginationState>({
         pageIndex: 0,
         pageSize: 10,
@@ -69,6 +82,7 @@ const Users = () => {
     // const {isPending, data} = useQuery({queryKey: ['users'], queryFn: fetchUsers})
     const {data, isError, isFetching, isLoading, refetch} = useFetchUsers({
         pagination,
+        sorting,
     });
 
     const records = data?.records ?? [];
@@ -88,6 +102,11 @@ const Users = () => {
         mantineTableProps: {
             striped: true,
         },
+        // filtering
+        // manualFiltering: true,
+        // columnFilterDisplayMode: 'popover',
+        // sorting
+        manualSorting: true,
         // row selection
         enableRowSelection: true,
         positionToolbarAlertBanner: 'head-overlay',
@@ -114,16 +133,23 @@ const Users = () => {
         state: {
             isLoading,
             pagination,
+            sorting,
             showAlertBanner: isError,
             showProgressBars: isFetching,
         },
         onPaginationChange: setPagination,
+        onSortingChange: setSorting,
         renderTopToolbarCustomActions: () => (
-            <Tooltip label="Refresh Data">
-                <ActionIcon onClick={() => refetch()}>
-                    <IconRefresh/>
-                </ActionIcon>
-            </Tooltip>
+            <Group>
+                <Tooltip label="创建一个新用户">
+                    <Button>添加用户</Button>
+                </Tooltip>
+                <Tooltip label="Refresh Data">
+                    <ActionIcon variant="white" onClick={() => refetch()}>
+                        <IconRefresh/>
+                    </ActionIcon>
+                </Tooltip>
+            </Group>
         ),
     });
 

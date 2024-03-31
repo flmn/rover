@@ -1,6 +1,7 @@
 package rover.app.platform.controller;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,13 +26,17 @@ public class UsersController {
 
     @GetMapping
     public ListResultVO<UserVO> listUsers(@RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber,
-                                          @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize) {
+                                          @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+                                          @RequestParam(value = "sort", required = false) String sort,
+                                          @RequestParam(value = "desc", required = false, defaultValue = "false") boolean desc) {
         try {
             Thread.sleep(500);
         } catch (InterruptedException ignored) {
         }
 
-        Page<UserEntity> page = userService.listUsers(pageNumber, pageSize);
+        Sort.Direction direction = desc ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        Page<UserEntity> page = userService.listUsers(pageNumber, pageSize, sort, direction);
 
         List<UserVO> records = page.stream()
                 .map(UserVO::from)
