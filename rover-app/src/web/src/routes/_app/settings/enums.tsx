@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Container, Grid } from "@mantine/core";
 import { Page } from "@/components/Page";
-import { Enum } from "@/components/routes/settings/enum.tsx";
+import { Enum } from "@/components/routes/settings/enums/enum";
 import { useFetchEnums } from "@/hooks/use-fetch-enums.ts";
 
 const Enums = () => {

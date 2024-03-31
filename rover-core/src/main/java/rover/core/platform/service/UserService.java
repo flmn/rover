@@ -27,14 +27,19 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Page<UserEntity> listUsers(int pageNumber, int pageSize, String sortProperty, Sort.Direction direction) {
+    public Page<UserEntity> listUsers(String search, int pageNumber, int pageSize, String sortProperty, Sort.Direction direction) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
 
         if (StringUtils.hasLength(sortProperty)) {
             pageRequest = pageRequest.withSort(direction, sortProperty);
         }
 
-        return userRepository.findAll(pageRequest);
+        if (StringUtils.hasLength(search)) {
+            search = "%" + search + "%";
+            return userRepository.findByEmailLikeIgnoreCaseOrNameLikeIgnoreCase(search, search, pageRequest);
+        } else {
+            return userRepository.findAll(pageRequest);
+        }
     }
 
     public Optional<UserEntity> getById(String id) {

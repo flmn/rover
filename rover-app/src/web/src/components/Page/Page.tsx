@@ -1,16 +1,18 @@
-import { Group, Stack, Title } from "@mantine/core";
+import { Flex, Stack, Title } from "@mantine/core";
 
 interface PageProps {
-    title: string
-    children: any
+    title: string;
+    toolbar?: any;
+    children: any;
 }
 
 export function Page(props: PageProps) {
     return (
         <Stack justify="start" align="start" gap={0} h="100vh">
-            <Group id="header" p="md" w="100%" h={60} justify="space-between">
+            <Flex id="header" p="md" w="100%" h={68} justify="space-between" align="center" bg="gray.0">
                 <Title order={3}>{props.title}</Title>
-            </Group>
+                {props.toolbar}
+            </Flex>
             <Stack p="xs" w="100%">
                 {props.children}
             </Stack>

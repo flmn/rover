@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router'
-import { Anchor, AppShell, ScrollArea, Title } from "@mantine/core";
+import { Anchor, AppShell, Flex, ScrollArea, Title } from "@mantine/core";
 
 const AppLayout = () => {
 
@@ -12,9 +12,11 @@ const AppLayout = () => {
             }}
             padding="0"
         >
-            <AppShell.Navbar p="sm">
-                <AppShell.Section h={60}>
-                    <Title order={1} fw="bolder">Rover 漫游者</Title>
+            <AppShell.Navbar>
+                <AppShell.Section>
+                    <Flex justify="center" align="center" p="md" w="100%" h={68} bg="blue.9">
+                        <Title order={1} c="white" fw="bolder">Rover</Title>
+                    </Flex>
                 </AppShell.Section>
                 <AppShell.Section>
                     <Anchor href="/">

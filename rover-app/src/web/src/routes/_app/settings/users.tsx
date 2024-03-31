@@ -1,6 +1,8 @@
+import dayjs from "dayjs";
 import { useMemo, useState } from "react";
-import { ActionIcon, Badge, Button, Group, Menu, rem, Tooltip } from "@mantine/core";
-import { IconEdit, IconRefresh, IconTrash } from "@tabler/icons-react";
+import { Badge, Button, Drawer, Group, Menu, rem, Text, Tooltip } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { IconEdit, IconTrash } from "@tabler/icons-react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
     MantineReactTable,
@@ -10,13 +12,12 @@ import {
     useMantineReactTable
 } from 'mantine-react-table';
 import { MRT_Localization_ZH_HANS } from 'mantine-react-table/locales/zh-Hans/index.esm.mjs';
-import { Page } from "@/components/Page";
-import { UserVO } from "@/types/user.ts";
 import { useFetchUsers } from "@/hooks/use-fetch-users.ts";
-import dayjs from "dayjs";
+import { UserVO } from "@/types/user.ts";
+import { Page } from "@/components/Page";
+import { UserForm } from "@/components/routes/settings/users";
 
 const Users = () => {
-
     const columns = useMemo<MRT_ColumnDef<UserVO>[]>(
         () => [
             {
@@ -74,14 +75,15 @@ const Users = () => {
         [],
     );
 
-    const [sorting, setSorting] = useState<MRT_SortingState>([]);
     const [pagination, setPagination] = useState<MRT_PaginationState>({
         pageIndex: 0,
         pageSize: 10,
     });
-    // const {isPending, data} = useQuery({queryKey: ['users'], queryFn: fetchUsers})
-    const {data, isError, isFetching, isLoading, refetch} = useFetchUsers({
+    const [globalFilter, setGlobalFilter] = useState('');
+    const [sorting, setSorting] = useState<MRT_SortingState>([]);
+    const {data, isError, isLoading} = useFetchUsers({
         pagination,
+        globalFilter,
         sorting,
     });
 
@@ -92,19 +94,24 @@ const Users = () => {
         columns,
         data: records,
         rowCount: total,
-        enableRowNumbers: true,
-        enableGlobalFilter: true,
-        enableDensityToggle: false,
-        enableColumnActions: false,
-        localization: MRT_Localization_ZH_HANS,
         // display
+        enableColumnActions: true,
+        enableRowNumbers: true,
+        enableDensityToggle: false,
         enableStickyHeader: true,
         mantineTableProps: {
             striped: true,
         },
+        localization: MRT_Localization_ZH_HANS,
         // filtering
-        // manualFiltering: true,
-        // columnFilterDisplayMode: 'popover',
+        enableGlobalFilter: true,
+        enableColumnFilters: false,
+        manualFiltering: true,
+        positionGlobalFilter: 'left',
+        mantineSearchTextInputProps: {
+            variant: 'default',
+            w: '300',
+        },
         // sorting
         manualSorting: true,
         // row selection
@@ -127,36 +134,46 @@ const Users = () => {
         mantinePaginationProps: {
             rowsPerPageOptions: ['10', '15', '20'],
         },
+        // toolbar
+        renderBottomToolbarCustomActions: () => (
+            <Text>记录数：{total}</Text>
+        ),
+        // state
         initialState: {
             density: 'xs',
+            showGlobalFilter: true,
         },
         state: {
             isLoading,
             pagination,
+            globalFilter,
             sorting,
             showAlertBanner: isError,
-            showProgressBars: isFetching,
         },
+        // callback
         onPaginationChange: setPagination,
+        onGlobalFilterChange: setGlobalFilter,
         onSortingChange: setSorting,
-        renderTopToolbarCustomActions: () => (
-            <Group>
-                <Tooltip label="创建一个新用户">
-                    <Button>添加用户</Button>
-                </Tooltip>
-                <Tooltip label="Refresh Data">
-                    <ActionIcon variant="white" onClick={() => refetch()}>
-                        <IconRefresh/>
-                    </ActionIcon>
-                </Tooltip>
-            </Group>
-        ),
     });
 
+    const [opened, {open, close}] = useDisclosure(false);
+
     return (
-        <Page title="用户管理">
-            <MantineReactTable table={table}/>
-        </Page>
+        <>
+            <Page title="用户管理" toolbar={
+                <Group>
+                    <Tooltip label="创建一个新用户">
+                        <Button onClick={open}>添加用户</Button>
+                    </Tooltip>
+                </Group>
+            }>
+                <MantineReactTable table={table}/>
+            </Page>
+            <Drawer title="添加用户" position="right" size="lg" offset={4} radius="sm"
+                    opened={opened} onClose={close}>
+                <UserForm/>
+            </Drawer>
+        </>
     );
 }
 
