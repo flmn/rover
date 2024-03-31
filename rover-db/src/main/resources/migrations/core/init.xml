@@ -15,6 +15,9 @@
             <column name="password" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
+            <column name="name" type="varchar(10)">
+                <constraints nullable="false"/>
+            </column>
             <column name="is_enabled" type="boolean" defaultValueBoolean="true">
                 <constraints nullable="false"/>
             </column>

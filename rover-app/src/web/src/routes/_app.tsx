@@ -13,33 +13,38 @@ const AppLayout = () => {
             padding="0"
         >
             <AppShell.Navbar p="sm">
+                <AppShell.Section h={60}>
+                    <Title order={1} fw="bolder">Rover 漫游者</Title>
+                </AppShell.Section>
                 <AppShell.Section>
-                    <Title order={1} fw="bolder">Rover</Title>
+                    <Anchor href="/">
+                        我的待办
+                    </Anchor>
                 </AppShell.Section>
                 <AppShell.Section grow my="md" component={ScrollArea}>
                     <Anchor href="/">
-                        Dashboard
+                        首页
                     </Anchor>
                     <br/>
                     <Anchor href="/fleet/aircrafts">
-                        Fleet/Aircrafts
+                        机队管理
                     </Anchor>
                     <br/>
                     <Anchor href="/settings">
-                        Settings
+                        设置
                     </Anchor>
                     <br/>
                     <Anchor href="/settings/users">
-                        Settings/Users
+                        用户管理
                     </Anchor>
                     <br/>
                     <Anchor href="/settings/enums">
-                        Settings/Enums
+                        数据字典管理
                     </Anchor>
                 </AppShell.Section>
                 <AppShell.Section h={60}>
                     <Anchor href="/login">
-                        Login
+                        注销
                     </Anchor>
                 </AppShell.Section>
             </AppShell.Navbar>

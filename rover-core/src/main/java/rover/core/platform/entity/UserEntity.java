@@ -14,6 +14,9 @@ public class UserEntity extends SoftDeletableEntity {
     @Column("password")
     private String password;
 
+    @Column("name")
+    private String name;
+
     @Column("is_enabled")
     private Boolean isEnabled = true;
 
@@ -34,6 +37,14 @@ public class UserEntity extends SoftDeletableEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Boolean getEnabled() {

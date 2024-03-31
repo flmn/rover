@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 public record UserVO(String id,
                      String email,
+                     String name,
                      Boolean isEnabled,
                      Boolean isLocked,
                      LocalDateTime createdAt,
@@ -15,6 +16,7 @@ public record UserVO(String id,
     public static UserVO from(UserEntity entity) {
         return new UserVO(entity.getId(),
                 entity.getEmail(),
+                entity.getName(),
                 entity.getEnabled(),
                 entity.getLocked(),
                 entity.getCreatedAt(),

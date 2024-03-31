@@ -33,12 +33,13 @@ public class TestService {
     public Object test2() {
         Faker faker = new Faker();
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 100; i++) {
             String email = faker.internet().emailAddress();
             String password = faker.internet().password();
+            String name = faker.name().firstName();
             boolean enabled = faker.bool().bool();
 
-            userService.create(email, password, enabled);
+            userService.create(email, password, name, enabled);
         }
 
         return "ok";

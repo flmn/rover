@@ -1,4 +1,4 @@
-import ky from "ky";
+import ky, { HTTPError } from "ky";
 
 const TOKEN_KEY = 'API_ACCESS_TOKEN';
 
@@ -16,11 +16,19 @@ export function isAuthenticated(): boolean {
 export async function fetchWithAuthHeader(url: string) {
     let accessToken = localStorage.getItem(TOKEN_KEY);
 
-    return await ky.get(url, {
-        headers: {
-            Authorization: `Bearer ${accessToken}`
+    try {
+        return await ky.get(url, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }).json();
+    } catch (error) {
+        let httpError = error as HTTPError
+
+        if (httpError.response.status === 401) {
+            window.location.href = '/login';
         }
-    }).json()
+    }
 }
 
 export async function login(data: any): Promise<boolean> {

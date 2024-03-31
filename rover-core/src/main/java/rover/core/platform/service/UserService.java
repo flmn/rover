@@ -39,10 +39,11 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public Optional<UserEntity> create(String email, String password, boolean enabled) {
+    public Optional<UserEntity> create(String email, String password, String name, boolean enabled) {
         UserEntity entity = new UserEntity();
         entity.setId(IdUtils.newTsid(UserEntity.ID_PREFIX));
         entity.setEmail(email);
+        entity.setName(name);
         entity.setPassword(passwordEncoder.encode(password));
         entity.setEnabled(enabled);
 
