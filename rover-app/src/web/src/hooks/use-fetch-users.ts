@@ -1,8 +1,8 @@
 import { MRT_PaginationState, MRT_SortingState } from "mantine-react-table";
 import { useQuery } from "@tanstack/react-query";
+import { getWithAuthHeader } from "@/auth";
 import { ListResultVO } from "@/types/list-result.ts";
 import { UserVO } from "@/types/user.ts";
-import { fetchWithAuthHeader } from "@/apis/auth.ts";
 
 interface Params {
     pagination: MRT_PaginationState;
@@ -27,7 +27,8 @@ const useFetchUsers = ({globalFilter, pagination, sorting}: Params) => {
 
     return useQuery<ListResultVO<UserVO>>({
         queryKey: ['users', fetchURL.href],
-        queryFn: () => fetchWithAuthHeader(fetchURL.href) as Promise<ListResultVO<UserVO>>,
+        queryFn: () => getWithAuthHeader(fetchURL.href) as Promise<ListResultVO<UserVO>>,
+        refetchOnWindowFocus: false,
         staleTime: 30_000, // 30s
     });
 }

@@ -27,7 +27,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Page<UserEntity> listUsers(String search, int pageNumber, int pageSize, String sortProperty, Sort.Direction direction) {
+    public Page<UserEntity> list(String search, int pageNumber, int pageSize, String sortProperty, Sort.Direction direction) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
 
         if (StringUtils.hasLength(sortProperty)) {

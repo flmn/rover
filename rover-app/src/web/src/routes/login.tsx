@@ -3,7 +3,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Alert, Anchor, Box, Button, Card, Group, PasswordInput, Space, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconInfoCircle } from "@tabler/icons-react";
-import { login } from "@/apis/auth.ts";
+import { login } from "@/auth";
 import classes from './login.module.css';
 
 const Login = () => {

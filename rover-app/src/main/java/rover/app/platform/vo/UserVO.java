@@ -14,6 +14,10 @@ public record UserVO(String id,
                      LocalDateTime updatedAt) implements ViewObject {
 
     public static UserVO from(UserEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+
         return new UserVO(entity.getId(),
                 entity.getEmail(),
                 entity.getName(),

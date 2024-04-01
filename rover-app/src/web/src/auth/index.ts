@@ -13,22 +13,49 @@ export function isAuthenticated(): boolean {
     return accessToken != null && accessToken.length > 0;
 }
 
-export async function fetchWithAuthHeader(url: string) {
+async function requestWithAuthHeader(url: string, options: object) {
     let accessToken = localStorage.getItem(TOKEN_KEY);
 
     try {
-        return await ky.get(url, {
+        return await ky(url, {
             headers: {
                 Authorization: `Bearer ${accessToken}`
-            }
+            },
+            ...options,
         }).json();
     } catch (error) {
+        console.log(error);
         let httpError = error as HTTPError
 
         if (httpError.response.status === 401) {
             window.location.href = '/login';
         }
     }
+}
+
+export async function getWithAuthHeader(url: string) {
+    let options = {
+        method: 'get'
+    };
+
+    return requestWithAuthHeader(url, options);
+}
+
+export async function postWithAuthHeader(url: string, json: object) {
+    let options = {
+        method: 'post',
+        json
+    };
+
+    return requestWithAuthHeader(url, options);
+}
+
+export async function deleteWithAuthHeader(url: string) {
+    let options = {
+        method: 'delete'
+    };
+
+    return requestWithAuthHeader(url, options);
 }
 
 export async function login(data: any): Promise<boolean> {

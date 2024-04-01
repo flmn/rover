@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { useMemo, useState } from "react";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { Badge, Button, Drawer, Group, Menu, rem, Text, Tooltip } from "@mantine/core";
+import { Badge, Button, Drawer, Group, Menu, Text, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 import {
@@ -68,6 +68,7 @@ const Users = () => {
             {
                 accessorKey: 'updatedAt',
                 header: '最后更新时间',
+                filterVariant: 'date-range',
                 Cell: ({cell}) => (
                     cell.getValue() != null &&
                     <span>{dayjs(cell.getValue<Date>()).format('YYYY-MM-DD日 HH:mm:ss')}</span>
@@ -98,46 +99,44 @@ const Users = () => {
         rowCount: total,
         // display
         enableColumnActions: true,
-        enableRowNumbers: true,
-        enableDensityToggle: false,
-        enableStickyHeader: true,
         enableColumnPinning: true,
+        enableDensityToggle: false,
+        enableRowActions: true,
+        enableRowNumbers: true,
+        enableRowSelection: true,
+        enableStickyHeader: true,
         localization: MRT_Localization_ZH_HANS,
+        positionActionsColumn: 'last',
+        positionGlobalFilter: 'left',
+        positionToolbarAlertBanner: 'head-overlay',
+        manualSorting: true,
         mantineTableProps: {
             striped: true,
+        },
+        mantinePaginationProps: {
+            rowsPerPageOptions: ['10', '15', '20'],
         },
         mantineToolbarAlertBannerProps: isError ? {color: 'red', children: '加载数据失败',} : undefined,
         // filtering
         enableGlobalFilter: true,
         enableColumnFilters: false,
         manualFiltering: true,
-        positionGlobalFilter: 'left',
         mantineSearchTextInputProps: {
             variant: 'default',
             w: '300',
         },
-        // sorting
-        manualSorting: true,
-        // row selection
-        enableRowSelection: true,
-        positionToolbarAlertBanner: 'head-overlay',
-        // row actions
-        enableRowActions: true,
-        positionActionsColumn: 'last',
-        renderRowActionMenuItems: () => (
-            <>
-                <Menu.Item leftSection={<IconEdit style={{width: rem(14), height: rem(14)}}/>}
-                           onClick={() => console.info('Edit')}>编辑</Menu.Item>
-                <Menu.Item color="red" leftSection={<IconTrash style={{width: rem(14), height: rem(14)}}/>}
-                           onClick={() => console.info('Delete')}>删除</Menu.Item>
-            </>
-        ),
         // pagination
         manualPagination: true,
         paginationDisplayMode: 'pages',
-        mantinePaginationProps: {
-            rowsPerPageOptions: ['10', '15', '20'],
-        },
+        // row actions
+        renderRowActionMenuItems: () => (
+            <>
+                <Menu.Item leftSection={<IconEdit/>}
+                           onClick={() => console.info('Edit')}>编辑</Menu.Item>
+                <Menu.Item color="red" leftSection={<IconTrash/>}
+                           onClick={() => console.info('Delete')}>删除</Menu.Item>
+            </>
+        ),
         // toolbar
         renderBottomToolbarCustomActions: () => (
             <Text pl="xs">用户数：{total}</Text>
@@ -172,8 +171,7 @@ const Users = () => {
                     <Tooltip label="创建一个新用户">
                         <Button onClick={handlers.open}>添加用户</Button>
                     </Tooltip>
-                </Group>
-            }>
+                </Group>}>
                 <MantineReactTable table={table}/>
             </Page>
             <Drawer title="添加用户" position="right" size="lg" offset={4} radius="sm"

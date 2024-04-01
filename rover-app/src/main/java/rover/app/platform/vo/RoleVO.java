@@ -11,6 +11,10 @@ public record RoleVO(String id,
                      LocalDateTime updatedAt) implements ViewObject {
 
     public static RoleVO from(RoleEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+
         return new RoleVO(entity.getId(),
                 entity.getName(),
                 entity.getCreatedAt(),

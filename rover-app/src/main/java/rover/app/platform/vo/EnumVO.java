@@ -12,6 +12,10 @@ public record EnumVO(String id,
                      LocalDateTime updatedAt) implements ViewObject {
 
     public static EnumVO from(EnumEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+
         return new EnumVO(entity.getId(),
                 entity.getName(),
                 entity.getDescription(),

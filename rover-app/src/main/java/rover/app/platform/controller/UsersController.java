@@ -25,14 +25,14 @@ public class UsersController {
     }
 
     @GetMapping
-    public ListResultVO<UserVO> listUsers(@RequestParam(value = "search", required = false) String search,
-                                          @RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber,
-                                          @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
-                                          @RequestParam(value = "sort", required = false, defaultValue = "id") String sort,
-                                          @RequestParam(value = "desc", required = false, defaultValue = "false") boolean desc) {
+    public ListResultVO<UserVO> list(@RequestParam(value = "search", required = false) String search,
+                                     @RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber,
+                                     @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+                                     @RequestParam(value = "sort", required = false, defaultValue = "id") String sort,
+                                     @RequestParam(value = "desc", required = false, defaultValue = "false") boolean desc) {
         Sort.Direction direction = desc ? Sort.Direction.DESC : Sort.Direction.ASC;
 
-        Page<UserEntity> page = userService.listUsers(search, pageNumber, pageSize, sort, direction);
+        Page<UserEntity> page = userService.list(search, pageNumber, pageSize, sort, direction);
 
         List<UserVO> records = page.stream()
                 .map(UserVO::from)
