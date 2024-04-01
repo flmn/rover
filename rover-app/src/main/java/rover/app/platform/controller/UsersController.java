@@ -28,7 +28,7 @@ public class UsersController {
     public ListResultVO<UserVO> listUsers(@RequestParam(value = "search", required = false) String search,
                                           @RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber,
                                           @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
-                                          @RequestParam(value = "sort", required = false) String sort,
+                                          @RequestParam(value = "sort", required = false, defaultValue = "id") String sort,
                                           @RequestParam(value = "desc", required = false, defaultValue = "false") boolean desc) {
         Sort.Direction direction = desc ? Sort.Direction.DESC : Sort.Direction.ASC;
 

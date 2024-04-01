@@ -68,7 +68,8 @@ const Users = () => {
                 accessorKey: 'updatedAt',
                 header: '最后更新时间',
                 Cell: ({cell}) => (
-                    cell.column && <span>{dayjs(cell.getValue<Date>()).format('YYYY-MM-DD日 HH:mm:ss')}</span>
+                    cell.getValue() != null &&
+                    <span>{dayjs(cell.getValue<Date>()).format('YYYY-MM-DD日 HH:mm:ss')}</span>
                 ),
             },
         ],
@@ -156,21 +157,21 @@ const Users = () => {
         onSortingChange: setSorting,
     });
 
-    const [opened, {open, close}] = useDisclosure(false);
+    const [opened, handlers] = useDisclosure(false);
 
     return (
         <>
             <Page title="用户管理" toolbar={
                 <Group>
                     <Tooltip label="创建一个新用户">
-                        <Button onClick={open}>添加用户</Button>
+                        <Button onClick={handlers.open}>添加用户</Button>
                     </Tooltip>
                 </Group>
             }>
                 <MantineReactTable table={table}/>
             </Page>
             <Drawer title="添加用户" position="right" size="lg" offset={4} radius="sm"
-                    opened={opened} onClose={close}>
+                    opened={opened} onClose={handlers.close}>
                 <UserForm/>
             </Drawer>
         </>

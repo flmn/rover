@@ -9,7 +9,7 @@ interface PageProps {
 export function Page(props: PageProps) {
     return (
         <Stack justify="start" align="start" gap={0} h="100vh">
-            <Flex id="header" p="md" w="100%" h={68} justify="space-between" align="center" bg="gray.0">
+            <Flex id="header" p="md" w="100%" h={68} justify="space-between" align="center">
                 <Title order={3}>{props.title}</Title>
                 {props.toolbar}
             </Flex>

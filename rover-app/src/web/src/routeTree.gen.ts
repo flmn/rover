@@ -42,17 +42,17 @@ const AppSettingsIndexRoute = AppSettingsIndexImport.update({
 } as any)
 
 const AppSettingsUsersRoute = AppSettingsUsersImport.update({
-    path: '/settings/users',
-    getParentRoute: () => AppRoute,
+  path: '/settings/users',
+  getParentRoute: () => AppRoute,
 } as any)
 
 const AppSettingsEnumsRoute = AppSettingsEnumsImport.update({
-    path: '/settings/enums',
+  path: '/settings/enums',
   getParentRoute: () => AppRoute,
 } as any)
 
 const AppFleetAircraftsRoute = AppFleetAircraftsImport.update({
-    path: '/fleet/aircrafts',
+  path: '/fleet/aircrafts',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -72,16 +72,16 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexImport
       parentRoute: typeof AppImport
     }
-      '/_app/fleet/aircrafts': {
-          preLoaderRoute: typeof AppFleetAircraftsImport
+    '/_app/fleet/aircrafts': {
+      preLoaderRoute: typeof AppFleetAircraftsImport
       parentRoute: typeof AppImport
     }
-      '/_app/settings/enums': {
-          preLoaderRoute: typeof AppSettingsEnumsImport
-          parentRoute: typeof AppImport
-      }
-      '/_app/settings/users': {
-          preLoaderRoute: typeof AppSettingsUsersImport
+    '/_app/settings/enums': {
+      preLoaderRoute: typeof AppSettingsEnumsImport
+      parentRoute: typeof AppImport
+    }
+    '/_app/settings/users': {
+      preLoaderRoute: typeof AppSettingsUsersImport
       parentRoute: typeof AppImport
     }
     '/_app/settings/': {
@@ -96,9 +96,9 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   AppRoute.addChildren([
     AppIndexRoute,
-      AppFleetAircraftsRoute,
-      AppSettingsEnumsRoute,
-      AppSettingsUsersRoute,
+    AppFleetAircraftsRoute,
+    AppSettingsEnumsRoute,
+    AppSettingsUsersRoute,
     AppSettingsIndexRoute,
   ]),
   LoginRoute,
