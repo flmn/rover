@@ -14,7 +14,7 @@ import {
 } from "mantine-react-table";
 import { MRT_Localization_ZH_HANS } from "mantine-react-table/locales/zh-Hans/index.esm.mjs";
 import { Page } from "@/components/Page";
-import { useMutateRole, useQueryRoles } from "@/hooks/use-role-hooks.ts";
+import { useRoleMutation, useRoleQuery } from "@/hooks/use-role-hooks.ts";
 import { RoleVO } from "@/types/role.ts";
 
 const Roles = () => {
@@ -55,15 +55,15 @@ const Roles = () => {
     );
 
     const queryClient = useQueryClient();
-    const {mutateAsync: createRole, isPending: isCreatingRole} = useMutateRole({
+    const {mutateAsync: createRole, isPending: isCreatingRole} = useRoleMutation({
         type: 'create',
         queryClient
     });
-    const {mutateAsync: updateRole, isPending: isUpdatingRole} = useMutateRole({
+    const {mutateAsync: updateRole, isPending: isUpdatingRole} = useRoleMutation({
         type: 'update',
         queryClient
     });
-    const {mutateAsync: deleteRole, isPending: isDeletingRole} = useMutateRole({
+    const {mutateAsync: deleteRole, isPending: isDeletingRole} = useRoleMutation({
         type: 'delete',
         queryClient
     });
@@ -88,7 +88,7 @@ const Roles = () => {
         });
     }
 
-    const {data, isError, isLoading} = useQueryRoles();
+    const {data, isError, isLoading} = useRoleQuery();
 
     const records = data?.records ?? [];
     const total = data?.meta.total ?? 0;

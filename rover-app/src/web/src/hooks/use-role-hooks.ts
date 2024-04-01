@@ -3,7 +3,7 @@ import { deleteWithAuthHeader, getWithAuthHeader, postWithAuthHeader } from "@/a
 import { ListResultVO } from "@/types/list-result.ts";
 import { RoleVO } from "@/types/role.ts";
 
-const useQueryRoles = () => {
+const useRoleQuery = () => {
     return useQuery<ListResultVO<RoleVO>>({
         queryKey: ['roles'],
         queryFn: () => getWithAuthHeader('/api/platform/roles') as Promise<ListResultVO<RoleVO>>,
@@ -12,7 +12,7 @@ const useQueryRoles = () => {
     });
 }
 
-const useMutateRole = ({type, queryClient}: { type: string, queryClient: QueryClient }) => {
+const useRoleMutation = ({type, queryClient}: { type: string, queryClient: QueryClient }) => {
     let mutationFn;
     switch (type) {
         case 'create':
@@ -40,4 +40,4 @@ const useMutateRole = ({type, queryClient}: { type: string, queryClient: QueryCl
     });
 }
 
-export { useQueryRoles, useMutateRole }
+export { useRoleQuery, useRoleMutation }
