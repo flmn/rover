@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 import { Anchor, AppShell, Flex, ScrollArea, Title } from "@mantine/core";
 import { ColorSchemeToggle } from "@/components/ColorSchemeToggle";
+import { NavBar } from "@/components/SideBar";
 
 const AppLayout = () => {
 
@@ -19,30 +20,12 @@ const AppLayout = () => {
                         <Title order={1} fw="bolder">Rover</Title>
                     </Flex>
                 </AppShell.Section>
+                <AppShell.Section grow my="md" component={ScrollArea}>
+                    <NavBar/>
+                </AppShell.Section>
                 <AppShell.Section>
                     <Anchor href="/">
                         我的待办
-                    </Anchor>
-                </AppShell.Section>
-                <AppShell.Section grow my="md" component={ScrollArea}>
-                    <Anchor href="/">
-                        首页
-                    </Anchor>
-                    <br/>
-                    <Anchor href="/fleet/aircrafts">
-                        机队管理
-                    </Anchor>
-                    <br/>
-                    <Anchor href="/settings">
-                        设置
-                    </Anchor>
-                    <br/>
-                    <Anchor href="/settings/users">
-                        用户管理
-                    </Anchor>
-                    <br/>
-                    <Anchor href="/settings/enums">
-                        数据字典管理
                     </Anchor>
                 </AppShell.Section>
                 <AppShell.Section h={60}>
