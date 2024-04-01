@@ -1,7 +1,7 @@
 ### test
 
 GET http://localhost:8000/api/platform/test
-Authorization: Bearer 7f5f32d3586d4f8394204da07635d35d
+Authorization: Bearer 1e17acc1478d4f7c9fee7feed00a438a
 
 ### enums
 

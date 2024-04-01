@@ -1,5 +1,13 @@
 import { NavLink, Stack } from "@mantine/core";
-import { IconHome, IconPlane, IconPlaneTilt, IconSettings, IconUsers, IconVocabulary } from "@tabler/icons-react";
+import {
+    IconHome,
+    IconPlane,
+    IconPlaneTilt,
+    IconSettings,
+    IconUsers,
+    IconUsersGroup,
+    IconVocabulary
+} from "@tabler/icons-react";
 import { Link, useRouterState } from "@tanstack/react-router";
 
 export function NavBar() {
@@ -29,6 +37,9 @@ export function NavBar() {
                 <NavLink label="用户管理" to="/settings/users" component={Link}
                          leftSection={<IconUsers size="1.2rem" stroke={1.5}/>}
                          active={state.pathname === '/settings/users'}/>
+                <NavLink label="角色管理" to="/settings/roles" component={Link}
+                         leftSection={<IconUsersGroup size="1.2rem" stroke={1.5}/>}
+                         active={state.pathname === '/settings/roles'}/>
                 <NavLink label="数据字典管理" to="/settings/enums" component={Link}
                          leftSection={<IconVocabulary size="1.2rem" stroke={1.5}/>}
                          active={state.pathname === '/settings/enums'}/>

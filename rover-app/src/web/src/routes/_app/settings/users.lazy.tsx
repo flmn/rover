@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
 import { useMemo, useState } from "react";
+import { createLazyFileRoute } from "@tanstack/react-router";
 import { Badge, Button, Drawer, Group, Menu, rem, Text, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
-import { createLazyFileRoute } from "@tanstack/react-router";
 import {
     MantineReactTable,
     type MRT_ColumnDef,
@@ -102,10 +102,11 @@ const Users = () => {
         enableDensityToggle: false,
         enableStickyHeader: true,
         enableColumnPinning: true,
+        localization: MRT_Localization_ZH_HANS,
         mantineTableProps: {
             striped: true,
         },
-        localization: MRT_Localization_ZH_HANS,
+        mantineToolbarAlertBannerProps: isError ? {color: 'red', children: '加载数据失败',} : undefined,
         // filtering
         enableGlobalFilter: true,
         enableColumnFilters: false,
@@ -139,7 +140,7 @@ const Users = () => {
         },
         // toolbar
         renderBottomToolbarCustomActions: () => (
-            <Text>记录数：{total}</Text>
+            <Text pl="xs">用户数：{total}</Text>
         ),
         // state
         initialState: {

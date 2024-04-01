@@ -1,3 +1,6 @@
+insert into platform_role (id, name)
+values ('rol-system-admin', '系统管理员');
+
 insert into platform_user (id, email, password, name)
 values ('usr-00vchk38dg640', 'admin@admin.com', '$2a$10$9JH0KnjwB1KNXQhKv7OdbuNcMeoxLRgvfQY.RhZrmhXQPCAa/9i/.',
         '管理员');
