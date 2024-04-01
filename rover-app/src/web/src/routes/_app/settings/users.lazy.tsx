@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { Badge, Button, Drawer, Group, Menu, rem, Text, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute } from "@tanstack/react-router";
 import {
     MantineReactTable,
     type MRT_ColumnDef,
@@ -29,6 +29,7 @@ const Users = () => {
             {
                 accessorKey: 'name',
                 header: '姓名',
+                size: 80,
             },
             {
                 accessorKey: 'email',
@@ -38,7 +39,7 @@ const Users = () => {
             {
                 accessorKey: 'isEnabled',
                 header: '是否激活',
-                size: 80,
+                size: 60,
                 filterVariant: 'checkbox',
                 Cell: ({cell}) => (
                     cell.getValue<boolean>() ? <Badge variant="light">正常</Badge>
@@ -48,7 +49,7 @@ const Users = () => {
             {
                 accessorKey: 'isLocked',
                 header: '是否锁定',
-                size: 80,
+                size: 60,
                 filterVariant: 'checkbox',
                 Cell: ({cell}) => (
                     cell.getValue<boolean>() && <Badge color="red" variant="light">
@@ -100,6 +101,7 @@ const Users = () => {
         enableRowNumbers: true,
         enableDensityToggle: false,
         enableStickyHeader: true,
+        enableColumnPinning: true,
         mantineTableProps: {
             striped: true,
         },
@@ -143,6 +145,9 @@ const Users = () => {
         initialState: {
             density: 'xs',
             showGlobalFilter: true,
+            columnPinning: {
+                right: ['mrt-row-actions'],
+            },
         },
         state: {
             isLoading,
@@ -178,6 +183,6 @@ const Users = () => {
     );
 }
 
-export const Route = createFileRoute('/_app/settings/users')({
+export const Route = createLazyFileRoute('/_app/settings/users')({
     component: Users,
 })

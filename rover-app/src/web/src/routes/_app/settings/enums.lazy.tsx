@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute } from "@tanstack/react-router";
 import { Container, Grid } from "@mantine/core";
 import { Page } from "@/components/Page";
 import { Enum } from "@/components/routes/settings/enums/enum";
@@ -27,6 +27,6 @@ const Enums = () => {
     );
 }
 
-export const Route = createFileRoute('/_app/settings/enums')({
+export const Route = createLazyFileRoute('/_app/settings/enums')({
     component: Enums,
 })

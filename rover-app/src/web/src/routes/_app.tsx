@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 import { Anchor, AppShell, Flex, ScrollArea, Title } from "@mantine/core";
 import { ColorSchemeToggle } from "@/components/ColorSchemeToggle";
-import { NavBar } from "@/components/SideBar";
+import { NavBar } from "@/components/NavBar";
 
 const AppLayout = () => {
 
