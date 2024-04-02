@@ -12,10 +12,10 @@ import {
     useMantineReactTable
 } from 'mantine-react-table';
 import { MRT_Localization_ZH_HANS } from 'mantine-react-table/locales/zh-Hans/index.esm.mjs';
-import { useFetchUsers } from "@/hooks/use-fetch-users.ts";
-import { UserDTO } from "@/types/user.ts";
 import { Page } from "@/components/Page";
 import { UserForm } from "@/components/routes/settings/users";
+import { useUserQuery } from "@/hooks/use-user-apis";
+import { UserDTO } from "@/types/user";
 
 const Users = () => {
     const columns = useMemo<MRT_ColumnDef<UserDTO>[]>(
@@ -84,7 +84,7 @@ const Users = () => {
     });
     const [globalFilter, setGlobalFilter] = useState('');
     const [sorting, setSorting] = useState<MRT_SortingState>([]);
-    const {data, isError, isLoading} = useFetchUsers({
+    const {data, isError, isLoading} = useUserQuery({
         pagination,
         globalFilter,
         sorting,

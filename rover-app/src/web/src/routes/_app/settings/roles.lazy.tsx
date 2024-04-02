@@ -15,8 +15,8 @@ import {
 } from "mantine-react-table";
 import { MRT_Localization_ZH_HANS } from "mantine-react-table/locales/zh-Hans/index.esm.mjs";
 import { Page } from "@/components/Page";
-import { useRoleMutation, useRoleQuery } from "@/hooks/use-role-hooks.ts";
-import { RoleDTO } from "@/types/role.ts";
+import { useRoleMutation, useRoleQuery } from "@/hooks/use-role-apis";
+import { RoleDTO } from "@/types/role";
 
 const Roles = () => {
     const columns = useMemo<MRT_ColumnDef<RoleDTO>[]>(
@@ -60,15 +60,15 @@ const Roles = () => {
 
     const queryClient = useQueryClient();
     const {mutateAsync: createRole, isPending: isCreatingRole} = useRoleMutation({
-        type: 'create',
+        action: 'create',
         queryClient
     });
     const {mutateAsync: updateRole, isPending: isUpdatingRole} = useRoleMutation({
-        type: 'update',
+        action: 'update',
         queryClient
     });
     const {mutateAsync: deleteRole, isPending: isDeletingRole} = useRoleMutation({
-        type: 'delete',
+        action: 'delete',
         queryClient
     });
 

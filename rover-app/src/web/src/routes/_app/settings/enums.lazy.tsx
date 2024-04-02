@@ -2,10 +2,10 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import { Container, Grid } from "@mantine/core";
 import { Page } from "@/components/Page";
 import { Enum } from "@/components/routes/settings/enums/enum";
-import { useFetchEnums } from "@/hooks/use-fetch-enums.ts";
+import { useEnumQuery } from "@/hooks/use-enum-apis";
 
 const Enums = () => {
-    const {data} = useFetchEnums()
+    const {data} = useEnumQuery()
 
     const records = data?.records ?? [];
 
