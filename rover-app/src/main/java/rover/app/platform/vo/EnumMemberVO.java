@@ -1,31 +1,21 @@
 package rover.app.platform.vo;
 
 import rover.app.shared.vo.ViewObject;
-import rover.ef.enumeration.entity.EnumMemberEntity;
+import rover.ef.enumeration.entity.EnumMember;
 
-import java.time.LocalDateTime;
-
-public record EnumMemberVO(String id,
-                           String enumId,
+public record EnumMemberVO(String value,
                            String label,
-                           String value,
                            Integer displayOrder,
-                           Boolean isDefault,
-                           LocalDateTime createdAt,
-                           LocalDateTime updatedAt) implements ViewObject {
+                           Boolean isDefault) implements ViewObject {
 
-    public static EnumMemberVO from(EnumMemberEntity entity) {
+    public static EnumMemberVO from(EnumMember entity) {
         if (entity == null) {
             return null;
         }
 
-        return new EnumMemberVO(entity.getId(),
-                entity.getEnumId(),
+        return new EnumMemberVO(entity.getValue(),
                 entity.getLabel(),
-                entity.getValue(),
                 entity.getDisplayOrder(),
-                entity.getDefault(),
-                entity.getCreatedAt(),
-                entity.getUpdatedAt());
+                entity.getDefault());
     }
 }

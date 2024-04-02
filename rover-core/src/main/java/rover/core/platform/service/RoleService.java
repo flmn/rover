@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import rover.core.platform.entity.RoleEntity;
 import rover.core.platform.repository.RoleRepository;
-import rover.core.shared.util.IdUtils;
+import rover.ef.util.IdHelper;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +28,7 @@ public class RoleService {
 
     public RoleEntity create(String name) {
         RoleEntity entity = new RoleEntity();
-        entity.setId(IdUtils.newTsid(RoleEntity.ID_PREFIX));
+        entity.setId(IdHelper.newTsid(RoleEntity.ID_PREFIX));
         entity.setName(name);
 
         return roleRepository.save(entity);
@@ -43,7 +43,7 @@ public class RoleService {
 
         RoleEntity entity = opt.get();
 
-        if (StringUtils.hasLength(name)) {
+        if (StringUtils.hasText(name)) {
             entity.setName(name);
         }
 

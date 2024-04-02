@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import rover.core.platform.entity.TokenEntity;
 import rover.core.platform.entity.TokenType;
 import rover.core.platform.repository.TokenRepository;
-import rover.core.shared.util.IdUtils;
+import rover.ef.util.IdHelper;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -27,7 +27,7 @@ public class TokenService {
         TokenEntity entity;
         if (opt.isEmpty()) {
             entity = new TokenEntity();
-            entity.setId(IdUtils.newTsid(TokenEntity.ID_PREFIX));
+            entity.setId(IdHelper.newTsid(TokenEntity.ID_PREFIX));
             entity.setUserId(userId);
             entity.setType(TokenType.ACCESS_TOKEN);
 

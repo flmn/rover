@@ -7,7 +7,7 @@
     <changeSet author="jitao" id="create table platform_user">
         <createTable tableName="platform_user">
             <column name="id" type="varchar(36)">
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="platform_user_pk"/>
             </column>
             <column name="email" type="varchar(255)">
                 <constraints nullable="false" unique="true" uniqueConstraintName="platform_user_email_uk"/>
@@ -40,7 +40,7 @@
     <changeSet author="jitao" id="create table platform_role">
         <createTable tableName="platform_role">
             <column name="id" type="varchar(36)">
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="platform_role_pk"/>
             </column>
             <column name="name" type="varchar(36)">
                 <constraints nullable="false"/>
@@ -58,7 +58,7 @@
     <changeSet author="jitao" id="create table platform_token">
         <createTable tableName="platform_token">
             <column name="id" type="varchar(36)">
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="platform_token_pk"/>
             </column>
             <column name="user_id" type="varchar(36)">
                 <constraints nullable="false"/>
@@ -86,7 +86,7 @@
     <changeSet author="jitao" id="create table ent_fleet_airline">
         <createTable tableName="ent_fleet_airline">
             <column name="id" type="varchar(36)">
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="ent_fleet_airline_pk"/>
             </column>
             <column name="code" type="varchar(4)">
                 <constraints nullable="false"/>

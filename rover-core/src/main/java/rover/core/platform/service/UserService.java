@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils;
 import rover.core.platform.entity.TokenEntity;
 import rover.core.platform.entity.UserEntity;
 import rover.core.platform.repository.UserRepository;
-import rover.core.shared.util.IdUtils;
+import rover.ef.util.IdHelper;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -31,11 +31,11 @@ public class UserService {
     public Page<UserEntity> list(String search, int pageNumber, int pageSize, String sortProperty, Sort.Direction direction) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
 
-        if (StringUtils.hasLength(sortProperty)) {
+        if (StringUtils.hasText(sortProperty)) {
             pageRequest = pageRequest.withSort(direction, sortProperty);
         }
 
-        if (StringUtils.hasLength(search)) {
+        if (StringUtils.hasText(search)) {
             search = "%" + search + "%";
             return userRepository.findByEmailLikeIgnoreCaseOrNameLikeIgnoreCase(search, search, pageRequest);
         } else {
@@ -53,7 +53,7 @@ public class UserService {
 
     public UserEntity create(String email, String password, String name, boolean enabled) {
         UserEntity entity = new UserEntity();
-        entity.setId(IdUtils.newTsid(UserEntity.ID_PREFIX));
+        entity.setId(IdHelper.newTsid(UserEntity.ID_PREFIX));
         entity.setEmail(email);
         entity.setName(name);
         entity.setPassword(passwordEncoder.encode(password));
@@ -73,11 +73,11 @@ public class UserService {
 
         UserEntity entity = opt.get();
 
-        if (StringUtils.hasLength(name)) {
+        if (StringUtils.hasText(name)) {
             entity.setName(name);
         }
 
-        if (StringUtils.hasLength(password)) {
+        if (StringUtils.hasText(password)) {
             entity.setPassword(passwordEncoder.encode(password));
         }
 
@@ -114,7 +114,7 @@ public class UserService {
             UserEntity user = opt.get();
 
             if (passwordEncoder.matches(password, user.getPassword())) {
-                String accessToken = IdUtils.newCompactUuid();
+                String accessToken = IdHelper.newCompactUuid();
 
                 TokenEntity tokenEntity = tokenService.saveAccessToken(user.getId(), accessToken);
 

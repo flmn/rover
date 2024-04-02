@@ -18,11 +18,10 @@ public record EnumVO(String id,
             return null;
         }
 
-        List<EnumMemberVO> members = entity.getMembers() != null ?
-                entity.getMembers()
-                        .stream()
-                        .map(EnumMemberVO::from)
-                        .toList() : null;
+        List<EnumMemberVO> members = entity.getMembers()
+                .stream()
+                .map(EnumMemberVO::from)
+                .toList();
 
         return new EnumVO(entity.getId(),
                 entity.getName(),

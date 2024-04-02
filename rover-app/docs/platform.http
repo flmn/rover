@@ -1,27 +1,71 @@
 ### test
 
 GET http://localhost:8000/api/platform/test
-Authorization: Bearer 1e17acc1478d4f7c9fee7feed00a438a
+Authorization: Bearer aed1edb934a44923be6635dcbb9e4381
 
 ### enums
 
 GET http://localhost:8000/api/platform/enums
 Content-Type: application/json
-Authorization: Bearer 1e17acc1478d4f7c9fee7feed00a438a
+Authorization: Bearer aed1edb934a44923be6635dcbb9e4381
 
 ### get enum
 
 GET http://localhost:8000/api/platform/enums/Aircraft.AcType
 Content-Type: application/json
-Authorization: Bearer 1e17acc1478d4f7c9fee7feed00a438a
+Authorization: Bearer aed1edb934a44923be6635dcbb9e4381
 
-### members
+### get enum not found
 
-GET http://localhost:8000/api/platform/enums/Aircraft.AcType/members
+GET http://localhost:8000/api/platform/enums/not.found
 Content-Type: application/json
+Authorization: Bearer aed1edb934a44923be6635dcbb9e4381
+
+### create enum
+
+POST http://localhost:8000/api/platform/enums
+Content-Type: application/json
+Authorization: Bearer aed1edb934a44923be6635dcbb9e4381
+
+{
+  "id": "test",
+  "name": "Test",
+  "description": "description"
+}
+
+### update enum
+
+POST http://localhost:8000/api/platform/enums/test
+Content-Type: application/json
+Authorization: Bearer aed1edb934a44923be6635dcbb9e4381
+
+{
+  "id": "test",
+  "name": "Test",
+  "description": ""
+}
+
+### update enum members
+
+POST http://localhost:8000/api/platform/enums/test/members
+Content-Type: application/json
+Authorization: Bearer aed1edb934a44923be6635dcbb9e4381
+
+{
+  "members": [
+    {
+      "label": "0",
+      "value": "0"
+    },
+    {
+      "label": "A",
+      "value": "a"
+    }
+  ]
+}
 
 ### users
 
 GET http://localhost:8000/api/platform/users
 Content-Type: application/json
-Authorization: Bearer 52f13d053cd4470a9b43a7e9eb21f456
+Authorization: Bearer aed1edb934a44923be6635dcbb9e4381

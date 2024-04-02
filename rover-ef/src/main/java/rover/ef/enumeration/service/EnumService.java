@@ -1,76 +1,95 @@
 package rover.ef.enumeration.service;
 
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import rover.ef.enumeration.entity.EnumEntity;
-import rover.ef.enumeration.entity.EnumMemberEntity;
-import rover.ef.enumeration.repository.EnumMemberRepository;
+import rover.ef.enumeration.entity.EnumMember;
 import rover.ef.enumeration.repository.EnumRepository;
-import rover.ef.util.StringHelper;
+import rover.ef.exception.NotFoundException;
+import rover.ef.util.NullHelper;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@CacheConfig(cacheNames = "enums")
 public class EnumService {
     private final EnumRepository enumRepository;
-    private final EnumMemberRepository enumMemberRepository;
 
-    public EnumService(EnumRepository enumRepository, EnumMemberRepository enumMemberRepository) {
+    public EnumService(EnumRepository enumRepository) {
         this.enumRepository = enumRepository;
-        this.enumMemberRepository = enumMemberRepository;
     }
 
     public List<EnumEntity> list() {
         return enumRepository.findAll();
     }
 
-    public Optional<EnumEntity> getById(String id) {
-        var opt = enumRepository.findById(id);
-
-        if (opt.isEmpty()) {
-            return opt;
-        }
-
-        opt.get().setMembers(listEnumMembers(id));
-
-        return opt;
+    @Cacheable(key = "#id")
+    public EnumEntity getById(String id) throws NotFoundException {
+        return get(id);
     }
 
-    public EnumEntity create(String id, String name, String description) {
+    @Cacheable(key = "#id")
+    public EnumEntity create(String id, String name, String description, List<EnumMember> members) {
         EnumEntity entity = new EnumEntity();
         entity.setId(id);
         entity.setName(name);
-        entity.setDescription(StringHelper.nullToEmpty(description));
+        entity.setDescription(NullHelper.nullToEmpty(description));
+        entity.setMembers(members);
+        entity.setCreatedAt(LocalDateTime.now());
 
         return enumRepository.save(entity);
     }
 
-    public EnumEntity update(String id, String name, String description) {
+    @CacheEvict(key = "#result.id")
+    public EnumEntity update(String id, String name, String description) throws NotFoundException {
         var opt = enumRepository.findById(id);
 
         if (opt.isEmpty()) {
-            return null;
+            throw new NotFoundException("Can not found Enum");
         }
 
         EnumEntity entity = opt.get();
+        entity.setUpdatedAt(LocalDateTime.now());
 
-        if (StringUtils.hasLength(name)) {
+        if (StringUtils.hasText(name)) {
             entity.setName(name);
         }
 
-        if (StringUtils.hasLength(description)) {
+        if (description != null) {
             entity.setDescription(description);
         }
 
         return enumRepository.save(entity);
     }
 
-    public EnumEntity delete(String id) {
+    @CacheEvict(key = "#result.id")
+    public EnumEntity updateMembers(String id, List<EnumMember> members) throws NotFoundException {
         var opt = enumRepository.findById(id);
 
         if (opt.isEmpty()) {
-            return null;
+            throw new NotFoundException("Can not found Enum");
+        }
+
+        EnumEntity entity = opt.get();
+        entity.setUpdatedAt(LocalDateTime.now());
+
+        entity.setMembers(members);
+
+        enumRepository.save(entity);
+
+        return get(id);
+    }
+
+    @CacheEvict(key = "#id")
+    public EnumEntity delete(String id) throws NotFoundException {
+        var opt = enumRepository.findById(id);
+
+        if (opt.isEmpty()) {
+            throw new NotFoundException("Can not found Enum");
         }
 
         EnumEntity entity = opt.get();
@@ -80,7 +99,13 @@ public class EnumService {
         return entity;
     }
 
-    public List<EnumMemberEntity> listEnumMembers(String enumId) {
-        return enumMemberRepository.findByEnumId(enumId);
+    private EnumEntity get(String id) throws NotFoundException {
+        var opt = enumRepository.findById(id);
+
+        if (opt.isEmpty()) {
+            throw new NotFoundException("Can not found Enum");
+        }
+
+        return opt.get();
     }
 }

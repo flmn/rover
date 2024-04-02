@@ -7,7 +7,7 @@
     <changeSet author="jitao" id="create table ef_enum">
         <createTable tableName="ef_enum">
             <column name="id" type="varchar(36)">
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="ef_enum_pk"/>
             </column>
             <column name="name" type="varchar(20)">
                 <constraints nullable="false"/>
@@ -28,16 +28,13 @@
 
     <changeSet author="jitao" id="create table ef_enum_member">
         <createTable tableName="ef_enum_member">
-            <column name="id" type="varchar(36)">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
             <column name="enum_id" type="varchar(36)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="label" type="varchar(20)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="ef_enum_member_pk"/>
             </column>
             <column name="value" type="varchar">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="ef_enum_member_pk"/>
+            </column>
+            <column name="label" type="varchar(20)">
                 <constraints nullable="false"/>
             </column>
             <column name="display_order" type="int" defaultValue="0">
@@ -46,17 +43,8 @@
             <column name="is_default" type="boolean" defaultValueBoolean="false">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_at" type="timestamptz" defaultValue="now()">
-                <constraints nullable="false"/>
-            </column>
-            <column name="updated_at" type="timestamptz"/>
-            <column name="version" type="int" defaultValue="0">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
         <addUniqueConstraint tableName="ef_enum_member" columnNames="enum_id, label"
                              constraintName="ef_enum_member_label_uk"/>
-        <addUniqueConstraint tableName="ef_enum_member" columnNames="enum_id, value"
-                             constraintName="ef_enum_member_value_uk"/>
     </changeSet>
 </databaseChangeLog>

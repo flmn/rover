@@ -18,7 +18,7 @@ public class RoverUserDetails implements UserDetails, CredentialsContainer {
     private String password;
 
     public RoverUserDetails(String email, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
-        Assert.isTrue(StringUtils.hasLength(email), "Cannot pass null or empty values to constructor");
+        Assert.isTrue(StringUtils.hasText(email), "Cannot pass null or empty values to constructor");
         this.email = email;
         this.password = password;
         this.enabled = enabled;

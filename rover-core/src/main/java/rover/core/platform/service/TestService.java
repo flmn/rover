@@ -5,7 +5,7 @@ import org.jobrunr.scheduling.JobBuilder;
 import org.jobrunr.scheduling.JobRequestScheduler;
 import org.springframework.stereotype.Service;
 import rover.core.platform.job.email.SendEmailJobRequest;
-import rover.core.shared.util.IdUtils;
+import rover.ef.util.IdHelper;
 
 @Service
 public class TestService {
@@ -27,7 +27,7 @@ public class TestService {
                 .withName("A job requested for test")
                 .withAmountOfRetries(1)
                 .withLabels("from-rest-api")
-                .withJobRequest(new SendEmailJobRequest(IdUtils.newTsid()));
+                .withJobRequest(new SendEmailJobRequest(IdHelper.newTsid()));
 
         jobRequestScheduler.create(builder);
 

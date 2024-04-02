@@ -27,7 +27,7 @@ public class BearerTokenAuthenticationFilter extends AbstractAuthenticationProce
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (!StringUtils.hasLength(authorization)) {
+        if (!StringUtils.hasText(authorization)) {
             throw new AuthenticationCredentialsNotFoundException(String.format("Can not found header %s", HttpHeaders.AUTHORIZATION));
         }
 

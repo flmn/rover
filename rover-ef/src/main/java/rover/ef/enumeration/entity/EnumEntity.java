@@ -1,10 +1,15 @@
 package rover.ef.enumeration.entity;
 
-import org.springframework.data.annotation.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Table("ef_enum")
@@ -19,6 +24,10 @@ public class EnumEntity {
     @Column("description")
     private String description;
 
+    // 这里的 keyColumn 是用来排序的，生成的 SQL：WHERE enum_id = ? ORDER BY display_order
+    @MappedCollection(idColumn = "enum_id", keyColumn = "display_order")
+    private List<EnumMember> members = new ArrayList<>();
+
     @CreatedDate
     @Column("created_at")
     private LocalDateTime createdAt;
@@ -28,10 +37,7 @@ public class EnumEntity {
     private LocalDateTime updatedAt;
 
     @Version
-    private Integer version = 0;
-
-    @Transient
-    private List<EnumMemberEntity> members;
+    private Integer version;
 
     public String getId() {
         return id;
@@ -57,6 +63,14 @@ public class EnumEntity {
         this.description = description;
     }
 
+    public List<EnumMember> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<EnumMember> members) {
+        this.members = members;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -79,13 +93,5 @@ public class EnumEntity {
 
     public void setVersion(Integer version) {
         this.version = version;
-    }
-
-    public List<EnumMemberEntity> getMembers() {
-        return members;
-    }
-
-    public void setMembers(List<EnumMemberEntity> members) {
-        this.members = members;
     }
 }

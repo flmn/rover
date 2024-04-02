@@ -1,4 +1,4 @@
-package rover.core.shared.util;
+package rover.ef.util;
 
 import com.github.f4b6a3.tsid.Tsid;
 import com.github.f4b6a3.tsid.TsidFactory;
@@ -7,9 +7,9 @@ import org.springframework.util.StringUtils;
 import java.time.Instant;
 import java.util.UUID;
 
-public final class IdUtils {
+public final class IdHelper {
 
-    private IdUtils() {
+    private IdHelper() {
     }
 
     public static String newUuid() {
@@ -27,7 +27,7 @@ public final class IdUtils {
     }
 
     public static String newTsid(String prefix) {
-        if (StringUtils.hasLength(prefix)) {
+        if (StringUtils.hasText(prefix)) {
             prefix = prefix + "-";
         } else {
             prefix = "";
