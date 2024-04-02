@@ -2,7 +2,7 @@ interface Meta {
     total: number;
 }
 
-export interface ListResultVO<T> {
+export interface ListResultDTO<T> {
     meta: Meta;
     records: T[]
 }

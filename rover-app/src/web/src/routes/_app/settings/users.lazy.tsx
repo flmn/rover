@@ -13,12 +13,12 @@ import {
 } from 'mantine-react-table';
 import { MRT_Localization_ZH_HANS } from 'mantine-react-table/locales/zh-Hans/index.esm.mjs';
 import { useFetchUsers } from "@/hooks/use-fetch-users.ts";
-import { UserVO } from "@/types/user.ts";
+import { UserDTO } from "@/types/user.ts";
 import { Page } from "@/components/Page";
 import { UserForm } from "@/components/routes/settings/users";
 
 const Users = () => {
-    const columns = useMemo<MRT_ColumnDef<UserVO>[]>(
+    const columns = useMemo<MRT_ColumnDef<UserDTO>[]>(
         () => [
             {
                 accessorKey: 'id',

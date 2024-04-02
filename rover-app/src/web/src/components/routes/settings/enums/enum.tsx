@@ -1,24 +1,24 @@
 import { Badge, Card, Group, Text, Title } from "@mantine/core";
 import dayjs from "dayjs"
-import { EnumVO } from "@/types/enum.ts";
+import { EnumDTO } from "@/types/enum.ts";
 
 interface EnumProps {
-    enumVO: EnumVO
+    enumDTO: EnumDTO
 }
 
-export function Enum({enumVO}: EnumProps) {
+export function Enum({enumDTO}: EnumProps) {
     return (
         <Card withBorder shadow="xs" my="sm">
             <Card.Section m="0.4rem">
                 <Group justify="space-between">
-                    <Title order={4}>{enumVO.name}</Title>
-                    <Badge color="grey">{enumVO.id}</Badge>
+                    <Title order={4}>{enumDTO.name}</Title>
+                    <Badge color="grey">{enumDTO.id}</Badge>
                 </Group>
             </Card.Section>
             <Card.Section m="0.4rem">
                 <Group justify="flex-end">
                     <Text size="sm" c="dimmed">
-                        创建时间{dayjs(enumVO.createdAt).format('YYYY年MM月DD日')}
+                        创建时间{dayjs(enumDTO.createdAt).format('YYYY年MM月DD日')}
                     </Text>
                 </Group>
             </Card.Section>

@@ -1,4 +1,4 @@
-export interface EnumVO {
+export interface EnumDTO {
     id: string;
     name: string;
     description: string;

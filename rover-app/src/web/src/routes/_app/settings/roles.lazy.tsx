@@ -16,10 +16,10 @@ import {
 import { MRT_Localization_ZH_HANS } from "mantine-react-table/locales/zh-Hans/index.esm.mjs";
 import { Page } from "@/components/Page";
 import { useRoleMutation, useRoleQuery } from "@/hooks/use-role-hooks.ts";
-import { RoleVO } from "@/types/role.ts";
+import { RoleDTO } from "@/types/role.ts";
 
 const Roles = () => {
-    const columns = useMemo<MRT_ColumnDef<RoleVO>[]>(
+    const columns = useMemo<MRT_ColumnDef<RoleDTO>[]>(
         () => [
             {
                 accessorKey: 'id',
@@ -72,17 +72,17 @@ const Roles = () => {
         queryClient
     });
 
-    const handleCreateRole: MRT_TableOptions<RoleVO>['onCreatingRowSave'] = async ({values, exitCreatingMode,}) => {
+    const handleCreateRole: MRT_TableOptions<RoleDTO>['onCreatingRowSave'] = async ({values, exitCreatingMode,}) => {
         await createRole(values);
         exitCreatingMode();
     }
 
-    const handleUpdateRole: MRT_TableOptions<RoleVO>['onEditingRowSave'] = async ({values, table,}) => {
+    const handleUpdateRole: MRT_TableOptions<RoleDTO>['onEditingRowSave'] = async ({values, table,}) => {
         await updateRole(values);
         table.setEditingRow(null); //exit editing mode
     };
 
-    const openDeleteConfirmModal = (row: MRT_Row<RoleVO>) => {
+    const openDeleteConfirmModal = (row: MRT_Row<RoleDTO>) => {
         modals.openConfirmModal({
             title: '确认',
             children: <Text>确定删除角色【{row.original.name}】？删除后不可恢复。</Text>,

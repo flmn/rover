@@ -14,8 +14,8 @@ const Enums = () => {
             <Grid>
                 <Grid.Col span={3}>
                     <Container bg="grey" p="sm">
-                        {records?.map((enumVO) => (
-                            <Enum enumVO={enumVO} key={enumVO.id}/>
+                        {records?.map((enumDTO) => (
+                            <Enum enumDTO={enumDTO} key={enumDTO.id}/>
                         ))}
                     </Container>
                 </Grid.Col>

@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import rover.app.platform.vo.RoleVO;
-import rover.app.shared.vo.ListResultMetaVO;
-import rover.app.shared.vo.ListResultVO;
+import rover.app.platform.dto.RoleDTO;
+import rover.app.shared.dto.ListResultDTO;
+import rover.app.shared.dto.ListResultMetaDTO;
 import rover.core.platform.entity.RoleEntity;
 import rover.core.platform.service.RoleService;
 
@@ -24,42 +24,42 @@ public class RolesController {
     }
 
     @GetMapping
-    public ListResultVO<RoleVO> list() {
-        List<RoleVO> records = roleService.list()
+    public ListResultDTO<RoleDTO> list() {
+        List<RoleDTO> records = roleService.list()
                 .stream()
-                .map(RoleVO::from)
+                .map(RoleDTO::from)
                 .toList();
 
-        return new ListResultVO<>(new ListResultMetaVO(records.size()), records);
+        return new ListResultDTO<>(new ListResultMetaDTO(records.size()), records);
     }
 
     @PostMapping
-    public RoleVO create(@RequestBody RoleVO request) {
+    public RoleDTO create(@RequestBody RoleDTO request) {
         RoleEntity entity = roleService.create(request.name());
 
-        return RoleVO.from(entity);
+        return RoleDTO.from(entity);
     }
 
     @GetMapping("/{id}")
-    public RoleVO get(@PathVariable("id") String id) {
+    public RoleDTO get(@PathVariable("id") String id) {
         var opt = roleService.getById(id);
 
         RoleEntity entity = opt.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        return RoleVO.from(entity);
+        return RoleDTO.from(entity);
     }
 
     @PostMapping("/{id}")
-    public RoleVO update(@PathVariable("id") String id, @RequestBody RoleVO request) {
+    public RoleDTO update(@PathVariable("id") String id, @RequestBody RoleDTO request) {
         RoleEntity entity = roleService.update(id, request.name());
 
-        return RoleVO.from(entity);
+        return RoleDTO.from(entity);
     }
 
     @DeleteMapping("/{id}")
-    public RoleVO delete(@PathVariable("id") String id) {
+    public RoleDTO delete(@PathVariable("id") String id) {
         RoleEntity entity = roleService.delete(id);
 
-        return RoleVO.from(entity);
+        return RoleDTO.from(entity);
     }
 }
