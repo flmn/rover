@@ -2,12 +2,13 @@ import dayjs from "dayjs";
 import { useMemo } from "react";
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { useQueryClient } from "@tanstack/react-query";
-import { ActionIcon, Button, Flex, Group, Text, Tooltip } from "@mantine/core";
+import { ActionIcon, Button, Flex, Group, Stack, Text, Title, Tooltip } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 import {
     MantineReactTable,
     type MRT_ColumnDef,
+    MRT_EditActionButtons,
     MRT_Row,
     MRT_TableOptions,
     useMantineReactTable
@@ -30,6 +31,9 @@ const Roles = () => {
             {
                 accessorKey: 'name',
                 header: '名称',
+                mantineEditTextInputProps: {
+                    required: true,
+                },
             },
             {
                 accessorKey: 'createdAt',
@@ -113,6 +117,7 @@ const Roles = () => {
         positionToolbarAlertBanner: 'head-overlay',
         mantineTableProps: {
             striped: true,
+            withTableBorder: false,
         },
         mantinePaginationProps: {
             rowsPerPageOptions: ['10', '15', '20'],
@@ -120,6 +125,9 @@ const Roles = () => {
         mantineSearchTextInputProps: {
             variant: 'default',
             w: '300',
+        },
+        mantineEditRowModalProps: {
+            closeOnClickOutside: false,
         },
         mantineToolbarAlertBannerProps: isError ? {color: 'red', children: '加载数据失败',} : undefined,
         // toolbar
@@ -143,6 +151,15 @@ const Roles = () => {
                     </ActionIcon>
                 </Tooltip>
             </Flex>
+        ),
+        renderEditRowModalContent: ({internalEditComponents, row, table}) => (
+            <Stack>
+                <Title order={5}>{row.original.id ? '修改' : '创建'}角色</Title>
+                {internalEditComponents}
+                <Flex justify="flex-end">
+                    <MRT_EditActionButtons row={row} table={table} variant="text"/>
+                </Flex>
+            </Stack>
         ),
         // state
         initialState: {
