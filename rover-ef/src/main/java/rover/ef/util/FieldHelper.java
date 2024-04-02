@@ -5,9 +5,9 @@ import rover.ef.entity.domain.FieldDef;
 
 import java.util.LinkedHashMap;
 
-public final class FieldUtils {
+public final class FieldHelper {
 
-    private FieldUtils() {
+    private FieldHelper() {
     }
 
     public static void addId(LinkedHashMap<String, FieldDef> defs, int naturalOrder) {

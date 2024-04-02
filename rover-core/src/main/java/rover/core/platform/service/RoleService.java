@@ -2,6 +2,7 @@ package rover.core.platform.service;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import rover.core.platform.entity.RoleEntity;
 import rover.core.platform.repository.RoleRepository;
 import rover.core.shared.util.IdUtils;
@@ -21,6 +22,10 @@ public class RoleService {
         return roleRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
     }
 
+    public Optional<RoleEntity> getById(String id) {
+        return roleRepository.findById(id);
+    }
+
     public RoleEntity create(String name) {
         RoleEntity entity = new RoleEntity();
         entity.setId(IdUtils.newTsid(RoleEntity.ID_PREFIX));
@@ -30,20 +35,23 @@ public class RoleService {
     }
 
     public RoleEntity update(String id, String name) {
-        Optional<RoleEntity> opt = roleRepository.findById(id);
+        var opt = roleRepository.findById(id);
 
         if (opt.isEmpty()) {
             return null;
         }
 
         RoleEntity entity = opt.get();
-        entity.setName(name);
+
+        if (StringUtils.hasLength(name)) {
+            entity.setName(name);
+        }
 
         return roleRepository.save(entity);
     }
 
     public RoleEntity delete(String id) {
-        Optional<RoleEntity> opt = roleRepository.findById(id);
+        var opt = roleRepository.findById(id);
 
         if (opt.isEmpty()) {
             return null;

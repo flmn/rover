@@ -5,7 +5,7 @@ import rover.ef.entity.domain.DataType;
 import rover.ef.entity.domain.EntityDef;
 import rover.ef.entity.domain.FieldDef;
 import rover.ef.entity.registry.EntityDefLoader;
-import rover.ef.util.FieldUtils;
+import rover.ef.util.FieldHelper;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -23,7 +23,7 @@ public class FleetStaticEntityDefLoader implements EntityDefLoader {
         int naturalOrder = 0;
 
         // ID
-        FieldUtils.addId(fields, naturalOrder);
+        FieldHelper.addId(fields, naturalOrder);
 
         // Code
         {
@@ -54,10 +54,10 @@ public class FleetStaticEntityDefLoader implements EntityDefLoader {
         }
 
         // CreatedAt, UpdatedAt, IsDeleted, DeletedAt
-        FieldUtils.addCreatedAt(fields, ++naturalOrder);
-        FieldUtils.addUpdatedAt(fields, ++naturalOrder);
-        FieldUtils.addIsDeleted(fields, ++naturalOrder);
-        FieldUtils.addDeletedAt(fields, ++naturalOrder);
+        FieldHelper.addCreatedAt(fields, ++naturalOrder);
+        FieldHelper.addUpdatedAt(fields, ++naturalOrder);
+        FieldHelper.addIsDeleted(fields, ++naturalOrder);
+        FieldHelper.addDeletedAt(fields, ++naturalOrder);
 
         return new EntityDef(FleetEntities.AIRLINE,
                 FleetEntities.AIRLINE_TABLE,

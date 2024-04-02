@@ -7,13 +7,13 @@ Authorization: Bearer 1e17acc1478d4f7c9fee7feed00a438a
 
 GET http://localhost:8000/api/platform/enums
 Content-Type: application/json
-Authorization: Bearer 7f5f32d3586d4f8394204da07635d35d
+Authorization: Bearer 1e17acc1478d4f7c9fee7feed00a438a
 
 ### get enum
 
 GET http://localhost:8000/api/platform/enums/Aircraft.AcType
 Content-Type: application/json
-Authorization: Bearer 7f5f32d3586d4f8394204da07635d35d
+Authorization: Bearer 1e17acc1478d4f7c9fee7feed00a438a
 
 ### members
 

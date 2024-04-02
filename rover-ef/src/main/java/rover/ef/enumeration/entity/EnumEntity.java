@@ -1,13 +1,11 @@
 package rover.ef.enumeration.entity;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Version;
+import org.springframework.data.annotation.*;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Table("ef_enum")
 public class EnumEntity {
@@ -31,6 +29,9 @@ public class EnumEntity {
 
     @Version
     private Integer version = 0;
+
+    @Transient
+    private List<EnumMemberEntity> members;
 
     public String getId() {
         return id;
@@ -78,5 +79,13 @@ public class EnumEntity {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public List<EnumMemberEntity> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<EnumMemberEntity> members) {
+        this.members = members;
     }
 }

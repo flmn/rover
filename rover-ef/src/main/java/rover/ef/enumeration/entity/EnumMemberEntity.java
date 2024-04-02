@@ -9,7 +9,6 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
 
-
 @Table("ef_enum_member")
 public class EnumMemberEntity {
 
@@ -82,12 +81,12 @@ public class EnumMemberEntity {
         this.displayOrder = displayOrder;
     }
 
-    public Boolean getIsDefault() {
+    public Boolean getDefault() {
         return isDefault;
     }
 
-    public void setIsDefault(Boolean isDefault) {
-        this.isDefault = isDefault;
+    public void setDefault(Boolean aDefault) {
+        isDefault = aDefault;
     }
 
     public LocalDateTime getCreatedAt() {

@@ -11,6 +11,7 @@ import rover.core.platform.entity.UserEntity;
 import rover.core.platform.repository.UserRepository;
 import rover.core.shared.util.IdUtils;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -50,7 +51,7 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public Optional<UserEntity> create(String email, String password, String name, boolean enabled) {
+    public UserEntity create(String email, String password, String name, boolean enabled) {
         UserEntity entity = new UserEntity();
         entity.setId(IdUtils.newTsid(UserEntity.ID_PREFIX));
         entity.setEmail(email);
@@ -60,11 +61,54 @@ public class UserService {
 
         entity = userRepository.save(entity);
 
-        return Optional.of(entity);
+        return entity;
+    }
+
+    public UserEntity update(String id, String password, String name, Boolean enabled, Boolean locked) {
+        var opt = userRepository.findById(id);
+
+        if (opt.isEmpty()) {
+            return null;
+        }
+
+        UserEntity entity = opt.get();
+
+        if (StringUtils.hasLength(name)) {
+            entity.setName(name);
+        }
+
+        if (StringUtils.hasLength(password)) {
+            entity.setPassword(passwordEncoder.encode(password));
+        }
+
+        if (enabled != null) {
+            entity.setEnabled(enabled);
+        }
+
+        if (locked != null) {
+            entity.setLocked(locked);
+        }
+
+        return userRepository.save(entity);
+    }
+
+    public UserEntity delete(String id) {
+        var opt = userRepository.findById(id);
+
+        if (opt.isEmpty()) {
+            return null;
+        }
+
+        UserEntity entity = opt.get();
+
+        entity.setDeleted(true);
+        entity.setDeletedAt(LocalDateTime.now());
+
+        return userRepository.save(entity);
     }
 
     public Optional<TokenEntity> login(String email, String password) {
-        Optional<UserEntity> opt = userRepository.findByEmail(email);
+        var opt = userRepository.findByEmail(email);
 
         if (opt.isPresent()) {
             UserEntity user = opt.get();

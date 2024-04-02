@@ -1,18 +1,15 @@
 package rover.app.platform.controller;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import rover.app.platform.vo.EnumVO;
 import rover.app.shared.vo.ListResultMetaVO;
 import rover.app.shared.vo.ListResultVO;
+import rover.ef.enumeration.entity.EnumEntity;
 import rover.ef.enumeration.service.EnumService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/platform/enums")
@@ -24,24 +21,47 @@ public class EnumsController {
     }
 
     @GetMapping
-    public ListResultVO<EnumVO> listEnums() {
-        List<EnumVO> records = enumService.listEnums()
+    public ListResultVO<EnumVO> list() {
+        List<EnumVO> records = enumService.list()
                 .stream()
                 .map(EnumVO::from)
-                .collect(Collectors.toList());
+                .toList();
 
         return new ListResultVO<>(new ListResultMetaVO(records.size()), records);
     }
 
-    @GetMapping("/{id}")
-    public Object getEnum(@PathVariable String id) {
-        var opt = enumService.getEnum(id);
+    @PostMapping
+    public EnumVO create(@RequestBody EnumVO request) {
+        EnumEntity entity = enumService.create(request.id(), request.name(), request.description());
 
-        return opt.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return EnumVO.from(entity);
+    }
+
+    @GetMapping("/{id}")
+    public EnumVO get(@PathVariable String id) {
+        var opt = enumService.getById(id);
+
+        EnumEntity entity = opt.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        return EnumVO.from(entity);
+    }
+
+    @PostMapping("/{id}")
+    public EnumVO update(@PathVariable("id") String id, @RequestBody EnumVO request) {
+        EnumEntity entity = enumService.update(id, request.name(), request.description());
+
+        return EnumVO.from(entity);
+    }
+
+    @DeleteMapping("/{id}")
+    public EnumVO delete(@PathVariable("id") String id) {
+        EnumEntity entity = enumService.delete(id);
+
+        return EnumVO.from(entity);
     }
 
     @GetMapping("/{id}/members")
-    public Object listMembers(@PathVariable String id) {
+    public Object members(@PathVariable String id) {
         return enumService.listEnumMembers(id);
     }
 }
