@@ -245,7 +245,7 @@ const DiskInfo = ({diskInfos}: { diskInfos: DiskInfoDTO[] }) => {
 }
 
 const ServerInfo = () => {
-    const {data, isPending, refetch} = useServerInfoQuery();
+    const {data, isFetching, refetch} = useServerInfoQuery();
 
     const app = data?.app ?? {} as AppInfoDTO;
     const cpu = data?.cpu ?? {} as CpuInfoDTO;
@@ -257,7 +257,7 @@ const ServerInfo = () => {
     return (
         <Page title="系统信息" toolbar={
             <Group>
-                {isPending && <Loader size="sm"/>}
+                {isFetching && <Loader size="sm"/>}
                 <Tooltip label="创建一个新用户">
                     <Button onClick={() => refetch()}>刷新</Button>
                 </Tooltip>
