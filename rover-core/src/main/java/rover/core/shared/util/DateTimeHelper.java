@@ -1,9 +1,6 @@
 package rover.core.shared.util;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 public final class DateTimeHelper {
@@ -18,5 +15,25 @@ public final class DateTimeHelper {
         LocalDateTime ldt = LocalDateTime.ofInstant(instant, CST);
 
         return SIMPLE_DATE_TIME_FORMATTER.format(ldt);
+    }
+
+    public static String toString(Duration duration) {
+        long days = duration.toDaysPart();
+        long hours = duration.toHoursPart();
+        long minutes = duration.toMinutesPart();
+        long seconds = duration.toSecondsPart();
+
+        String result = "";
+        if (days > 0) {
+            result = result + String.format("%d天", days);
+        }
+        if (hours > 0) {
+            result = result + String.format("%d小时", hours);
+        }
+        if (minutes > 0) {
+            result = result + String.format("%d分", minutes);
+        }
+
+        return result + String.format("%d秒", seconds);
     }
 }

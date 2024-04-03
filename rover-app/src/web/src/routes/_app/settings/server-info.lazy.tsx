@@ -1,5 +1,5 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { Button, Card, Grid, Group, Progress, Stack, Table, Text, Title, Tooltip } from "@mantine/core";
+import { Button, Card, Grid, Group, Loader, Progress, Stack, Table, Text, Title, Tooltip } from "@mantine/core";
 import { AppInfoDTO, CpuInfoDTO, DiskInfoDTO, JvmInfoDTO, MemInfoDTO, SysInfoDTO } from "@/types/server-info";
 import { useServerInfoQuery } from "@/hooks/use-server-apis";
 import { Page } from "@/components/Page";
@@ -51,12 +51,20 @@ const CpuInfo = ({cpuInfo}: { cpuInfo: CpuInfoDTO }) => {
                 </Table.Thead>
                 <Table.Tbody>
                     <Table.Tr>
-                        <Table.Td>物理核心数</Table.Td>
-                        <Table.Td>{cpuInfo.physicalCpus}</Table.Td>
+                        <Table.Td>数量（物理/核/超线程）</Table.Td>
+                        <Table.Td>{cpuInfo.physicalPackages} / {cpuInfo.physicalProcessors} / {cpuInfo.logicalProcessor}</Table.Td>
                     </Table.Tr>
                     <Table.Tr>
-                        <Table.Td>逻辑核心数</Table.Td>
-                        <Table.Td>{cpuInfo.logicalCpus}</Table.Td>
+                        <Table.Td>平均负载</Table.Td>
+                        <Table.Td>{cpuInfo.loadAvg}</Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>CPU 总使用率</Table.Td>
+                        <Table.Td>{cpuInfo.cpuUsageTotal}</Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>CPU 用户使用率</Table.Td>
+                        <Table.Td>{cpuInfo.cpuUsageUser}</Table.Td>
                     </Table.Tr>
                 </Table.Tbody>
             </Table>
@@ -94,7 +102,7 @@ const MemInfo = ({memInfo}: { memInfo: MemInfoDTO }) => {
                         <Table.Td>使用率</Table.Td>
                         <Table.Td>
                             <Group gap="md" grow>
-                                <Progress value={memInfo.usage}/>
+                                {memInfo.usage && <Progress value={memInfo.usage}/>}
                                 <Text size="sm">{memInfo.usageText}</Text>
                             </Group>
                         </Table.Td>
@@ -121,11 +129,11 @@ const SysInfo = ({sysInfo}: { sysInfo: SysInfoDTO }) => {
                 <Table.Tbody>
                     <Table.Tr>
                         <Table.Td>操作系统</Table.Td>
-                        <Table.Td>{sysInfo.osName}</Table.Td>
+                        <Table.Td>{sysInfo.os}</Table.Td>
                     </Table.Tr>
                     <Table.Tr>
                         <Table.Td>系统架构</Table.Td>
-                        <Table.Td>{sysInfo.osArch}</Table.Td>
+                        <Table.Td>{sysInfo.arch}</Table.Td>
                     </Table.Tr>
                     <Table.Tr>
                         <Table.Td>主机名</Table.Td>
@@ -134,6 +142,10 @@ const SysInfo = ({sysInfo}: { sysInfo: SysInfoDTO }) => {
                     <Table.Tr>
                         <Table.Td>IP</Table.Td>
                         <Table.Td>{sysInfo.ipAddress}</Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>运行时间</Table.Td>
+                        <Table.Td>{sysInfo.uptime}</Table.Td>
                     </Table.Tr>
                     <Table.Tr>
                         <Table.Td>运行目录</Table.Td>
@@ -160,8 +172,8 @@ const JvmInfo = ({jvmInfo}: { jvmInfo: JvmInfoDTO }) => {
                 </Table.Thead>
                 <Table.Tbody>
                     <Table.Tr>
-                        <Table.Td>版本</Table.Td>
-                        <Table.Td>{jvmInfo.version}</Table.Td>
+                        <Table.Td>JDK</Table.Td>
+                        <Table.Td>{jvmInfo.name}{' '}{jvmInfo.version}{' '}({jvmInfo.vendor}{' '}{jvmInfo.vendorVersion})</Table.Td>
                     </Table.Tr>
                     <Table.Tr>
                         <Table.Td>安装路径</Table.Td>
@@ -178,6 +190,10 @@ const JvmInfo = ({jvmInfo}: { jvmInfo: JvmInfoDTO }) => {
                     <Table.Tr>
                         <Table.Td>空闲内存</Table.Td>
                         <Table.Td>{jvmInfo.freeMemory}</Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>运行时间</Table.Td>
+                        <Table.Td>{jvmInfo.uptime}</Table.Td>
                     </Table.Tr>
                 </Table.Tbody>
             </Table>
@@ -229,7 +245,7 @@ const DiskInfo = ({diskInfos}: { diskInfos: DiskInfoDTO[] }) => {
 }
 
 const ServerInfo = () => {
-    const {data, refetch} = useServerInfoQuery();
+    const {data, isPending, refetch} = useServerInfoQuery();
 
     const app = data?.app ?? {} as AppInfoDTO;
     const cpu = data?.cpu ?? {} as CpuInfoDTO;
@@ -241,6 +257,7 @@ const ServerInfo = () => {
     return (
         <Page title="系统信息" toolbar={
             <Group>
+                {isPending && <Loader size="sm"/>}
                 <Tooltip label="创建一个新用户">
                     <Button onClick={() => refetch()}>刷新</Button>
                 </Tooltip>

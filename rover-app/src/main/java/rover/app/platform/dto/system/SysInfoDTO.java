@@ -1,8 +1,9 @@
 package rover.app.platform.dto.system;
 
-public record SysInfoDTO(String hostname,
+public record SysInfoDTO(String os,
+                         String arch,
+                         String hostname,
                          String ipAddress,
-                         String osName,
-                         String osArch,
+                         String uptime,
                          String userDir) {
 }

@@ -9,17 +9,23 @@ import oshi.hardware.HardwareAbstractionLayer;
 import oshi.software.os.FileSystem;
 import oshi.software.os.OSFileStore;
 import oshi.software.os.OperatingSystem;
+import oshi.util.Util;
 import rover.app.platform.dto.system.*;
 import rover.core.shared.util.DateTimeHelper;
 import rover.core.shared.util.IpHelper;
 import rover.core.shared.util.NumberHelper;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.StringJoiner;
 
 @Service
 public class ServerInfoService {
+    private static final int OSHI_WAIT_SECOND = 1000;
     private final BuildProperties buildProperties;
 
     public ServerInfoService(BuildProperties buildProperties) {
@@ -34,7 +40,7 @@ public class ServerInfoService {
         return new ServerInfoDTO(getAppInfo(),
                 getCpuInfo(hal),
                 getMemoryInfo(hal),
-                getSysInfo(),
+                getSysInfo(os),
                 getJvmInfo(),
                 getDiskInfos(os));
     }
@@ -48,8 +54,33 @@ public class ServerInfoService {
     private CpuInfoDTO getCpuInfo(HardwareAbstractionLayer hal) {
         CentralProcessor cpu = hal.getProcessor();
 
-        return new CpuInfoDTO(cpu.getPhysicalProcessorCount(),
-                cpu.getLogicalProcessorCount());
+        // load
+        double[] loadAverage = cpu.getSystemLoadAverage(3);
+        StringJoiner sj = new StringJoiner(", ");
+        for (double load : loadAverage) {
+            sj.add(load < 0 ? "N/A" : String.format("%.2f", load));
+        }
+        String loadAvg = sj.toString();
+
+        // usage
+        long[] prevTicks = cpu.getSystemCpuLoadTicks();
+        Util.sleep(OSHI_WAIT_SECOND);
+        long[] ticks = cpu.getSystemCpuLoadTicks();
+        long total = 0;
+        for (int i = 0; i < ticks.length; i++) {
+            total += ticks[i] - prevTicks[i];
+        }
+
+        long user = ticks[CentralProcessor.TickType.USER.getIndex()] - prevTicks[CentralProcessor.TickType.USER.getIndex()];
+        long idle = ticks[CentralProcessor.TickType.IDLE.getIndex()] + ticks[CentralProcessor.TickType.IOWAIT.getIndex()]
+                - prevTicks[CentralProcessor.TickType.IDLE.getIndex()] - prevTicks[CentralProcessor.TickType.IOWAIT.getIndex()];
+
+        return new CpuInfoDTO(cpu.getPhysicalPackageCount(),
+                cpu.getPhysicalProcessorCount(),
+                cpu.getLogicalProcessorCount(),
+                loadAvg,
+                NumberHelper.percent(total - idle, total, 2),
+                NumberHelper.percent(user, total, 2));
     }
 
     private MemInfoDTO getMemoryInfo(HardwareAbstractionLayer hal) {
@@ -66,14 +97,37 @@ public class ServerInfoService {
                 NumberHelper.percent(used, total, 2));
     }
 
-    private SysInfoDTO getSysInfo() {
+    private SysInfoDTO getSysInfo(OperatingSystem os) {
         Properties props = System.getProperties();
+        Duration uptime = Duration.ofSeconds(os.getSystemUptime());
 
-        return new SysInfoDTO(IpHelper.getHostName(),
-                IpHelper.getHostIp(),
-                props.getProperty("os.name"),
+        return new SysInfoDTO(os.toString(),
                 props.getProperty("os.arch"),
+                IpHelper.getHostName(),
+                IpHelper.getHostIp(),
+                DateTimeHelper.toString(uptime),
                 props.getProperty("user.dir"));
+    }
+
+    private JvmInfoDTO getJvmInfo() {
+        Properties props = System.getProperties();
+        Runtime runtime = Runtime.getRuntime();
+        String totalMemory = NumberHelper.sizeText(runtime.totalMemory());
+        String maxMemory = NumberHelper.sizeText(runtime.maxMemory());
+        String freeMemory = NumberHelper.sizeText(runtime.freeMemory());
+
+        RuntimeMXBean mx = ManagementFactory.getRuntimeMXBean();
+        Duration uptime = Duration.ofMillis(mx.getUptime());
+
+        return new JvmInfoDTO(props.getProperty("java.vm.name"),
+                props.getProperty("java.vm.version"),
+                props.getProperty("java.vm.vendor"),
+                props.getProperty("java.vendor.version"),
+                props.getProperty("java.home"),
+                totalMemory,
+                maxMemory,
+                freeMemory,
+                DateTimeHelper.toString(uptime));
     }
 
     private List<DiskInfoDTO> getDiskInfos(OperatingSystem os) {
@@ -100,20 +154,5 @@ public class ServerInfoService {
         }
 
         return diskInfos;
-    }
-
-    private JvmInfoDTO getJvmInfo() {
-        Properties props = System.getProperties();
-        Runtime runtime = Runtime.getRuntime();
-
-        String totalMemory = NumberHelper.sizeText(runtime.totalMemory());
-        String maxMemory = NumberHelper.sizeText(runtime.maxMemory());
-        String freeMemory = NumberHelper.sizeText(runtime.freeMemory());
-
-        return new JvmInfoDTO(props.getProperty("java.version"),
-                props.getProperty("java.home"),
-                totalMemory,
-                maxMemory,
-                freeMemory);
     }
 }

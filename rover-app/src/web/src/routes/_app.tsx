@@ -12,8 +12,7 @@ const AppLayout = () => {
                 width: 240,
                 breakpoint: 'sm',
             }}
-            padding="0"
-        >
+            padding="0">
             <AppShell.Navbar>
                 <AppShell.Section>
                     <Flex justify="center" align="center" p="md" w="100%" h={68}>
