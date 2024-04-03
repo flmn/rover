@@ -31,7 +31,7 @@ public class EnumsController {
         return new ListResultDTO<>(new ListResultMetaDTO(records.size()), records);
     }
 
-    @PostMapping
+    //    @PostMapping
     public EnumDTO create(@RequestBody EnumDTO request) {
         List<EnumMember> members;
         if (request.members() == null || request.members().isEmpty()) {
@@ -88,7 +88,7 @@ public class EnumsController {
         return EnumDTO.from(entity);
     }
 
-    @DeleteMapping("/{id}")
+    //    @DeleteMapping("/{id}")
     public EnumDTO delete(@PathVariable("id") String id) throws Exception {
 //        EnumEntity entity = opt.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 

@@ -1,3 +1,5 @@
+apply plugin: 'java-library'
+
 jar {
     enabled = true
     archiveClassifier.set("")
@@ -8,11 +10,11 @@ bootJar {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    api 'org.springframework.boot:spring-boot-starter'
+    api 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    api 'org.springframework.boot:spring-boot-starter-cache'
+    api "com.github.ben-manes.caffeine:caffeine:${caffeineVersion}"
 
-    implementation("com.github.ben-manes.caffeine:caffeine:${caffeineVersion}")
     implementation "com.github.f4b6a3:tsid-creator:${tsidCreatorVersion}"
 
     runtimeOnly 'org.postgresql:postgresql'

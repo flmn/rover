@@ -1,3 +1,5 @@
+apply plugin: 'java-library'
+
 jar {
     enabled = true
     archiveClassifier.set("")
@@ -10,17 +12,10 @@ bootJar {
 dependencies {
     implementation project(':rover-ef')
 
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.security:spring-security-crypto'
-
     implementation "org.jobrunr:jobrunr-spring-boot-3-starter:${jobrunrVersion}"
 
-    implementation "com.github.ben-manes.caffeine:caffeine:${caffeineVersion}"
-    implementation "com.github.f4b6a3:tsid-creator:${tsidCreatorVersion}"
     implementation "net.datafaker:datafaker:${datafakerVersion}"
-
-    runtimeOnly 'org.postgresql:postgresql'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
