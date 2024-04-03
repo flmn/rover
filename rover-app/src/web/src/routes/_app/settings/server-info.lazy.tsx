@@ -1,8 +1,40 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { Card, Grid, Progress, Stack, Table, Text, Title } from "@mantine/core";
-import { CpuInfoDTO, DiskInfoDTO, JvmInfoDTO, MemoryInfoDTO } from "@/types/system-info";
-import { useSystemInfoQuery } from "@/hooks/use-system-apis";
+import { Button, Card, Grid, Group, Progress, Stack, Table, Text, Title, Tooltip } from "@mantine/core";
+import { AppInfoDTO, CpuInfoDTO, DiskInfoDTO, JvmInfoDTO, MemInfoDTO, SysInfoDTO } from "@/types/server-info";
+import { useServerInfoQuery } from "@/hooks/use-server-apis";
 import { Page } from "@/components/Page";
+
+const AppInfo = ({appInfo}: { appInfo: AppInfoDTO }) => {
+    return (
+        <Card shadow="sm" padding="md" radius="md" withBorder>
+            <Card.Section inheritPadding py="md">
+                <Title order={4}>应用程序</Title>
+            </Card.Section>
+            <Table>
+                <Table.Thead>
+                    <Table.Tr>
+                        <Table.Th>参数</Table.Th>
+                        <Table.Th>值</Table.Th>
+                    </Table.Tr>
+                </Table.Thead>
+                <Table.Tbody>
+                    <Table.Tr>
+                        <Table.Td>名称</Table.Td>
+                        <Table.Td>{appInfo.name}</Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>版本</Table.Td>
+                        <Table.Td>{appInfo.version}</Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>构建时间</Table.Td>
+                        <Table.Td>{appInfo.buildTime}</Table.Td>
+                    </Table.Tr>
+                </Table.Tbody>
+            </Table>
+        </Card>
+    );
+}
 
 const CpuInfo = ({cpuInfo}: { cpuInfo: CpuInfoDTO }) => {
     return (
@@ -32,7 +64,7 @@ const CpuInfo = ({cpuInfo}: { cpuInfo: CpuInfoDTO }) => {
     );
 }
 
-const MemoryInfo = ({memoryInfo}: { memoryInfo: MemoryInfoDTO }) => {
+const MemInfo = ({memInfo}: { memInfo: MemInfoDTO }) => {
     return (
         <Card shadow="sm" padding="md" radius="md" withBorder>
             <Card.Section inheritPadding py="md">
@@ -48,15 +80,64 @@ const MemoryInfo = ({memoryInfo}: { memoryInfo: MemoryInfoDTO }) => {
                 <Table.Tbody>
                     <Table.Tr>
                         <Table.Td>总内存</Table.Td>
-                        <Table.Td>{memoryInfo.total}</Table.Td>
+                        <Table.Td>{memInfo.total}</Table.Td>
                     </Table.Tr>
                     <Table.Tr>
                         <Table.Td>已用内存</Table.Td>
-                        <Table.Td>{memoryInfo.used}</Table.Td>
+                        <Table.Td>{memInfo.used}</Table.Td>
                     </Table.Tr>
                     <Table.Tr>
                         <Table.Td>剩余内存</Table.Td>
-                        <Table.Td>{memoryInfo.free}</Table.Td>
+                        <Table.Td>{memInfo.free}</Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>使用率</Table.Td>
+                        <Table.Td>
+                            <Group gap="md" grow>
+                                <Progress value={memInfo.usage}/>
+                                <Text size="sm">{memInfo.usageText}</Text>
+                            </Group>
+                        </Table.Td>
+                    </Table.Tr>
+                </Table.Tbody>
+            </Table>
+        </Card>
+    );
+}
+
+const SysInfo = ({sysInfo}: { sysInfo: SysInfoDTO }) => {
+    return (
+        <Card shadow="sm" padding="md" radius="md" withBorder>
+            <Card.Section inheritPadding py="md">
+                <Title order={4}>服务器</Title>
+            </Card.Section>
+            <Table>
+                <Table.Thead>
+                    <Table.Tr>
+                        <Table.Th>参数</Table.Th>
+                        <Table.Th>值</Table.Th>
+                    </Table.Tr>
+                </Table.Thead>
+                <Table.Tbody>
+                    <Table.Tr>
+                        <Table.Td>操作系统</Table.Td>
+                        <Table.Td>{sysInfo.osName}</Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>系统架构</Table.Td>
+                        <Table.Td>{sysInfo.osArch}</Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>主机名</Table.Td>
+                        <Table.Td>{sysInfo.hostname}</Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>IP</Table.Td>
+                        <Table.Td>{sysInfo.ipAddress}</Table.Td>
+                    </Table.Tr>
+                    <Table.Tr>
+                        <Table.Td>运行目录</Table.Td>
+                        <Table.Td>{sysInfo.userDir}</Table.Td>
                     </Table.Tr>
                 </Table.Tbody>
             </Table>
@@ -117,7 +198,7 @@ const DiskInfo = ({diskInfos}: { diskInfos: DiskInfoDTO[] }) => {
             <Table.Td>
                 <Stack gap={2}>
                     <Progress value={diskInfo.usage} color="red"/>
-                    <Text>{diskInfo.usageText}</Text>
+                    <Text size="sm">{diskInfo.usageText}</Text>
                 </Stack>
             </Table.Td>
         </Table.Tr>
@@ -147,37 +228,37 @@ const DiskInfo = ({diskInfos}: { diskInfos: DiskInfoDTO[] }) => {
     );
 }
 
-const SystemInfo = () => {
-    const {data} = useSystemInfoQuery();
+const ServerInfo = () => {
+    const {data, refetch} = useServerInfoQuery();
 
-    const cpu = data?.cpu ?? {
-        physicalCpus: 'N/A',
-        logicalCpus: 'N/A',
-    }
-    const memory = data?.memory ?? {
-        total: 'N/A',
-        used: 'N/A',
-        free: 'N/A',
-    }
-    const jvm = data?.jvm ?? {
-        version: 'N/A',
-        home: 'N/A',
-        totalMemory: 'N/A',
-        maxMemory: 'N/A',
-        freeMemory: 'N/A',
-    }
-    const disks = data?.disks ?? []
+    const app = data?.app ?? {} as AppInfoDTO;
+    const cpu = data?.cpu ?? {} as CpuInfoDTO;
+    const mem = data?.mem ?? {} as MemInfoDTO;
+    const sys = data?.sys ?? {} as SysInfoDTO;
+    const jvm = data?.jvm ?? {} as JvmInfoDTO;
+    const disks = data?.disks ?? [];
 
     return (
-        <Page title="系统信息">
+        <Page title="系统信息" toolbar={
+            <Group>
+                <Tooltip label="创建一个新用户">
+                    <Button onClick={() => refetch()}>刷新</Button>
+                </Tooltip>
+            </Group>}>
             <Grid p="sm">
+                <Grid.Col span={6}>
+                    <AppInfo appInfo={app}/>
+                </Grid.Col>
+                <Grid.Col span={6}>
+                    <MemInfo memInfo={mem}/>
+                </Grid.Col>
                 <Grid.Col span={6}>
                     <CpuInfo cpuInfo={cpu}/>
                 </Grid.Col>
                 <Grid.Col span={6}>
-                    <MemoryInfo memoryInfo={memory}/>
+                    <SysInfo sysInfo={sys}/>
                 </Grid.Col>
-                <Grid.Col span={6}>
+                <Grid.Col span={12}>
                     <JvmInfo jvmInfo={jvm}/>
                 </Grid.Col>
                 <Grid.Col span={12}>
@@ -188,6 +269,6 @@ const SystemInfo = () => {
     );
 }
 
-export const Route = createLazyFileRoute('/_app/settings/info')({
-    component: SystemInfo,
+export const Route = createLazyFileRoute('/_app/settings/server-info')({
+    component: ServerInfo,
 })

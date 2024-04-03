@@ -1,12 +1,28 @@
+export interface AppInfoDTO {
+    name: string;
+    version: string;
+    buildTime: string;
+}
+
 export interface CpuInfoDTO {
     physicalCpus: string;
     logicalCpus: string;
 }
 
-export interface MemoryInfoDTO {
+export interface MemInfoDTO {
     total: string;
     used: string;
     free: string;
+    usage: number;
+    usageText: string;
+}
+
+export interface SysInfoDTO {
+    hostname: string;
+    ipAddress: string;
+    osName: string;
+    osArch: string;
+    userDir: string;
 }
 
 export interface JvmInfoDTO {
@@ -29,9 +45,11 @@ export interface DiskInfoDTO {
     usageText: string;
 }
 
-export interface SystemInfoDTO {
+export interface ServerInfoDTO {
+    app: AppInfoDTO,
     cpu: CpuInfoDTO;
-    memory: MemoryInfoDTO;
+    mem: MemInfoDTO;
+    sys: SysInfoDTO;
     jvm: JvmInfoDTO;
     disks: DiskInfoDTO[];
 }

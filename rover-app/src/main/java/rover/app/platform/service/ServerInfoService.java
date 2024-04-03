@@ -1,5 +1,6 @@
 package rover.app.platform.service;
 
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
@@ -9,6 +10,8 @@ import oshi.software.os.FileSystem;
 import oshi.software.os.OSFileStore;
 import oshi.software.os.OperatingSystem;
 import rover.app.platform.dto.system.*;
+import rover.core.shared.util.DateTimeHelper;
+import rover.core.shared.util.IpHelper;
 import rover.core.shared.util.NumberHelper;
 
 import java.util.ArrayList;
@@ -16,17 +19,30 @@ import java.util.List;
 import java.util.Properties;
 
 @Service
-public class SystemInfoService {
+public class ServerInfoService {
+    private final BuildProperties buildProperties;
 
-    public SystemInfoDTO getSystemInfo() {
+    public ServerInfoService(BuildProperties buildProperties) {
+        this.buildProperties = buildProperties;
+    }
+
+    public ServerInfoDTO getServerInfo() {
         SystemInfo si = new SystemInfo();
         HardwareAbstractionLayer hal = si.getHardware();
         OperatingSystem os = si.getOperatingSystem();
 
-        return new SystemInfoDTO(getCpuInfo(hal),
+        return new ServerInfoDTO(getAppInfo(),
+                getCpuInfo(hal),
                 getMemoryInfo(hal),
+                getSysInfo(),
                 getJvmInfo(),
                 getDiskInfos(os));
+    }
+
+    private AppInfoDTO getAppInfo() {
+        return new AppInfoDTO(buildProperties.getName(),
+                buildProperties.getVersion(),
+                DateTimeHelper.toString(buildProperties.getTime()));
     }
 
     private CpuInfoDTO getCpuInfo(HardwareAbstractionLayer hal) {
@@ -36,16 +52,28 @@ public class SystemInfoService {
                 cpu.getLogicalProcessorCount());
     }
 
-    private MemoryInfoDTO getMemoryInfo(HardwareAbstractionLayer hal) {
+    private MemInfoDTO getMemoryInfo(HardwareAbstractionLayer hal) {
         GlobalMemory memory = hal.getMemory();
 
-        String total = NumberHelper.sizeText(memory.getTotal());
-        String used = NumberHelper.sizeText(memory.getTotal() - memory.getAvailable());
-        String free = NumberHelper.sizeText(memory.getAvailable());
+        long total = memory.getTotal();
+        long free = memory.getAvailable();
+        long used = total - free;
 
-        return new MemoryInfoDTO(total,
-                used,
-                free);
+        return new MemInfoDTO(NumberHelper.sizeText(total),
+                NumberHelper.sizeText(used),
+                NumberHelper.sizeText(free),
+                (int) (used * 100 / total),
+                NumberHelper.percent(used, total, 2));
+    }
+
+    private SysInfoDTO getSysInfo() {
+        Properties props = System.getProperties();
+
+        return new SysInfoDTO(IpHelper.getHostName(),
+                IpHelper.getHostIp(),
+                props.getProperty("os.name"),
+                props.getProperty("os.arch"),
+                props.getProperty("user.dir"));
     }
 
     private List<DiskInfoDTO> getDiskInfos(OperatingSystem os) {

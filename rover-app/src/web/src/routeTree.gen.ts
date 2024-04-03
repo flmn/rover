@@ -11,7 +11,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 // Import Routes
-
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
 import { Route as AppImport } from './routes/_app'
@@ -22,8 +21,10 @@ import { Route as AppFleetAircraftsImport } from './routes/_app/fleet/aircrafts'
 // Create Virtual Routes
 
 const AppSettingsUsersLazyImport = createFileRoute('/_app/settings/users')()
+const AppSettingsServerInfoLazyImport = createFileRoute(
+    '/_app/settings/server-info',
+)()
 const AppSettingsRolesLazyImport = createFileRoute('/_app/settings/roles')()
-const AppSettingsInfoLazyImport = createFileRoute('/_app/settings/info')()
 const AppSettingsEnumsLazyImport = createFileRoute('/_app/settings/enums')()
 
 // Create/Update Routes
@@ -55,18 +56,18 @@ const AppSettingsUsersLazyRoute = AppSettingsUsersLazyImport.update({
   import('./routes/_app/settings/users.lazy').then((d) => d.Route),
 )
 
+const AppSettingsServerInfoLazyRoute = AppSettingsServerInfoLazyImport.update({
+    path: '/settings/server-info',
+    getParentRoute: () => AppRoute,
+} as any).lazy(() =>
+    import('./routes/_app/settings/server-info.lazy').then((d) => d.Route),
+)
+
 const AppSettingsRolesLazyRoute = AppSettingsRolesLazyImport.update({
   path: '/settings/roles',
   getParentRoute: () => AppRoute,
 } as any).lazy(() =>
   import('./routes/_app/settings/roles.lazy').then((d) => d.Route),
-)
-
-const AppSettingsInfoLazyRoute = AppSettingsInfoLazyImport.update({
-  path: '/settings/info',
-  getParentRoute: () => AppRoute,
-} as any).lazy(() =>
-  import('./routes/_app/settings/info.lazy').then((d) => d.Route),
 )
 
 const AppSettingsEnumsLazyRoute = AppSettingsEnumsLazyImport.update({
@@ -105,14 +106,14 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsEnumsLazyImport
       parentRoute: typeof AppImport
     }
-    '/_app/settings/info': {
-      preLoaderRoute: typeof AppSettingsInfoLazyImport
-      parentRoute: typeof AppImport
-    }
     '/_app/settings/roles': {
       preLoaderRoute: typeof AppSettingsRolesLazyImport
       parentRoute: typeof AppImport
     }
+      '/_app/settings/server-info': {
+          preLoaderRoute: typeof AppSettingsServerInfoLazyImport
+          parentRoute: typeof AppImport
+      }
     '/_app/settings/users': {
       preLoaderRoute: typeof AppSettingsUsersLazyImport
       parentRoute: typeof AppImport
@@ -131,8 +132,8 @@ export const routeTree = rootRoute.addChildren([
     AppIndexRoute,
     AppFleetAircraftsRoute,
     AppSettingsEnumsLazyRoute,
-    AppSettingsInfoLazyRoute,
     AppSettingsRolesLazyRoute,
+      AppSettingsServerInfoLazyRoute,
     AppSettingsUsersLazyRoute,
     AppSettingsIndexRoute,
   ]),

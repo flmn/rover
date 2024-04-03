@@ -44,9 +44,9 @@ export function NavBar() {
                 <NavLink label="数据字典管理" to="/settings/enums" component={Link}
                          leftSection={<IconVocabulary size="1.2rem" stroke={1.5}/>}
                          active={state.pathname === '/settings/enums'}/>
-                <NavLink label="系统信息" to="/settings/info" component={Link}
+                <NavLink label="系统信息" to="/settings/server-info" component={Link}
                          leftSection={<IconCpu size="1.2rem" stroke={1.5}/>}
-                         active={state.pathname === '/settings/info'}/>
+                         active={state.pathname === '/settings/server-info'}/>
             </NavLink>
         </Stack>
     );
