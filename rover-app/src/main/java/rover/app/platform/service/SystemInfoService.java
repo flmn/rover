@@ -65,6 +65,7 @@ public class SystemInfoService {
                     NumberHelper.sizeText(total),
                     NumberHelper.sizeText(used),
                     NumberHelper.sizeText(free),
+                    (int) (used * 100 / total),
                     NumberHelper.percent(used, total, 2));
 
             diskInfos.add(di);

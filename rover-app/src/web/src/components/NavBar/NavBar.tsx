@@ -1,5 +1,6 @@
 import { NavLink, Stack } from "@mantine/core";
 import {
+    IconCpu,
     IconHome,
     IconPlane,
     IconPlaneTilt,
@@ -43,6 +44,9 @@ export function NavBar() {
                 <NavLink label="数据字典管理" to="/settings/enums" component={Link}
                          leftSection={<IconVocabulary size="1.2rem" stroke={1.5}/>}
                          active={state.pathname === '/settings/enums'}/>
+                <NavLink label="系统信息" to="/settings/info" component={Link}
+                         leftSection={<IconCpu size="1.2rem" stroke={1.5}/>}
+                         active={state.pathname === '/settings/info'}/>
             </NavLink>
         </Stack>
     );

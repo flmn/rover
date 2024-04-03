@@ -7,5 +7,6 @@ public record DiskInfoDTO(String name,
                           String total,
                           String used,
                           String free,
-                          String usage) {
+                          int usage,
+                          String usageText) {
 }
