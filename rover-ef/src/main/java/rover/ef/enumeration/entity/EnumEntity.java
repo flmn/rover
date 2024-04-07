@@ -1,9 +1,6 @@
 package rover.ef.enumeration.entity;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Version;
+import org.springframework.data.annotation.*;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
@@ -28,6 +25,7 @@ public class EnumEntity {
     @MappedCollection(idColumn = "enum_id", keyColumn = "display_order")
     private List<EnumMember> members = new ArrayList<>();
 
+    @CreatedBy
     @Column("created_by")
     private String createdBy;
 
@@ -35,6 +33,7 @@ public class EnumEntity {
     @Column("created_at")
     private LocalDateTime createdAt;
 
+    @LastModifiedBy
     @Column("updated_by")
     private String updatedBy;
 

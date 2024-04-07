@@ -9,6 +9,7 @@ import {
     MantineReactTable,
     type MRT_ColumnDef,
     MRT_EditActionButtons,
+    MRT_EditCellTextInput,
     MRT_Row,
     MRT_TableOptions,
     useMantineReactTable
@@ -31,6 +32,7 @@ const Roles = () => {
             {
                 accessorKey: 'name',
                 header: '名称',
+                enableEditing: true,
                 mantineEditTextInputProps: {
                     required: true,
                 },
@@ -152,15 +154,24 @@ const Roles = () => {
                 </Tooltip>
             </Flex>
         ),
-        renderEditRowModalContent: ({internalEditComponents, row, table}) => (
-            <Stack>
-                <Title order={5}>{row.original.id ? '修改' : '创建'}角色</Title>
-                {internalEditComponents}
-                <Flex justify="flex-end">
-                    <MRT_EditActionButtons row={row} table={table} variant="text"/>
-                </Flex>
-            </Stack>
-        ),
+        renderEditRowModalContent: ({row, table}) => {
+            const internalEditComponents = row
+                .getAllCells()
+                .filter((cell) => cell.column.columnDef.columnDefType === 'data'
+                    && cell.column.columnDef.enableEditing)
+                .map((cell) => (
+                    <MRT_EditCellTextInput cell={cell} key={cell.id} table={table}/>
+                ));
+            return (
+                <Stack>
+                    <Title order={5}>{row.original.id ? '修改' : '创建'}角色</Title>
+                    {internalEditComponents}
+                    <Flex justify="flex-end">
+                        <MRT_EditActionButtons row={row} table={table} variant="text"/>
+                    </Flex>
+                </Stack>
+            )
+        },
         // state
         initialState: {
             density: 'xs',

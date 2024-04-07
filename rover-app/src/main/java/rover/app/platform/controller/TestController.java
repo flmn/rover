@@ -6,7 +6,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import rover.app.shared.auth.RoverUserDetails;
+import rover.core.platform.auth.RoverUserDetails;
 import rover.core.platform.service.TestService;
 
 @RestController

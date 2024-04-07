@@ -3,11 +3,13 @@ package rover.app.platform.controller;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import rover.app.platform.dto.UserDTO;
 import rover.app.shared.dto.ListResultDTO;
 import rover.app.shared.dto.ListResultMetaDTO;
+import rover.core.platform.auth.RoverUserDetails;
 import rover.core.platform.entity.UserEntity;
 import rover.core.platform.service.UserService;
 
@@ -41,7 +43,10 @@ public class UsersController {
 
     @PostMapping
     public UserDTO create(@RequestBody UserDTO request) {
-        UserEntity entity = userService.create(request.email(), request.password(), request.name(), request.isEnabled());
+        UserEntity entity = userService.create(request.email(),
+                request.password(),
+                request.name(),
+                request.isEnabled());
 
         return UserDTO.from(entity);
     }
@@ -56,14 +61,20 @@ public class UsersController {
     }
 
     @PostMapping("/{id}")
-    public UserDTO update(@PathVariable("id") String id, @RequestBody UserDTO request) {
-        UserEntity entity = userService.update(id, request.password(), request.name(), request.isEnabled(), request.isLocked());
+    public UserDTO update(@PathVariable("id") String id,
+                          @RequestBody UserDTO request) {
+        UserEntity entity = userService.update(id,
+                request.password(),
+                request.name(),
+                request.isEnabled(),
+                request.isLocked());
 
         return UserDTO.from(entity);
     }
 
     @DeleteMapping("/{id}")
-    public UserDTO delete(@PathVariable("id") String id) {
+    public UserDTO delete(@PathVariable("id") String id,
+                          @AuthenticationPrincipal RoverUserDetails user) {
         UserEntity entity = userService.delete(id);
 
         return UserDTO.from(entity);

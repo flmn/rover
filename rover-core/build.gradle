@@ -12,7 +12,7 @@ bootJar {
 dependencies {
     implementation project(':rover-ef')
 
-    implementation 'org.springframework.security:spring-security-crypto'
+    implementation 'org.springframework.security:spring-security-core'
     implementation "org.jobrunr:jobrunr-spring-boot-3-starter:${jobrunrVersion}"
 
     implementation "net.datafaker:datafaker:${datafakerVersion}"

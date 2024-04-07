@@ -50,7 +50,8 @@ public class RolesController {
     }
 
     @PostMapping("/{id}")
-    public RoleDTO update(@PathVariable("id") String id, @RequestBody RoleDTO request) {
+    public RoleDTO update(@PathVariable("id") String id,
+                          @RequestBody RoleDTO request) {
         RoleEntity entity = roleService.update(id, request.name());
 
         return RoleDTO.from(entity);

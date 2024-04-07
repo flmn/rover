@@ -11,18 +11,18 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 // Import Routes
+
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
 import { Route as AppImport } from './routes/_app'
 import { Route as AppIndexImport } from './routes/_app/index'
-import { Route as AppSettingsIndexImport } from './routes/_app/settings/index'
 import { Route as AppFleetAircraftsImport } from './routes/_app/fleet/aircrafts'
 
 // Create Virtual Routes
 
 const AppSettingsUsersLazyImport = createFileRoute('/_app/settings/users')()
 const AppSettingsServerInfoLazyImport = createFileRoute(
-    '/_app/settings/server-info',
+  '/_app/settings/server-info',
 )()
 const AppSettingsRolesLazyImport = createFileRoute('/_app/settings/roles')()
 const AppSettingsEnumsLazyImport = createFileRoute('/_app/settings/enums')()
@@ -45,11 +45,6 @@ const AppIndexRoute = AppIndexImport.update({
   getParentRoute: () => AppRoute,
 } as any)
 
-const AppSettingsIndexRoute = AppSettingsIndexImport.update({
-  path: '/settings/',
-  getParentRoute: () => AppRoute,
-} as any)
-
 const AppSettingsUsersLazyRoute = AppSettingsUsersLazyImport.update({
   path: '/settings/users',
   getParentRoute: () => AppRoute,
@@ -58,10 +53,10 @@ const AppSettingsUsersLazyRoute = AppSettingsUsersLazyImport.update({
 )
 
 const AppSettingsServerInfoLazyRoute = AppSettingsServerInfoLazyImport.update({
-    path: '/settings/server-info',
-    getParentRoute: () => AppRoute,
+  path: '/settings/server-info',
+  getParentRoute: () => AppRoute,
 } as any).lazy(() =>
-    import('./routes/_app/settings/server-info.lazy').then((d) => d.Route),
+  import('./routes/_app/settings/server-info.lazy').then((d) => d.Route),
 )
 
 const AppSettingsRolesLazyRoute = AppSettingsRolesLazyImport.update({
@@ -79,10 +74,10 @@ const AppSettingsEnumsLazyRoute = AppSettingsEnumsLazyImport.update({
 )
 
 const AppSettingsConfigsLazyRoute = AppSettingsConfigsLazyImport.update({
-    path: '/settings/configs',
-    getParentRoute: () => AppRoute,
+  path: '/settings/configs',
+  getParentRoute: () => AppRoute,
 } as any).lazy(() =>
-    import('./routes/_app/settings/configs.lazy').then((d) => d.Route),
+  import('./routes/_app/settings/configs.lazy').then((d) => d.Route),
 )
 
 const AppFleetAircraftsRoute = AppFleetAircraftsImport.update({
@@ -110,10 +105,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppFleetAircraftsImport
       parentRoute: typeof AppImport
     }
-      '/_app/settings/configs': {
-          preLoaderRoute: typeof AppSettingsConfigsLazyImport
-          parentRoute: typeof AppImport
-      }
+    '/_app/settings/configs': {
+      preLoaderRoute: typeof AppSettingsConfigsLazyImport
+      parentRoute: typeof AppImport
+    }
     '/_app/settings/enums': {
       preLoaderRoute: typeof AppSettingsEnumsLazyImport
       parentRoute: typeof AppImport
@@ -122,16 +117,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsRolesLazyImport
       parentRoute: typeof AppImport
     }
-      '/_app/settings/server-info': {
-          preLoaderRoute: typeof AppSettingsServerInfoLazyImport
-          parentRoute: typeof AppImport
-      }
-    '/_app/settings/users': {
-      preLoaderRoute: typeof AppSettingsUsersLazyImport
+    '/_app/settings/server-info': {
+      preLoaderRoute: typeof AppSettingsServerInfoLazyImport
       parentRoute: typeof AppImport
     }
-    '/_app/settings/': {
-      preLoaderRoute: typeof AppSettingsIndexImport
+    '/_app/settings/users': {
+      preLoaderRoute: typeof AppSettingsUsersLazyImport
       parentRoute: typeof AppImport
     }
   }
@@ -143,12 +134,11 @@ export const routeTree = rootRoute.addChildren([
   AppRoute.addChildren([
     AppIndexRoute,
     AppFleetAircraftsRoute,
-      AppSettingsConfigsLazyRoute,
+    AppSettingsConfigsLazyRoute,
     AppSettingsEnumsLazyRoute,
     AppSettingsRolesLazyRoute,
-      AppSettingsServerInfoLazyRoute,
+    AppSettingsServerInfoLazyRoute,
     AppSettingsUsersLazyRoute,
-    AppSettingsIndexRoute,
   ]),
   LoginRoute,
 ])

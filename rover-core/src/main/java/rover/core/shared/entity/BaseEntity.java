@@ -1,9 +1,6 @@
 package rover.core.shared.entity;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Version;
+import org.springframework.data.annotation.*;
 import org.springframework.data.relational.core.mapping.Column;
 
 import java.time.LocalDateTime;
@@ -13,6 +10,7 @@ public abstract class BaseEntity {
     @Id
     private String id;
 
+    @CreatedBy
     @Column("created_by")
     private String createdBy;
 
@@ -20,6 +18,7 @@ public abstract class BaseEntity {
     @Column("created_at")
     private LocalDateTime createdAt;
 
+    @LastModifiedBy
     @Column("updated_by")
     private String updatedBy;
 

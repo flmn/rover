@@ -1,4 +1,4 @@
-package rover.app.shared.auth;
+package rover.core.platform.auth;
 
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,7 +33,8 @@ public class RoverUserDetailsService implements UserDetailsService {
 
         UserEntity userEntity = opt.get();
 
-        return new RoverUserDetails(userEntity.getEmail(),
+        return new RoverUserDetails(userEntity.getId(),
+                userEntity.getEmail(),
                 null,
                 userEntity.getEnabled(),
                 true,

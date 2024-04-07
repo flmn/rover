@@ -55,7 +55,7 @@ public class ConfigService {
         return value == null ? defaultValue : value;
     }
 
-    public ConfigEntity update(String id, Object value) {
+    public ConfigEntity update(String id, Object value, String updatedBy) {
         var opt = configRepository.findById(id);
 
         if (opt.isEmpty()) {
@@ -63,6 +63,8 @@ public class ConfigService {
         }
 
         ConfigEntity entity = opt.get();
+        entity.setUpdatedBy(updatedBy);
+
         entity.setValue(convertToString(value));
 
         return configRepository.save(entity);

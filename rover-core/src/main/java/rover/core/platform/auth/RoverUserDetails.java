@@ -1,4 +1,4 @@
-package rover.app.shared.auth;
+package rover.core.platform.auth;
 
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,6 +9,7 @@ import org.springframework.util.StringUtils;
 import java.util.*;
 
 public class RoverUserDetails implements UserDetails, CredentialsContainer {
+    private final String userId;
     private final String email;
     private final Set<GrantedAuthority> authorities;
     private final boolean accountNonExpired;
@@ -17,8 +18,16 @@ public class RoverUserDetails implements UserDetails, CredentialsContainer {
     private final boolean enabled;
     private String password;
 
-    public RoverUserDetails(String email, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
-        Assert.isTrue(StringUtils.hasText(email), "Cannot pass null or empty values to constructor");
+    public RoverUserDetails(String userId,
+                            String email,
+                            String password,
+                            boolean enabled,
+                            boolean accountNonExpired,
+                            boolean credentialsNonExpired,
+                            boolean accountNonLocked,
+                            Collection<? extends GrantedAuthority> authorities) {
+        Assert.isTrue(StringUtils.hasText(userId) && StringUtils.hasText(email), "Cannot pass null or empty values to constructor");
+        this.userId = userId;
         this.email = email;
         this.password = password;
         this.enabled = enabled;
@@ -84,5 +93,9 @@ public class RoverUserDetails implements UserDetails, CredentialsContainer {
     @Override
     public boolean isEnabled() {
         return this.enabled;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 }

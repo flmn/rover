@@ -51,7 +51,10 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public UserEntity create(String email, String password, String name, boolean enabled) {
+    public UserEntity create(String email,
+                             String password,
+                             String name,
+                             boolean enabled) {
         UserEntity entity = new UserEntity();
         entity.setId(IdHelper.newTsid(UserEntity.ID_PREFIX));
         entity.setEmail(email);
@@ -64,7 +67,11 @@ public class UserService {
         return entity;
     }
 
-    public UserEntity update(String id, String password, String name, Boolean enabled, Boolean locked) {
+    public UserEntity update(String id,
+                             String password,
+                             String name,
+                             Boolean enabled,
+                             Boolean locked) {
         var opt = userRepository.findById(id);
 
         if (opt.isEmpty()) {

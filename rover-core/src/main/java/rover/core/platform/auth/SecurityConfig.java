@@ -1,4 +1,4 @@
-package rover.core.platform.config;
+package rover.core.platform.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

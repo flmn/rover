@@ -1,9 +1,11 @@
 package rover.app.platform.controller;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import rover.app.platform.dto.ConfigDTO;
 import rover.app.shared.dto.ListResultDTO;
 import rover.app.shared.dto.ListResultMetaDTO;
+import rover.core.platform.auth.RoverUserDetails;
 import rover.core.platform.entity.ConfigEntity;
 import rover.core.platform.service.ConfigService;
 
@@ -29,8 +31,10 @@ public class ConfigsController {
     }
 
     @PostMapping("/{id}")
-    public ConfigDTO update(@PathVariable("id") String id, @RequestBody ConfigDTO request) {
-        ConfigEntity entity = configService.update(id, request.value());
+    public ConfigDTO update(@PathVariable("id") String id,
+                            @RequestBody ConfigDTO request,
+                            @AuthenticationPrincipal RoverUserDetails user) {
+        ConfigEntity entity = configService.update(id, request.value(), user.getUserId());
 
         return ConfigDTO.from(entity);
     }
