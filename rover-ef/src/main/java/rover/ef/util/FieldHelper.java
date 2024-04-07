@@ -24,6 +24,20 @@ public final class FieldHelper {
         defs.put(def.name(), def);
     }
 
+    public static void addCreatedBy(LinkedHashMap<String, FieldDef> defs, int naturalOrder) {
+        var def = new FieldDef("CreatedBy",
+                "created_by",
+                DataType.STRING_SHORT,
+                36,
+                0,
+                "",
+                false,
+                false,
+                naturalOrder);
+
+        defs.put(def.name(), def);
+    }
+
     public static void addCreatedAt(LinkedHashMap<String, FieldDef> defs, int naturalOrder) {
         var def = new FieldDef("CreatedAt",
                 "created_at",
@@ -31,6 +45,20 @@ public final class FieldHelper {
                 0,
                 0,
                 "",
+                false,
+                false,
+                naturalOrder);
+
+        defs.put(def.name(), def);
+    }
+
+    public static void addUpdatedBy(LinkedHashMap<String, FieldDef> defs, int naturalOrder) {
+        var def = new FieldDef("UpdatedBy",
+                "updated_by",
+                DataType.STRING_SHORT,
+                36,
+                0,
+                "null",
                 false,
                 false,
                 naturalOrder);
@@ -59,6 +87,20 @@ public final class FieldHelper {
                 0,
                 0,
                 "false",
+                false,
+                false,
+                naturalOrder);
+
+        defs.put(def.name(), def);
+    }
+
+    public static void addDeletedBy(LinkedHashMap<String, FieldDef> defs, int naturalOrder) {
+        var def = new FieldDef("DeletedBy",
+                "deleted_by",
+                DataType.STRING_SHORT,
+                36,
+                0,
+                "null",
                 false,
                 false,
                 naturalOrder);

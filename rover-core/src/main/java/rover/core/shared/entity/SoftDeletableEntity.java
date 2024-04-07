@@ -9,6 +9,9 @@ public abstract class SoftDeletableEntity extends BaseEntity {
     @Column("is_deleted")
     private Boolean isDeleted = Boolean.FALSE;
 
+    @Column("deleted_by")
+    private String deletedBy;
+
     @Column("deleted_at")
     private LocalDateTime deletedAt;
 
@@ -18,6 +21,14 @@ public abstract class SoftDeletableEntity extends BaseEntity {
 
     public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public String getDeletedBy() {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = deletedBy;
     }
 
     public LocalDateTime getDeletedAt() {

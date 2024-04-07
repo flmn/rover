@@ -4,6 +4,33 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+    <changeSet author="jitao" id="create table platform_config">
+        <createTable tableName="platform_config">
+            <column name="id" type="varchar(128)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="platform_config_pk"/>
+            </column>
+            <column name="name" type="varchar(30)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="platform_config_name_uk"/>
+            </column>
+            <column name="value" type="varchar(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(200)" defaultValue="">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamptz" defaultValue="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="varchar(36)"/>
+            <column name="updated_at" type="timestamptz"/>
+            <column name="version" type="int" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
     <changeSet author="jitao" id="create table platform_user">
         <createTable tableName="platform_user">
             <column name="id" type="varchar(36)">
@@ -24,13 +51,18 @@
             <column name="is_locked" type="boolean" defaultValueBoolean="false">
                 <constraints nullable="false"/>
             </column>
+            <column name="created_by" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
             <column name="created_at" type="timestamptz" defaultValue="now()">
                 <constraints nullable="false"/>
             </column>
+            <column name="updated_by" type="varchar(36)"/>
             <column name="updated_at" type="timestamptz"/>
             <column name="is_deleted" type="boolean" defaultValueBoolean="false">
                 <constraints nullable="false"/>
             </column>
+            <column name="deleted_by" type="varchar(36)"/>
             <column name="deleted_at" type="timestamptz"/>
             <column name="version" type="int" defaultValue="0">
                 <constraints nullable="false"/>
@@ -42,18 +74,21 @@
             <column name="id" type="varchar(36)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="platform_role_pk"/>
             </column>
-            <column name="name" type="varchar(36)">
+            <column name="name" type="varchar(20)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="platform_role_name_uk"/>
+            </column>
+            <column name="created_by" type="varchar(36)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_at" type="timestamptz" defaultValue="now()">
                 <constraints nullable="false"/>
             </column>
+            <column name="updated_by" type="varchar(36)"/>
             <column name="updated_at" type="timestamptz"/>
             <column name="version" type="int" defaultValue="0">
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addUniqueConstraint tableName="platform_role" columnNames="name" constraintName="platform_role_name_uk"/>
     </changeSet>
     <changeSet author="jitao" id="create table platform_token">
         <createTable tableName="platform_token">
@@ -72,9 +107,13 @@
             <column name="expires_at" type="timestamptz">
                 <constraints nullable="false"/>
             </column>
+            <column name="created_by" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
             <column name="created_at" type="timestamptz" defaultValue="now()">
                 <constraints nullable="false"/>
             </column>
+            <column name="updated_by" type="varchar(36)"/>
             <column name="updated_at" type="timestamptz"/>
             <column name="version" type="int" defaultValue="0">
                 <constraints nullable="false"/>
@@ -94,13 +133,18 @@
             <column name="name" type="varchar(20)">
                 <constraints nullable="false"/>
             </column>
+            <column name="created_by" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
             <column name="created_at" type="timestamptz" defaultValue="now()">
                 <constraints nullable="false"/>
             </column>
+            <column name="updated_by" type="varchar(36)"/>
             <column name="updated_at" type="timestamptz"/>
             <column name="is_deleted" type="boolean" defaultValueBoolean="false">
                 <constraints nullable="false"/>
             </column>
+            <column name="deleted_by" type="varchar(36)"/>
             <column name="deleted_at" type="timestamptz"/>
             <column name="version" type="int" defaultValue="0">
                 <constraints nullable="false"/>

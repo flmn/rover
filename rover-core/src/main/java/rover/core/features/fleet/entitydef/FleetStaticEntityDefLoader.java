@@ -53,10 +53,13 @@ public class FleetStaticEntityDefLoader implements EntityDefLoader {
             fields.put(name.name(), name);
         }
 
-        // CreatedAt, UpdatedAt, IsDeleted, DeletedAt
+        // CreatedBy, CreatedAt, UpdatedBy, UpdatedAt, IsDeleted, DeletedAt
+        FieldHelper.addCreatedBy(fields, ++naturalOrder);
         FieldHelper.addCreatedAt(fields, ++naturalOrder);
+        FieldHelper.addUpdatedBy(fields, ++naturalOrder);
         FieldHelper.addUpdatedAt(fields, ++naturalOrder);
         FieldHelper.addIsDeleted(fields, ++naturalOrder);
+        FieldHelper.addDeletedBy(fields, ++naturalOrder);
         FieldHelper.addDeletedAt(fields, ++naturalOrder);
 
         return new EntityDef(FleetEntities.AIRLINE,

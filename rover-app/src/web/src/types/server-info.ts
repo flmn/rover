@@ -52,6 +52,7 @@ export interface DiskInfoDTO {
     free: string;
     usage: number;
     usageText: string;
+    usageAlarm: boolean;
 }
 
 export interface ServerInfoDTO {

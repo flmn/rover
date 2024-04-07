@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import rover.core.platform.entity.UserEntity;
 import rover.core.platform.service.UserService;
 
@@ -20,6 +21,10 @@ public class RoverUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+        if (!StringUtils.hasText(userId)) {
+            return null;
+        }
+
         Optional<UserEntity> opt = userService.getById(userId);
 
         if (opt.isEmpty()) {

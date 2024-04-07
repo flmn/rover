@@ -213,7 +213,9 @@ const DiskInfo = ({diskInfos}: { diskInfos: DiskInfoDTO[] }) => {
             <Table.Td>{diskInfo.free}</Table.Td>
             <Table.Td>
                 <Stack gap={2}>
-                    <Progress value={diskInfo.usage} color="red"/>
+                    {diskInfo.usageAlarm ?
+                        <Progress value={diskInfo.usage} color="red"/> :
+                        <Progress value={diskInfo.usage}/>}
                     <Text size="sm">{diskInfo.usageText}</Text>
                 </Stack>
             </Table.Td>

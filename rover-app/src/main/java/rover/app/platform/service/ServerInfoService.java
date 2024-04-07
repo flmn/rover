@@ -10,7 +10,9 @@ import oshi.software.os.FileSystem;
 import oshi.software.os.OSFileStore;
 import oshi.software.os.OperatingSystem;
 import oshi.util.Util;
-import rover.app.platform.dto.system.*;
+import rover.app.platform.dto.server.*;
+import rover.core.platform.service.ConfigService;
+import rover.core.shared.constant.SysConfigs;
 import rover.core.shared.util.DateTimeHelper;
 import rover.core.shared.util.IpHelper;
 import rover.core.shared.util.NumberHelper;
@@ -27,9 +29,12 @@ import java.util.StringJoiner;
 public class ServerInfoService {
     private static final int OSHI_WAIT_SECOND = 1000;
     private final BuildProperties buildProperties;
+    private final ConfigService configService;
 
-    public ServerInfoService(BuildProperties buildProperties) {
+    public ServerInfoService(BuildProperties buildProperties,
+                             ConfigService configService) {
         this.buildProperties = buildProperties;
+        this.configService = configService;
     }
 
     public ServerInfoDTO getServerInfo() {
@@ -131,6 +136,7 @@ public class ServerInfoService {
     }
 
     private List<DiskInfoDTO> getDiskInfos(OperatingSystem os) {
+        int alarm = configService.getInteger(SysConfigs.SERVER_ALARM_DISK, 100);
         FileSystem fileSystem = os.getFileSystem();
         List<OSFileStore> fss = fileSystem.getFileStores();
         List<DiskInfoDTO> diskInfos = new ArrayList<>(fss.size());
@@ -139,6 +145,7 @@ public class ServerInfoService {
             long total = fs.getTotalSpace();
             long free = fs.getUsableSpace();
             long used = total - free;
+            int usage = (int) (used * 100 / total);
 
             DiskInfoDTO di = new DiskInfoDTO(fs.getName(),
                     fs.getVolume(),
@@ -147,8 +154,9 @@ public class ServerInfoService {
                     NumberHelper.sizeText(total),
                     NumberHelper.sizeText(used),
                     NumberHelper.sizeText(free),
-                    (int) (used * 100 / total),
-                    NumberHelper.percent(used, total, 2));
+                    usage,
+                    NumberHelper.percent(used, total, 2),
+                    usage > alarm);
 
             diskInfos.add(di);
         }

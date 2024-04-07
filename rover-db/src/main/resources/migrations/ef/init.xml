@@ -15,9 +15,13 @@
             <column name="description" type="varchar(500)" defaultValue="">
                 <constraints nullable="false"/>
             </column>
+            <column name="created_by" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
             <column name="created_at" type="timestamptz" defaultValue="now()">
                 <constraints nullable="false"/>
             </column>
+            <column name="updated_by" type="varchar(36)"/>
             <column name="updated_at" type="timestamptz"/>
             <column name="version" type="int" defaultValue="0">
                 <constraints nullable="false"/>

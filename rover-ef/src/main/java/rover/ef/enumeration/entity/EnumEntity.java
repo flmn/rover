@@ -28,9 +28,15 @@ public class EnumEntity {
     @MappedCollection(idColumn = "enum_id", keyColumn = "display_order")
     private List<EnumMember> members = new ArrayList<>();
 
+    @Column("created_by")
+    private String createdBy;
+
     @CreatedDate
     @Column("created_at")
     private LocalDateTime createdAt;
+
+    @Column("updated_by")
+    private String updatedBy;
 
     @LastModifiedDate
     @Column("updated_at")
@@ -71,12 +77,28 @@ public class EnumEntity {
         this.members = members;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
     public LocalDateTime getUpdatedAt() {

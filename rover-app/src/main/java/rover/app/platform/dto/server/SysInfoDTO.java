@@ -1,4 +1,4 @@
-package rover.app.platform.dto.system;
+package rover.app.platform.dto.server;
 
 public record SysInfoDTO(String os,
                          String arch,

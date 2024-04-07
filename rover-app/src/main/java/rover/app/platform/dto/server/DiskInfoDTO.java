@@ -1,4 +1,4 @@
-package rover.app.platform.dto.system;
+package rover.app.platform.dto.server;
 
 public record DiskInfoDTO(String name,
                           String volume,
@@ -8,5 +8,6 @@ public record DiskInfoDTO(String name,
                           String used,
                           String free,
                           int usage,
-                          String usageText) {
+                          String usageText,
+                          boolean usageAlarm) {
 }
