@@ -4,18 +4,18 @@ import {
     MantineReactTable,
     MRT_ColumnDef,
     MRT_EditActionButtons,
+    MRT_EditCellTextInput,
     MRT_TableOptions,
     useMantineReactTable
 } from "mantine-react-table";
-import { RoleDTO } from "@/types/role";
+import { ConfigDTO } from "@/types/config";
 import dayjs from "dayjs";
 import { useQueryClient } from "@tanstack/react-query";
 import { ActionIcon, Flex, Group, Stack, Text, Title, Tooltip } from "@mantine/core";
-import { MRT_Localization_ZH_HANS } from "mantine-react-table/locales/zh-Hans/index.esm";
-import { IconEdit } from "@tabler/icons-react";
+import { MRT_Localization_ZH_HANS } from "mantine-react-table/locales/zh-Hans/index.esm.mjs";
+import { IconEdit, IconInfoCircle } from "@tabler/icons-react";
 import { useConfigMutation, useConfigQuery } from "@/hooks/use-config-apis";
 import { Page } from "@/components/Page";
-import { ConfigDTO } from "@/types/config";
 
 const Configs = () => {
     const columns = useMemo<MRT_ColumnDef<ConfigDTO>[]>(
@@ -31,10 +31,19 @@ const Configs = () => {
                 accessorKey: 'name',
                 header: '名称',
                 enableEditing: false,
+                Cell: ({cell, row}) => (
+                    <Group gap="4">
+                        <span>{cell.getValue<string>()}</span>
+                        <Tooltip label={row.original.description}>
+                            <IconInfoCircle size="1.2rem" color="gray"/>
+                        </Tooltip>
+                    </Group>
+                )
             },
             {
                 accessorKey: 'value',
                 header: '值',
+                enableEditing: true,
                 mantineEditTextInputProps: {
                     required: true,
                 },
@@ -66,7 +75,7 @@ const Configs = () => {
 
     const {mutateAsync: updateConfig, isPending: isUpdatingConfig} = useConfigMutation({queryClient});
 
-    const handleUpdateConfig: MRT_TableOptions<RoleDTO>['onEditingRowSave'] = async ({values, table,}) => {
+    const handleUpdateConfig: MRT_TableOptions<ConfigDTO>['onEditingRowSave'] = async ({values, table,}) => {
         await updateConfig(values);
         table.setEditingRow(null); //exit editing mode
     };
@@ -126,15 +135,24 @@ const Configs = () => {
                 </Tooltip>
             </Flex>
         ),
-        renderEditRowModalContent: ({internalEditComponents, row, table}) => (
-            <Stack>
-                <Title order={5}>修改参数</Title>
-                {internalEditComponents}
-                <Flex justify="flex-end">
-                    <MRT_EditActionButtons row={row} table={table} variant="text"/>
-                </Flex>
-            </Stack>
-        ),
+        renderEditRowModalContent: ({row, table}) => {
+            const internalEditComponents = row
+                .getAllCells()
+                .filter((cell) => cell.column.columnDef.columnDefType === 'data'
+                    && cell.column.columnDef.enableEditing)
+                .map((cell) => (
+                    <MRT_EditCellTextInput cell={cell} key={cell.id} table={table}/>
+                ));
+            return (
+                <Stack>
+                    <Title order={4}>修改参数</Title>
+                    {internalEditComponents}
+                    <Flex justify="flex-end">
+                        <MRT_EditActionButtons row={row} table={table} variant="text"/>
+                    </Flex>
+                </Stack>
+            )
+        },
         // state
         initialState: {
             density: 'xs',

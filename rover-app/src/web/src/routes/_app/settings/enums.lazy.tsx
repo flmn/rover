@@ -13,7 +13,7 @@ const Enums = () => {
         <Page title="数据字典管理">
             <Grid>
                 <Grid.Col span={3}>
-                    <Container bg="grey" p="sm">
+                    <Container bg="gray" p="sm">
                         {records?.map((enumDTO) => (
                             <Enum enumDTO={enumDTO} key={enumDTO.id}/>
                         ))}

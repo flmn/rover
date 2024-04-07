@@ -12,7 +12,7 @@ export function Enum({enumDTO}: EnumProps) {
             <Card.Section m="0.4rem">
                 <Group justify="space-between">
                     <Title order={4}>{enumDTO.name}</Title>
-                    <Badge color="grey">{enumDTO.id}</Badge>
+                    <Badge color="gray">{enumDTO.id}</Badge>
                 </Group>
             </Card.Section>
             <Card.Section m="0.4rem">
