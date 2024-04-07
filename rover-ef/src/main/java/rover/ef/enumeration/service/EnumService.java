@@ -11,7 +11,6 @@ import rover.ef.enumeration.repository.EnumRepository;
 import rover.ef.exception.NotFoundException;
 import rover.ef.util.NullHelper;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -33,13 +32,15 @@ public class EnumService {
     }
 
     @Cacheable(key = "#id")
-    public EnumEntity create(String id, String name, String description, List<EnumMember> members) {
+    public EnumEntity create(String id,
+                             String name,
+                             String description,
+                             List<EnumMember> members) {
         EnumEntity entity = new EnumEntity();
         entity.setId(id);
         entity.setName(name);
         entity.setDescription(NullHelper.nullToEmpty(description));
         entity.setMembers(members);
-        entity.setCreatedAt(LocalDateTime.now());
 
         return enumRepository.save(entity);
     }
@@ -53,7 +54,6 @@ public class EnumService {
         }
 
         EnumEntity entity = opt.get();
-        entity.setUpdatedAt(LocalDateTime.now());
 
         if (StringUtils.hasText(name)) {
             entity.setName(name);
@@ -75,7 +75,6 @@ public class EnumService {
         }
 
         EnumEntity entity = opt.get();
-        entity.setUpdatedAt(LocalDateTime.now());
 
         entity.setMembers(members);
 

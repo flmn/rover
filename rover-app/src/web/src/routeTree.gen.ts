@@ -11,7 +11,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 // Import Routes
-
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
 import { Route as AppImport } from './routes/_app'
@@ -25,8 +24,10 @@ const AppSettingsServerInfoLazyImport = createFileRoute(
   '/_app/settings/server-info',
 )()
 const AppSettingsRolesLazyImport = createFileRoute('/_app/settings/roles')()
-const AppSettingsEnumsLazyImport = createFileRoute('/_app/settings/enums')()
 const AppSettingsConfigsLazyImport = createFileRoute('/_app/settings/configs')()
+const AppSettingsEnumsIndexLazyImport = createFileRoute(
+    '/_app/settings/enums/',
+)()
 
 // Create/Update Routes
 
@@ -66,13 +67,6 @@ const AppSettingsRolesLazyRoute = AppSettingsRolesLazyImport.update({
   import('./routes/_app/settings/roles.lazy').then((d) => d.Route),
 )
 
-const AppSettingsEnumsLazyRoute = AppSettingsEnumsLazyImport.update({
-  path: '/settings/enums',
-  getParentRoute: () => AppRoute,
-} as any).lazy(() =>
-  import('./routes/_app/settings/enums.lazy').then((d) => d.Route),
-)
-
 const AppSettingsConfigsLazyRoute = AppSettingsConfigsLazyImport.update({
   path: '/settings/configs',
   getParentRoute: () => AppRoute,
@@ -84,6 +78,13 @@ const AppFleetAircraftsRoute = AppFleetAircraftsImport.update({
   path: '/fleet/aircrafts',
   getParentRoute: () => AppRoute,
 } as any)
+
+const AppSettingsEnumsIndexLazyRoute = AppSettingsEnumsIndexLazyImport.update({
+    path: '/settings/enums/',
+    getParentRoute: () => AppRoute,
+} as any).lazy(() =>
+    import('./routes/_app/settings/enums/index.lazy').then((d) => d.Route),
+)
 
 // Populate the FileRoutesByPath interface
 
@@ -109,10 +110,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsConfigsLazyImport
       parentRoute: typeof AppImport
     }
-    '/_app/settings/enums': {
-      preLoaderRoute: typeof AppSettingsEnumsLazyImport
-      parentRoute: typeof AppImport
-    }
     '/_app/settings/roles': {
       preLoaderRoute: typeof AppSettingsRolesLazyImport
       parentRoute: typeof AppImport
@@ -125,6 +122,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsUsersLazyImport
       parentRoute: typeof AppImport
     }
+      '/_app/settings/enums/': {
+          preLoaderRoute: typeof AppSettingsEnumsIndexLazyImport
+          parentRoute: typeof AppImport
+      }
   }
 }
 
@@ -135,10 +136,10 @@ export const routeTree = rootRoute.addChildren([
     AppIndexRoute,
     AppFleetAircraftsRoute,
     AppSettingsConfigsLazyRoute,
-    AppSettingsEnumsLazyRoute,
     AppSettingsRolesLazyRoute,
     AppSettingsServerInfoLazyRoute,
     AppSettingsUsersLazyRoute,
+      AppSettingsEnumsIndexLazyRoute,
   ]),
   LoginRoute,
 ])

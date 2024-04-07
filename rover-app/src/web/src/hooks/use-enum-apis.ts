@@ -1,5 +1,5 @@
 import { type QueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import { deleteWithAuthHeader, getWithAuthHeader, postWithAuthHeader } from "@/auth";
+import { getWithAuthHeader, postWithAuthHeader } from "@/auth";
 import { ListResultDTO } from "@/types/list-result";
 import { EnumDTO } from "@/types/enum";
 
@@ -12,24 +12,22 @@ const useEnumQuery = () => {
     });
 }
 
-const useEnumMutation = ({action, queryClient}: { action: string, queryClient: QueryClient }) => {
-    const mutationFn = async (enumDTO: EnumDTO): Promise<unknown> => {
-        switch (action) {
-            case 'create':
-                return postWithAuthHeader('/api/platform/enums', enumDTO)
-            case 'update':
-                return postWithAuthHeader(`/api/platform/enums/${enumDTO.id}`, enumDTO)
-            case 'delete':
-                return deleteWithAuthHeader(`/api/platform/enums/${enumDTO.id}`)
-        }
-    }
-
+const useEnumMutation = ({queryClient}: { action: string, queryClient: QueryClient }) => {
     return useMutation({
-        mutationFn,
+        mutationFn: async (enumDTO: EnumDTO) => postWithAuthHeader(`/api/platform/enums/${enumDTO.id}`, enumDTO),
         onSettled: async () => {
             queryClient.invalidateQueries({queryKey: ['enums']})
         },
     });
 }
 
-export { useEnumQuery, useEnumMutation }
+const useEnumMembersMutation = ({queryClient}: { action: string, queryClient: QueryClient }) => {
+    return useMutation({
+        mutationFn: async (enumDTO: EnumDTO) => postWithAuthHeader(`/api/platform/enums/${enumDTO.id}/members`, enumDTO),
+        onSettled: async () => {
+            queryClient.invalidateQueries({queryKey: ['enums']})
+        },
+    });
+}
+
+export { useEnumQuery, useEnumMutation, useEnumMembersMutation }

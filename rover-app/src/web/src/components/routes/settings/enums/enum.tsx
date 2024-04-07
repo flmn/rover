@@ -8,7 +8,7 @@ interface EnumProps {
 
 export function Enum({enumDTO}: EnumProps) {
     return (
-        <Card withBorder shadow="xs" my="sm">
+        <Card withBorder shadow="xs" mb="sm">
             <Card.Section m="0.4rem">
                 <Group justify="space-between">
                     <Title order={4}>{enumDTO.name}</Title>

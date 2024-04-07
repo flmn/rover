@@ -14,9 +14,7 @@ const useConfigQuery = () => {
 
 const useConfigMutation = ({queryClient}: { queryClient: QueryClient }) => {
     return useMutation({
-        mutationFn: async (configDTO: ConfigDTO) => {
-            return postWithAuthHeader(`/api/platform/configs/${configDTO.id}`, configDTO)
-        },
+        mutationFn: async (configDTO: ConfigDTO) => postWithAuthHeader(`/api/platform/configs/${configDTO.id}`, configDTO),
         onSettled: async () => {
             queryClient.invalidateQueries({queryKey: ['configs']})
         },

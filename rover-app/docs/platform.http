@@ -1,6 +1,6 @@
 ### test
 
-GET http://localhost:8000/api/platform/test1
+GET http://localhost:8000/api/platform/test
 Authorization: Bearer aed1edb934a44923be6635dcbb9e4381
 
 ### info

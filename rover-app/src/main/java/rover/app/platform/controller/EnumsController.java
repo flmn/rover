@@ -61,12 +61,14 @@ public class EnumsController {
     }
 
     @PostMapping("/{id}")
-    public EnumDTO update(@PathVariable("id") String id, @RequestBody EnumDTO request) throws Exception {
+    public EnumDTO update(@PathVariable("id") String id,
+                          @RequestBody EnumDTO request) throws Exception {
         return EnumDTO.from(enumService.update(id, request.name(), request.description()));
     }
 
     @PostMapping("/{id}/members")
-    public EnumDTO updateMembers(@PathVariable("id") String id, @RequestBody EnumDTO request) throws Exception {
+    public EnumDTO updateMembers(@PathVariable("id") String id,
+                                 @RequestBody EnumDTO request) throws Exception {
         if (request.members() == null) {
             return null; // todo
         }

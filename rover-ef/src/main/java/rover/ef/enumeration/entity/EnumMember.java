@@ -16,7 +16,7 @@ public class EnumMember {
     private String label;
 
     @Column("is_default")
-    private Boolean isDefault;
+    private Boolean isDefault = false;
 
     @Column("display_order")
     private Integer displayOrder; // 隐式处理，按 members 数组顺序，0开头
