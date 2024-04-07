@@ -4,5 +4,6 @@ public record MemInfoDTO(String total,
                          String used,
                          String free,
                          int usage,
-                         String usageText) {
+                         String usageText,
+                         boolean usageAlarm) {
 }

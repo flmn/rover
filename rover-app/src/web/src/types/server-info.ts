@@ -19,6 +19,7 @@ export interface MemInfoDTO {
     free: string;
     usage: number;
     usageText: string;
+    usageAlarm: boolean;
 }
 
 export interface SysInfoDTO {

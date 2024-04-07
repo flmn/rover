@@ -102,7 +102,9 @@ const MemInfo = ({memInfo}: { memInfo: MemInfoDTO }) => {
                         <Table.Td>使用率</Table.Td>
                         <Table.Td>
                             <Group gap="md" grow>
-                                {memInfo.usage && <Progress value={memInfo.usage}/>}
+                                {memInfo.usageAlarm ?
+                                    <Progress value={memInfo.usage} color="red"/> :
+                                    <Progress value={memInfo.usage}/>}
                                 <Text size="sm">{memInfo.usageText}</Text>
                             </Group>
                         </Table.Td>

@@ -89,17 +89,20 @@ public class ServerInfoService {
     }
 
     private MemInfoDTO getMemoryInfo(HardwareAbstractionLayer hal) {
+        int alarm = configService.getInteger(SysConfigs.SERVER_ALARM_MEMORY, 100);
         GlobalMemory memory = hal.getMemory();
 
         long total = memory.getTotal();
         long free = memory.getAvailable();
         long used = total - free;
+        int usage = (int) (used * 100 / total);
 
         return new MemInfoDTO(NumberHelper.sizeText(total),
                 NumberHelper.sizeText(used),
                 NumberHelper.sizeText(free),
-                (int) (used * 100 / total),
-                NumberHelper.percent(used, total, 2));
+                usage,
+                NumberHelper.percent(used, total, 2),
+                usage > alarm);
     }
 
     private SysInfoDTO getSysInfo(OperatingSystem os) {

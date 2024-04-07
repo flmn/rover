@@ -1,6 +1,9 @@
 insert into platform_config (id, name, value, description, created_by)
 values ('cnf-server-alarm-disk', '磁盘报警阈值', '80', '磁盘报警阈值百分比', 'system');
 
+insert into platform_config (id, name, value, description, created_by)
+values ('cnf-server-alarm-memory', '内存报警阈值', '80', '内存报警阈值百分比', 'system');
+
 insert into platform_role (id, name, created_by)
 values ('rol-system-admin', '系统管理员', 'system');
 
