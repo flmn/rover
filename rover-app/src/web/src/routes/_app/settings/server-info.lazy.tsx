@@ -1,8 +1,8 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { Button, Card, Grid, Group, Loader, Progress, Stack, Table, Text, Title, Tooltip } from "@mantine/core";
-import { AppInfoDTO, CpuInfoDTO, DiskInfoDTO, JvmInfoDTO, MemInfoDTO, SysInfoDTO } from "@/types/server-info";
-import { useServerInfoQuery } from "@/hooks/use-server-apis";
-import { Page } from "@/components/Page";
+import { Page } from "@/components";
+import { useServerInfoQuery } from "@/hooks";
+import { AppInfoDTO, CpuInfoDTO, DiskInfoDTO, JvmInfoDTO, MemInfoDTO, SysInfoDTO } from "@/types";
 
 const AppInfo = ({appInfo}: { appInfo: AppInfoDTO }) => {
     return (

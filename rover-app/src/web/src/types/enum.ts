@@ -1,6 +1,6 @@
 export interface EnumMemberDTO {
-    label: string;
     value: string;
+    label: string;
     displayOrder: number;
     isDefault: boolean;
 }

@@ -1,7 +1,6 @@
 import { type QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { deleteWithAuthHeader, getWithAuthHeader, postWithAuthHeader } from "@/auth";
-import { ListResultDTO } from "@/types/list-result";
-import { UserDTO } from "@/types/user";
+import { ListResultDTO, UserDTO } from "@/types";
 import { MRT_PaginationState, MRT_SortingState } from "mantine-react-table";
 
 interface QueryParams {

@@ -1,6 +1,5 @@
 import { Anchor, AppShell, Flex, ScrollArea, Title } from "@mantine/core";
-import { Menu } from "@/components/Menu";
-import { ColorSchemeToggle } from "@/components/ColorSchemeToggle";
+import { ColorSchemeToggle, Menu } from "@/components";
 import classes from "./NavBar.module.css";
 
 export function NavBar() {

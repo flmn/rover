@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 import { AppShell } from "@mantine/core";
-import { NavBar } from "@/components/NavBar";
+import { NavBar } from "@/components";
 
 const AppLayout = () => {
 

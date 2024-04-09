@@ -15,9 +15,9 @@ import {
     useMantineReactTable
 } from "mantine-react-table";
 import { MRT_Localization_ZH_HANS } from "mantine-react-table/locales/zh-Hans/index.esm.mjs";
-import { Page } from "@/components/Page";
-import { useRoleMutation, useRoleQuery } from "@/hooks/use-role-apis";
-import { RoleDTO } from "@/types/role";
+import { Page } from "@/components";
+import { useRoleMutation, useRoleQuery } from "@/hooks";
+import { RoleDTO } from "@/types";
 
 const Roles = () => {
     const columns = useMemo<MRT_ColumnDef<RoleDTO>[]>(

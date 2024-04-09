@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getWithAuthHeader } from "@/auth";
-import { ServerInfoDTO } from "@/types/server-info";
+import { ServerInfoDTO } from "@/types";
 
 const useServerInfoQuery = () => {
     return useQuery<ServerInfoDTO>({

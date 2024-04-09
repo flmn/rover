@@ -12,10 +12,10 @@ import {
     useMantineReactTable
 } from 'mantine-react-table';
 import { MRT_Localization_ZH_HANS } from 'mantine-react-table/locales/zh-Hans/index.esm.mjs';
-import { Page } from "@/components/Page";
+import { Page } from "@/components";
 import { UserForm } from "@/components/routes/settings/users";
-import { useUserQuery } from "@/hooks/use-user-apis";
-import { UserDTO } from "@/types/user";
+import { useUserQuery } from "@/hooks";
+import { UserDTO } from "@/types";
 
 const Users = () => {
     const columns = useMemo<MRT_ColumnDef<UserDTO>[]>(

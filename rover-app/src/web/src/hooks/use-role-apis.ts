@@ -1,7 +1,6 @@
 import { type QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { deleteWithAuthHeader, getWithAuthHeader, postWithAuthHeader } from "@/auth";
-import { ListResultDTO } from "@/types/list-result";
-import { RoleDTO } from "@/types/role";
+import { ListResultDTO, RoleDTO } from "@/types";
 
 const useRoleQuery = () => {
     return useQuery<ListResultDTO<RoleDTO>>({

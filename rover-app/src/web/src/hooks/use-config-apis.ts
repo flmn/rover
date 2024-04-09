@@ -1,7 +1,6 @@
 import { type QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { getWithAuthHeader, postWithAuthHeader } from "@/auth";
-import { ListResultDTO } from "@/types/list-result";
-import { ConfigDTO } from "@/types/config";
+import { ConfigDTO, ListResultDTO } from "@/types";
 
 const useConfigQuery = () => {
     return useQuery<ListResultDTO<ConfigDTO>>({

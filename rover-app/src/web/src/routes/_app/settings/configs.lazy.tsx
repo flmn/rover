@@ -8,14 +8,14 @@ import {
     MRT_TableOptions,
     useMantineReactTable
 } from "mantine-react-table";
-import { ConfigDTO } from "@/types/config";
 import dayjs from "dayjs";
 import { useQueryClient } from "@tanstack/react-query";
 import { ActionIcon, Flex, Group, Stack, Text, Title, Tooltip } from "@mantine/core";
 import { MRT_Localization_ZH_HANS } from "mantine-react-table/locales/zh-Hans/index.esm.mjs";
 import { IconInfoCircle, IconPencil } from "@tabler/icons-react";
-import { useConfigMutation, useConfigQuery } from "@/hooks/use-config-apis";
-import { Page } from "@/components/Page";
+import { Page } from "@/components";
+import { useConfigMutation, useConfigQuery } from "@/hooks";
+import { ConfigDTO } from "@/types";
 
 const Configs = () => {
     const columns = useMemo<MRT_ColumnDef<ConfigDTO>[]>(

@@ -1,6 +1,6 @@
 import { Badge, Card, Group, Text, Title } from "@mantine/core";
 import dayjs from "dayjs"
-import { EnumDTO } from "@/types/enum";
+import { EnumDTO } from "@/types";
 
 interface EnumProps {
     enumDTO: EnumDTO
