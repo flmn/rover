@@ -13,7 +13,7 @@ import dayjs from "dayjs";
 import { useQueryClient } from "@tanstack/react-query";
 import { ActionIcon, Flex, Group, Stack, Text, Title, Tooltip } from "@mantine/core";
 import { MRT_Localization_ZH_HANS } from "mantine-react-table/locales/zh-Hans/index.esm.mjs";
-import { IconEdit, IconInfoCircle } from "@tabler/icons-react";
+import { IconInfoCircle, IconPencil } from "@tabler/icons-react";
 import { useConfigMutation, useConfigQuery } from "@/hooks/use-config-apis";
 import { Page } from "@/components/Page";
 
@@ -129,8 +129,8 @@ const Configs = () => {
         renderRowActions: ({row, table}) => (
             <Flex gap="md">
                 <Tooltip label="修改参数">
-                    <ActionIcon variant="subtle" onClick={() => table.setEditingRow(row)}>
-                        <IconEdit/>
+                    <ActionIcon variant="subtle" color="gray" onClick={() => table.setEditingRow(row)}>
+                        <IconPencil size="1.3rem"/>
                     </ActionIcon>
                 </Tooltip>
             </Flex>

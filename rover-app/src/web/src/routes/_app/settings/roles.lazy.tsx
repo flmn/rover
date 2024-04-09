@@ -4,7 +4,7 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 import { useQueryClient } from "@tanstack/react-query";
 import { ActionIcon, Button, Flex, Group, Stack, Text, Title, Tooltip } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { IconEdit, IconTrash } from "@tabler/icons-react";
+import { IconPencil, IconTrash } from "@tabler/icons-react";
 import {
     MantineReactTable,
     type MRT_ColumnDef,
@@ -143,13 +143,13 @@ const Roles = () => {
         renderRowActions: ({row, table}) => (
             <Flex gap="md">
                 <Tooltip label="修改角色">
-                    <ActionIcon variant="subtle" onClick={() => table.setEditingRow(row)}>
-                        <IconEdit/>
+                    <ActionIcon variant="subtle" color="gray" onClick={() => table.setEditingRow(row)}>
+                        <IconPencil size="1.3rem"/>
                     </ActionIcon>
                 </Tooltip>
                 <Tooltip label="删除角色">
                     <ActionIcon variant="subtle" color="red" onClick={() => openDeleteConfirmModal(row)}>
-                        <IconTrash/>
+                        <IconTrash size="1.3rem"/>
                     </ActionIcon>
                 </Tooltip>
             </Flex>

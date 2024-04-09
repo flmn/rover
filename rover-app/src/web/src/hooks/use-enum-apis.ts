@@ -16,7 +16,7 @@ const useEnumMutation = ({queryClient}: { action: string, queryClient: QueryClie
     return useMutation({
         mutationFn: async (enumDTO: EnumDTO) => postWithAuthHeader(`/api/platform/enums/${enumDTO.id}`, enumDTO),
         onSettled: async () => {
-            queryClient.invalidateQueries({queryKey: ['enums']})
+            await queryClient.invalidateQueries({queryKey: ['enums']})
         },
     });
 }
@@ -25,7 +25,7 @@ const useEnumMembersMutation = ({queryClient}: { action: string, queryClient: Qu
     return useMutation({
         mutationFn: async (enumDTO: EnumDTO) => postWithAuthHeader(`/api/platform/enums/${enumDTO.id}/members`, enumDTO),
         onSettled: async () => {
-            queryClient.invalidateQueries({queryKey: ['enums']})
+            await queryClient.invalidateQueries({queryKey: ['enums']})
         },
     });
 }

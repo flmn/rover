@@ -20,7 +20,7 @@ const useUserQuery = ({globalFilter, pagination, sorting}: QueryParams) => {
     }
 
     if (sorting.length > 0) {
-        let sort = sorting[0];
+        const sort = sorting[0];
         fetchURL.searchParams.set('sort', sort.id);
         fetchURL.searchParams.set('desc', `${sort.desc}`);
     }
@@ -48,7 +48,7 @@ const useUserMutation = ({action, queryClient}: { action: string, queryClient: Q
     return useMutation({
         mutationFn,
         onSettled: async () => {
-            queryClient.invalidateQueries({queryKey: ['users']})
+            await queryClient.invalidateQueries({queryKey: ['users']})
         },
     });
 }

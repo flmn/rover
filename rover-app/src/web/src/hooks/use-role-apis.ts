@@ -27,7 +27,7 @@ const useRoleMutation = ({action, queryClient}: { action: string, queryClient: Q
     return useMutation({
         mutationFn,
         onSettled: async () => {
-            queryClient.invalidateQueries({queryKey: ['roles']})
+            await queryClient.invalidateQueries({queryKey: ['roles']})
         },
     });
 }

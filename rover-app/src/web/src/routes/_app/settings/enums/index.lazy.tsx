@@ -1,6 +1,6 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { useDebouncedState } from "@mantine/hooks";
+import { useDebouncedValue } from "@mantine/hooks";
 import { Flex, ScrollArea, Stack, TextInput } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import { MantineReactTable, MRT_ColumnDef, useMantineReactTable } from "mantine-react-table";
@@ -12,12 +12,18 @@ import { Enum } from "@/components/routes/settings/enums/enum";
 import classes from "./index.lazy.module.css";
 
 const EnumList = () => {
-    const [searchValue, setSearchValue] = useDebouncedState('', 200);
+    const [searchValue, setSearchValue] = useState('');
+    const [debouncedSearchValue] = useDebouncedValue(searchValue, 200,);
     const {data} = useEnumQuery()
 
     const records = data?.records ?? [];
 
-    const enums = records?.map((enumDTO) => (
+    const filteredRecords = records.filter(item =>
+        item.id.toLowerCase().includes(debouncedSearchValue.toLowerCase())
+        || item.name.toLowerCase().includes(debouncedSearchValue.toLowerCase())
+    );
+
+    const enums = filteredRecords?.map((enumDTO) => (
         <Enum enumDTO={enumDTO} key={enumDTO.id}/>
     ));
 
