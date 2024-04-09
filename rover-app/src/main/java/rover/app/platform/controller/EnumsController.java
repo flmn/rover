@@ -60,7 +60,7 @@ public class EnumsController {
         return EnumDTO.from(enumService.getById(id));
     }
 
-    @PostMapping("/{id}")
+    //    @PostMapping("/{id}")
     public EnumDTO update(@PathVariable("id") String id,
                           @RequestBody EnumDTO request) throws Exception {
         return EnumDTO.from(enumService.update(id, request.name(), request.description()));

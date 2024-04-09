@@ -105,7 +105,6 @@ const Configs = () => {
         positionToolbarAlertBanner: 'head-overlay',
         mantineTableProps: {
             striped: true,
-            withTableBorder: false,
         },
         mantinePaginationProps: {
             rowsPerPageOptions: ['10', '15', '20'],
@@ -166,6 +165,7 @@ const Configs = () => {
             isSaving: isUpdatingConfig,
             showAlertBanner: isError,
         },
+        // callback
         onEditingRowSave: handleUpdateConfig,
     });
 

@@ -25,7 +25,7 @@ export function Menu() {
 
             <NavLink label="机队管理" href="#"
                      leftSection={<IconPlaneTilt size="1.5rem" stroke={1.5}/>}
-                     childrenOffset={28}
+                     childrenOffset={24}
                      defaultOpened={state.pathname.startsWith('/fleet')}>
                 <NavLink label="飞机管理" to="/fleet/aircrafts" component={Link}
                          leftSection={<IconPlane size="1.2rem" stroke={1.5}/>}
@@ -34,7 +34,7 @@ export function Menu() {
 
             <NavLink label="设置" href="#"
                      leftSection={<IconSettings size="1.5rem" stroke={1.5}/>}
-                     childrenOffset={28}
+                     childrenOffset={24}
                      defaultOpened={state.pathname.startsWith('/settings')}>
                 <NavLink label="用户管理" to="/settings/users" component={Link}
                          leftSection={<IconUsers size="1.2rem" stroke={1.5}/>}

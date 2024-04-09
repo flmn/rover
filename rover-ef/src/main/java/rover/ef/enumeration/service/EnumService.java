@@ -3,6 +3,7 @@ package rover.ef.enumeration.service;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import rover.ef.enumeration.entity.EnumEntity;
@@ -23,7 +24,7 @@ public class EnumService {
     }
 
     public List<EnumEntity> list() {
-        return enumRepository.findAll();
+        return enumRepository.findAll(Sort.by("id"));
     }
 
     @Cacheable(key = "#id")

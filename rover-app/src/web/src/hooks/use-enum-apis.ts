@@ -11,16 +11,7 @@ const useEnumQuery = () => {
     });
 }
 
-const useEnumMutation = ({queryClient}: { action: string, queryClient: QueryClient }) => {
-    return useMutation({
-        mutationFn: async (enumDTO: EnumDTO) => postWithAuthHeader(`/api/platform/enums/${enumDTO.id}`, enumDTO),
-        onSettled: async () => {
-            await queryClient.invalidateQueries({queryKey: ['enums']})
-        },
-    });
-}
-
-const useEnumMembersMutation = ({queryClient}: { action: string, queryClient: QueryClient }) => {
+const useEnumMembersMutation = ({queryClient}: { queryClient: QueryClient }) => {
     return useMutation({
         mutationFn: async (enumDTO: EnumDTO) => postWithAuthHeader(`/api/platform/enums/${enumDTO.id}/members`, enumDTO),
         onSettled: async () => {
@@ -29,4 +20,4 @@ const useEnumMembersMutation = ({queryClient}: { action: string, queryClient: Qu
     });
 }
 
-export { useEnumQuery, useEnumMutation, useEnumMembersMutation }
+export { useEnumQuery, useEnumMembersMutation }

@@ -1,14 +1,41 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { useDebouncedValue } from "@mantine/hooks";
-import { Center, Flex, ScrollArea, Stack, Text, TextInput, UnstyledButton } from "@mantine/core";
-import { IconSearch } from "@tabler/icons-react";
-import { MantineReactTable, MRT_ColumnDef, useMantineReactTable } from "mantine-react-table";
+import {
+    ActionIcon,
+    Button,
+    Card,
+    Center,
+    Code,
+    CopyButton,
+    Flex,
+    Group,
+    ScrollArea,
+    Space,
+    Stack,
+    Text,
+    TextInput,
+    Title,
+    Tooltip,
+    UnstyledButton
+} from "@mantine/core";
+import { IconCheck, IconCopy, IconPencil, IconSearch, IconTrash, IconX } from "@tabler/icons-react";
+import {
+    MantineReactTable,
+    MRT_ColumnDef,
+    MRT_Row,
+    MRT_TableOptions,
+    MRT_ToggleFullScreenButton,
+    useMantineReactTable
+} from "mantine-react-table";
 import { MRT_Localization_ZH_HANS } from "mantine-react-table/locales/zh-Hans/index.esm.mjs";
+import dayjs from "dayjs";
 import { Page } from "@/components";
-import { useEnumQuery } from "@/hooks";
+import { useEnumMembersMutation, useEnumQuery } from "@/hooks";
 import { EnumDTO, EnumMemberDTO } from "@/types";
 import classes from "./index.lazy.module.css";
+import { useQueryClient } from "@tanstack/react-query";
+import { modals } from "@mantine/modals";
 
 const EnumList = ({activeEnum, setActiveEnum}: {
     activeEnum: EnumDTO | undefined,
@@ -16,6 +43,9 @@ const EnumList = ({activeEnum, setActiveEnum}: {
 }) => {
     const [searchValue, setSearchValue] = useState('');
     const [debouncedSearchValue] = useDebouncedValue(searchValue, 200,);
+    const handleClear = () => {
+        setSearchValue('');
+    };
 
     const {data} = useEnumQuery()
 
@@ -42,10 +72,19 @@ const EnumList = ({activeEnum, setActiveEnum}: {
 
     return (
         <Stack w={300}>
-            <TextInput mx="xs"
+            <TextInput mx="xs" placeholder="搜索字典" value={searchValue}
                        leftSection={<IconSearch/>}
-                       placeholder="搜索"
-                       value={searchValue}
+                       rightSection={
+                           searchValue ? (
+                               <ActionIcon variant="transparent" size="sm" color="gray"
+                                           disabled={!searchValue?.length}
+                                           onClick={handleClear}>
+                                   <Tooltip label="清除搜索">
+                                       <IconX/>
+                                   </Tooltip>
+                               </ActionIcon>
+                           ) : null
+                       }
                        onChange={(event) => setSearchValue(event.target.value)}/>
             <ScrollArea scrollbars="y" mx="xs" w={280}>
                 <Stack>
@@ -70,25 +109,177 @@ const EnumDetails = ({activeEnum}: {
                 accessorKey: 'label', //access nested data with dot notation
                 header: '标签',
             },
-            {
-                accessorKey: 'displayOrder', //normal accessorKey
-                header: '显示顺序',
-            },
-            {
-                accessorKey: 'isDefault',
-                header: '是否默认选择',
-            },
+            // {
+            //     accessorKey: 'isDefault',
+            //     header: '是否默认选择',
+            //     size: 80,
+            //     Cell: ({cell}) => (cell.getValue<boolean>() &&
+            //         <Badge size="lg">是</Badge>),
+            // },
         ],
         [],
     );
 
-    const members = activeEnum?.members ?? [];
+    const [records, setRecords] = useState<EnumMemberDTO[]>([]);
+    const [dirty, setDirty] = useState(false);
+
+    const handleCreateRow: MRT_TableOptions<EnumMemberDTO>['onCreatingRowSave'] = async ({
+                                                                                             table,
+                                                                                             values,
+                                                                                         }) => {
+        records.splice(0, 0, values,);
+        setRecords([...records]);
+        setDirty(true);
+        table.setCreatingRow(null);
+    };
+
+    const handleSaveRow: MRT_TableOptions<EnumMemberDTO>['onEditingRowSave'] = async ({
+                                                                                          table,
+                                                                                          row,
+                                                                                          values,
+                                                                                      }) => {
+        records[row.index] = values;
+        setRecords([...records]);
+        setDirty(true);
+        table.setEditingRow(null); //exit editing mode
+    };
+
+    const openDeleteConfirmModal = (row: MRT_Row<EnumMemberDTO>) => {
+        modals.openConfirmModal({
+            title: '确认',
+            children: <Text>确定删除条目【{row.original.label}】？删除后不可恢复。</Text>,
+            labels: {confirm: '删除', cancel: '取消'},
+            confirmProps: {color: 'red'},
+            onConfirm: () => {
+                records.splice(row.index, 1);
+                setRecords([...records]);
+                setDirty(true);
+            },
+        });
+    }
+
+    const queryClient = useQueryClient();
+    const {mutateAsync: updateMembers, isPending: isUpdatingMembers} = useEnumMembersMutation({queryClient});
+
+    const handleSaveAll = async () => {
+        const enumDTO = {
+            id: activeEnum?.id,
+            members: records,
+        } as EnumDTO;
+
+        await updateMembers(enumDTO);
+
+        setDirty(false);
+    }
 
     const table = useMantineReactTable({
         columns,
-        data: members,
+        data: records,
+        // display
+        enableColumnActions: false,
+        enableColumnFilters: false,
+        enableDensityToggle: false,
+        enableEditing: true,
+        enableHiding: false,
+        enableRowNumbers: true,
+        enableRowOrdering: true,
+        enableSorting: false,
+        createDisplayMode: 'row',
+        editDisplayMode: 'row',
         localization: MRT_Localization_ZH_HANS,
+        paginationDisplayMode: 'pages',
+        positionActionsColumn: 'last',
+        positionGlobalFilter: 'left',
+        positionToolbarAlertBanner: 'head-overlay',
+        mantineTableProps: {
+            striped: true,
+        },
+        mantinePaginationProps: {
+            rowsPerPageOptions: ['10', '15', '20'],
+        },
+        mantineSearchTextInputProps: {
+            variant: 'default',
+            w: '300',
+        },
+        mantineRowDragHandleProps: {
+            onDragEnd: () => {
+                const {draggingRow, hoveredRow} = table.getState();
+                if (hoveredRow && draggingRow) {
+                    records.splice(
+                        (hoveredRow as MRT_Row<EnumMemberDTO>).index,
+                        0,
+                        records.splice(draggingRow.index, 1)[0],
+                    );
+                    setRecords([...records]);
+                    setDirty(true);
+                }
+            },
+        },
+        // toolbar
+        renderToolbarInternalActions: ({table}) => (
+            <Flex gap="xs" align="center">
+                <Button variant="filled" onClick={() => {
+                    table.setCreatingRow(true)
+                }}>
+                    添加
+                </Button>
+                <Space w="md"/>
+                <Button variant="default" disabled={!dirty} onClick={handleReset}>
+                    重置
+                </Button>
+                <Button variant="filled" disabled={!dirty} onClick={handleSaveAll}>
+                    保存
+                </Button>
+                <Space w="md"/>
+                <MRT_ToggleFullScreenButton table={table}/>
+            </Flex>
+        ),
+        // row actions
+        renderRowActions: ({row, table}) => (
+            <Flex gap="md">
+                <Tooltip label="修改条目">
+                    <ActionIcon variant="subtle" color="gray" onClick={() => table.setEditingRow(row)}>
+                        <IconPencil size="1.3rem"/>
+                    </ActionIcon>
+                </Tooltip>
+                <Tooltip label="删除条目">
+                    <ActionIcon variant="subtle" color="red" onClick={() => openDeleteConfirmModal(row)}>
+                        <IconTrash size="1.3rem"/>
+                    </ActionIcon>
+                </Tooltip>
+            </Flex>
+        ),
+        renderBottomToolbarCustomActions: () => (
+            <Group mih={56}>
+                <Text pl="xs">条目数量：{records.length}</Text>
+            </Group>
+
+        ),
+        // state
+        initialState: {
+            density: 'xs',
+            showGlobalFilter: true,
+        },
+        state: {
+            isSaving: isUpdatingMembers,
+        },
+        // callback
+        onCreatingRowSave: handleCreateRow,
+        onEditingRowSave: handleSaveRow,
     });
+
+    const handleReset = useCallback(() => {
+        setRecords([...activeEnum?.members ?? []]);
+        setDirty(false);
+
+        //exit editing mode
+        table.setCreatingRow(null);
+        table.setEditingRow(null);
+    }, [activeEnum, table]);
+
+    useEffect(() => {
+        handleReset();
+    }, [handleReset]);
 
     if (activeEnum === undefined) {
         return (
@@ -100,9 +291,46 @@ const EnumDetails = ({activeEnum}: {
 
     return (
         <Stack w="100%">
+            <Card withBorder shadow="xs">
+                <Card.Section m="0.4rem">
+                    <Group gap={0}>
+                        <Title order={4} mr="sm">{activeEnum.name}</Title>
+                        <Code>{activeEnum.id}</Code>
+                        <CopyButton value={activeEnum.id} timeout={3000}>
+                            {({copied, copy}) => (
+                                <Tooltip label={copied ? '已复制' : '复制'} withArrow position="right">
+                                    <ActionIcon color={copied ? 'teal' : 'gray'} variant="subtle" onClick={copy}>
+                                        {copied ? (
+                                            <IconCheck size="1.2rem"/>
+                                        ) : (
+                                            <IconCopy size="1.2rem"/>
+                                        )}
+                                    </ActionIcon>
+                                </Tooltip>
+                            )}
+                        </CopyButton>
+                    </Group>
+                </Card.Section>
+                <Card.Section m="0.4rem">
+                    <Group gap="md">
+                        <Text size="sm" c="dark">
+                            <b>创建时间: </b>{dayjs(activeEnum.createdAt).format('YYYY年MM月DD日 HH:mm')}
+                        </Text>
+                        <Text size="sm" c="dark">
+                            <b>最后更新时间: </b>{dayjs(activeEnum.updatedAt).format('YYYY年MM月DD日 HH:mm')}
+                        </Text>
+                    </Group>
+                </Card.Section>
+                <Card.Section m="0.4rem">
+                    <Text size="sm" c="dark">
+                        <b>描述: </b>{activeEnum.description}
+                    </Text>
+                </Card.Section>
+            </Card>
             <MantineReactTable table={table}/>
         </Stack>
-    );
+    )
+        ;
 }
 
 const Enums = () => {
