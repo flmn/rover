@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import rover.core.platform.entity.TokenEntity;
-import rover.core.platform.service.UserService;
+import rover.core.platform.auth.AuthService;
+import rover.core.platform.auth.session.Session;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -15,23 +15,28 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    private final UserService userService;
+    private final AuthService authService;
 
-    public AuthController(UserService userService) {
-        this.userService = userService;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @PostMapping("/login")
     public Object login(@RequestBody LoginRequest request) {
-        Optional<TokenEntity> opt = userService.login(request.email(), request.password());
+        Optional<Session> opt = authService.login(request.email(), request.password());
 
         if (opt.isPresent()) {
-            TokenEntity tokenEntity = opt.get();
+            Session session = opt.get();
 
-            return new LoginResult(tokenEntity.getToken(), tokenEntity.getExpiresAt());
+            return new LoginResult(session.getAccessToken(), session.getExpiresAt());
         } else {
             return ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, "Login failed");
         }
+    }
+
+    @PostMapping("/logout")
+    public Object logout() {
+        return null;
     }
 
     public record LoginRequest(String email, String password) {

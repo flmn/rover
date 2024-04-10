@@ -6,7 +6,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import rover.core.platform.entity.TokenEntity;
 import rover.core.platform.entity.UserEntity;
 import rover.core.platform.repository.UserRepository;
 import rover.ef.util.IdHelper;
@@ -17,14 +16,11 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final TokenService tokenService;
     private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository,
-                       TokenService tokenService,
                        PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.tokenService = tokenService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -112,23 +108,5 @@ public class UserService {
         entity.setDeletedAt(LocalDateTime.now());
 
         return userRepository.save(entity);
-    }
-
-    public Optional<TokenEntity> login(String email, String password) {
-        var opt = userRepository.findByEmail(email);
-
-        if (opt.isPresent()) {
-            UserEntity user = opt.get();
-
-            if (passwordEncoder.matches(password, user.getPassword())) {
-                String accessToken = IdHelper.newCompactUuid();
-
-                TokenEntity tokenEntity = tokenService.saveAccessToken(user.getId(), accessToken);
-
-                return Optional.of(tokenEntity);
-            }
-        }
-
-        return Optional.empty();
     }
 }

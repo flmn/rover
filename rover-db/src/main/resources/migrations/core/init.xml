@@ -4,13 +4,13 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
-    <changeSet author="jitao" id="create table platform_config">
-        <createTable tableName="platform_config">
+    <changeSet author="jitao" id="create table core_platform_config">
+        <createTable tableName="core_platform_config">
             <column name="id" type="varchar(128)">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="platform_config_pk"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="core_platform_config_pk"/>
             </column>
             <column name="name" type="varchar(30)">
-                <constraints nullable="false" unique="true" uniqueConstraintName="platform_config_name_uk"/>
+                <constraints nullable="false" unique="true" uniqueConstraintName="core_platform_config_name_uk"/>
             </column>
             <column name="value" type="varchar(500)">
                 <constraints nullable="false"/>
@@ -31,13 +31,13 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="jitao" id="create table platform_user">
-        <createTable tableName="platform_user">
+    <changeSet author="jitao" id="create table core_platform_user">
+        <createTable tableName="core_platform_user">
             <column name="id" type="varchar(36)">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="platform_user_pk"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="core_platform_user_pk"/>
             </column>
             <column name="email" type="varchar(255)">
-                <constraints nullable="false" unique="true" uniqueConstraintName="platform_user_email_uk"/>
+                <constraints nullable="false" unique="true" uniqueConstraintName="core_platform_user_email_uk"/>
             </column>
             <column name="password" type="varchar(64)">
                 <constraints nullable="false"/>
@@ -69,13 +69,13 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="jitao" id="create table platform_role">
-        <createTable tableName="platform_role">
+    <changeSet author="jitao" id="create table core_platform_role">
+        <createTable tableName="core_platform_role">
             <column name="id" type="varchar(36)">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="platform_role_pk"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="core_platform_role_pk"/>
             </column>
             <column name="name" type="varchar(20)">
-                <constraints nullable="false" unique="true" uniqueConstraintName="platform_role_name_uk"/>
+                <constraints nullable="false" unique="true" uniqueConstraintName="core_platform_role_name_uk"/>
             </column>
             <column name="created_by" type="varchar(36)">
                 <constraints nullable="false"/>
@@ -90,10 +90,41 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="jitao" id="create table platform_token">
-        <createTable tableName="platform_token">
+    <changeSet author="jitao" id="create table core_platform_session">
+        <createTable tableName="core_platform_session">
             <column name="id" type="varchar(36)">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="platform_token_pk"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="core_platform_session_pk"/>
+            </column>
+            <column name="user_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="access_token" type="varchar(128)">
+                <constraints nullable="false" unique="true"
+                             uniqueConstraintName="core_platform_session_access_token_uk"/>
+            </column>
+            <column name="expires_at" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data" type="varchar(1024)" defaultValue="'{}'">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamptz" defaultValue="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="varchar(36)"/>
+            <column name="updated_at" type="timestamptz"/>
+            <column name="version" type="int" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="jitao" id="create table core_platform_token">
+        <createTable tableName="core_platform_token">
+            <column name="id" type="varchar(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="core_platform_token_pk"/>
             </column>
             <column name="user_id" type="varchar(36)">
                 <constraints nullable="false"/>
@@ -102,7 +133,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="token" type="varchar(64)">
-                <constraints nullable="false" unique="true" uniqueConstraintName="platform_token_token_uk"/>
+                <constraints nullable="false" unique="true" uniqueConstraintName="core_platform_token_token_uk"/>
             </column>
             <column name="expires_at" type="timestamptz">
                 <constraints nullable="false"/>
@@ -119,8 +150,8 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addUniqueConstraint tableName="platform_token" columnNames="user_id,type"
-                             constraintName="platform_token_user_type_uk"/>
+        <addUniqueConstraint tableName="core_platform_token" columnNames="user_id,type"
+                             constraintName="core_platform_token_user_type_uk"/>
     </changeSet>
     <changeSet author="jitao" id="create table ent_fleet_airline">
         <createTable tableName="ent_fleet_airline">

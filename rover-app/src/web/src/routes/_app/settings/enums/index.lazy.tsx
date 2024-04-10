@@ -116,9 +116,7 @@ const EnumDetails = ({activeEnum}: {
             //     Cell: ({cell}) => (cell.getValue<boolean>() &&
             //         <Badge size="lg">是</Badge>),
             // },
-        ],
-        [],
-    );
+        ], []);
 
     const [records, setRecords] = useState<EnumMemberDTO[]>([]);
     const [dirty, setDirty] = useState(false);

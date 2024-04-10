@@ -1,4 +1,4 @@
-package rover.core.platform.entity;
+package rover.core.platform.auth.session.impl.db;
 
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
@@ -6,21 +6,21 @@ import rover.core.shared.entity.BaseEntity;
 
 import java.time.LocalDateTime;
 
-@Table("core_platform_token")
-public class TokenEntity extends BaseEntity {
-    public static final String ID_PREFIX = "tkn";
+@Table("core_platform_session")
+public class SessionEntity extends BaseEntity {
+    public static final String ID_PREFIX = "ssn";
 
     @Column("user_id")
     private String userId;
 
-    @Column("type")
-    private TokenType type;
-
-    @Column("token")
-    private String token;
+    @Column("access_token")
+    private String accessToken;
 
     @Column("expires_at")
     private LocalDateTime expiresAt;
+
+    @Column("data")
+    private String data;
 
     public String getUserId() {
         return userId;
@@ -30,20 +30,12 @@ public class TokenEntity extends BaseEntity {
         this.userId = userId;
     }
 
-    public TokenType getType() {
-        return type;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setType(TokenType type) {
-        this.type = type;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
     public LocalDateTime getExpiresAt() {
@@ -52,5 +44,13 @@ public class TokenEntity extends BaseEntity {
 
     public void setExpiresAt(LocalDateTime expiresAt) {
         this.expiresAt = expiresAt;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }

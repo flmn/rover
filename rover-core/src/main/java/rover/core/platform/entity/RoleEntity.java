@@ -4,7 +4,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 import rover.core.shared.entity.BaseEntity;
 
-@Table("platform_role")
+@Table("core_platform_role")
 public class RoleEntity extends BaseEntity {
     public static final String ID_PREFIX = "rol";
 

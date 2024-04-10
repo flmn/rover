@@ -71,16 +71,10 @@ public class ConfigService {
     }
 
     private String convertToString(Object value) {
-        if (value == null) {
-            return "";
-        }
-
-        if (value instanceof String string) {
-            return string;
-        } else if (value instanceof Integer integer) {
-            return integer.toString();
-        } else {
-            return "";
-        }
+        return switch (value) {
+            case String s -> s;
+            case Integer i -> i.toString();
+            case null, default -> "";
+        };
     }
 }

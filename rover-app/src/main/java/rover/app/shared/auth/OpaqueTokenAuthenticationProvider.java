@@ -5,49 +5,45 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
-import rover.core.platform.entity.TokenEntity;
-import rover.core.platform.service.TokenService;
+import rover.core.platform.auth.RoverUserDetails;
+import rover.core.platform.auth.session.Session;
+import rover.core.platform.auth.session.SessionManager;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Component
 public class OpaqueTokenAuthenticationProvider implements AuthenticationProvider {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final TokenService tokenService;
-    private final UserDetailsService userDetailsService;
+    private final SessionManager sessionManager;
 
-    public OpaqueTokenAuthenticationProvider(TokenService tokenService,
-                                             UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-        this.tokenService = tokenService;
+    public OpaqueTokenAuthenticationProvider(SessionManager sessionManager) {
+        this.sessionManager = sessionManager;
     }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         if (authentication instanceof BearerTokenAuthenticationToken authenticationRequest) {
-            Optional<TokenEntity> opt = tokenService.getAccessToken(authenticationRequest.getAccessToken());
+            var opt = sessionManager.get(authenticationRequest.getAccessToken());
 
             if (opt.isPresent()) {
-                TokenEntity tokenEntity = opt.get();
-                if (LocalDateTime.now().isAfter(tokenEntity.getExpiresAt())) {
+                Session session = opt.get();
+                if (LocalDateTime.now().isAfter(session.getExpiresAt())) {
                     logger.info("User credentials have expired");
 
                     throw new CredentialsExpiredException("User credentials have expired");
                 }
 
-                UserDetails user = userDetailsService.loadUserByUsername(tokenEntity.getUserId());
-                if (user != null) {
-                    checkUserDetails(user);
+                UserDetails user = toUserDetails(session);
 
-                    BearerTokenAuthenticationToken authenticationResult = BearerTokenAuthenticationToken.authenticated(user);
-                    authenticationResult.setDetails(authentication.getDetails());
+                checkUserDetails(user);
 
-                    return authenticationResult;
-                }
+                BearerTokenAuthenticationToken authenticationResult = BearerTokenAuthenticationToken.authenticated(user);
+                authenticationResult.setDetails(authentication.getDetails());
+
+                return authenticationResult;
             } else {
                 throw new BadCredentialsException("Bad credentials");
             }
@@ -59,6 +55,21 @@ public class OpaqueTokenAuthenticationProvider implements AuthenticationProvider
     @Override
     public boolean supports(Class<?> authentication) {
         return (BearerTokenAuthenticationToken.class.isAssignableFrom(authentication));
+    }
+
+    private RoverUserDetails toUserDetails(Session session) {
+        String email = session.getString(Session.ATTR_EMAIL, "");
+        boolean enabled = session.getBoolean(Session.ATTR_ENABLED, true);
+        boolean locked = session.getBoolean(Session.ATTR_LOCKED, false);
+
+        return new RoverUserDetails(session.getUserId(),
+                email,
+                null,
+                enabled,
+                true,
+                true,
+                !locked,
+                AuthorityUtils.NO_AUTHORITIES); // todo
     }
 
     private void checkUserDetails(UserDetails user) {

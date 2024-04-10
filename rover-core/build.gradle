@@ -14,6 +14,7 @@ dependencies {
 
     implementation 'org.springframework.security:spring-security-core'
     implementation "org.jobrunr:jobrunr-spring-boot-3-starter:${jobrunrVersion}"
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
 
     implementation "net.datafaker:datafaker:${datafakerVersion}"
 
