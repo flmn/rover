@@ -8,7 +8,7 @@ export function Profile() {
 
     return (
         <Group>
-            <Avatar color="blue" radius="xl">{data?.avatar}</Avatar>
+            <Avatar radius="xl">{data?.avatar}</Avatar>
             <Text>{name}</Text>
         </Group>
     );

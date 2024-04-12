@@ -16,7 +16,7 @@
 }
 
 .workspace {
-    border-top: rem(1px) solid;
+    border-bottom: rem(1px) solid;
 
     @mixin where-light {
         border-color: var(--mantine-color-gray-3);
@@ -28,6 +28,9 @@
 }
 
 .profile {
+}
+
+.bottom {
     border-top: rem(1px) solid;
 
     @mixin where-light {
