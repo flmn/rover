@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Alert, Anchor, Box, Button, Card, Group, PasswordInput, Space, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { IconInfoCircle } from "@tabler/icons-react";
+import { IconInfoCircle, IconLogin2 } from "@tabler/icons-react";
 import { login } from "@/auth";
 import classes from './login.module.css';
 
@@ -57,7 +57,8 @@ const Login = () => {
                             <Alert variant="light" color="pink" title="错误" icon={<IconInfoCircle/>} mt="xs" p="xs">
                                 邮件或密码不匹配。
                             </Alert>}
-                        <Button fullWidth mt="xl" type="submit">登录</Button>
+                        <Button fullWidth mt="xl" type="submit"
+                                leftSection={<IconLogin2 size="1.2rem"/>}>登录</Button>
                     </form>
                 </Card>
                 <Space h="xl"/>

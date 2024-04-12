@@ -9,9 +9,11 @@ import java.util.concurrent.ConcurrentMap;
 
 public class Session {
     public static final String ATTR_EMAIL = "email";
+    public static final String ATTR_NAME = "name";
     public static final String ATTR_ENABLED = "enabled";
     public static final String ATTR_LOCKED = "locked";
     public static final String ATTR_AUTHORITIES = "authorities";
+
     private final String userId;
     private final String accessToken;
     private final ConcurrentMap<String, Object> data = new ConcurrentHashMap<>();

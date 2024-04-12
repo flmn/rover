@@ -59,11 +59,14 @@ public class OpaqueTokenAuthenticationProvider implements AuthenticationProvider
 
     private RoverUserDetails toUserDetails(Session session) {
         String email = session.getString(Session.ATTR_EMAIL, "");
+        String name = session.getString(Session.ATTR_NAME, "用户");
         boolean enabled = session.getBoolean(Session.ATTR_ENABLED, true);
         boolean locked = session.getBoolean(Session.ATTR_LOCKED, false);
 
         return new RoverUserDetails(session.getUserId(),
+                session.getAccessToken(),
                 email,
+                name,
                 null,
                 enabled,
                 true,

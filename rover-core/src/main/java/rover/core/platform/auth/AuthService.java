@@ -33,6 +33,7 @@ public class AuthService {
             if (passwordEncoder.matches(password, user.getPassword())) {
                 Session session = sessionManager.create(user.getId());
                 session.put(Session.ATTR_EMAIL, user.getEmail());
+                session.put(Session.ATTR_NAME, user.getName());
                 session.put(Session.ATTR_ENABLED, user.getEnabled());
                 session.put(Session.ATTR_LOCKED, user.getLocked());
                 session.put(Session.ATTR_AUTHORITIES, AuthorityUtils.NO_AUTHORITIES);

@@ -1,6 +1,7 @@
 export * from './config'
 export * from './enum'
 export * from './list-result'
+export * from './profile'
 export * from './role'
 export * from './server-info'
 export * from './user'

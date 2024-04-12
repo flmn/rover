@@ -1,7 +1,9 @@
-import { ActionIcon, Anchor, AppShell, Avatar, Flex, Group, Menu, ScrollArea, Title } from "@mantine/core";
+import { ActionIcon, Anchor, AppShell, Flex, Group, Menu, ScrollArea, Title } from "@mantine/core";
 import { IconLogout, IconMenu2, IconUserCircle } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
-import { AppMenu, ColorSchemeToggle } from "@/components";
+import { ColorSchemeToggle } from "@/components";
+import { AppMenu } from "./AppMenu";
+import { Profile } from "./Profile";
 import classes from "./NavBar.module.css";
 
 export function NavBar() {
@@ -24,9 +26,7 @@ export function NavBar() {
             </AppShell.Section>
             <AppShell.Section className={classes.profile}>
                 <Flex justify="space-between" align="center" p="sm" w="100%" h={59}>
-                    <Group>
-                        <Avatar color="blue" radius="xl">MK</Avatar>
-                    </Group>
+                    <Profile/>
                     <Group gap={2}>
                         <Menu position="top-start" shadow="md" width={200}>
                             <Menu.Target>
@@ -36,11 +36,11 @@ export function NavBar() {
                             </Menu.Target>
 
                             <Menu.Dropdown>
-                                <Menu.Item leftSection={<IconUserCircle size="1.3rem"/>}
+                                <Menu.Item leftSection={<IconUserCircle size="1.2rem"/>}
                                            to="/user/profile" component={Link}>
                                     个人资料
                                 </Menu.Item>
-                                <Menu.Item leftSection={<IconLogout size="1.3rem"/>}>
+                                <Menu.Item leftSection={<IconLogout size="1.2rem"/>}>
                                     退出登录
                                 </Menu.Item>
                             </Menu.Dropdown>
