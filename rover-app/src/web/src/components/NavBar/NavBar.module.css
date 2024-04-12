@@ -2,3 +2,39 @@
     /*background-color: #182433;*/
     /*color: white;*/
 }
+
+.logo {
+    border-bottom: rem(1px) solid;
+
+    @mixin where-light {
+        border-color: var(--mantine-color-gray-3);
+    }
+
+    @mixin where-dark {
+        border-color: var(--mantine-color-dark-4);
+    }
+}
+
+.workspace {
+    border-top: rem(1px) solid;
+
+    @mixin where-light {
+        border-color: var(--mantine-color-gray-3);
+    }
+
+    @mixin where-dark {
+        border-color: var(--mantine-color-dark-4);
+    }
+}
+
+.profile {
+    border-top: rem(1px) solid;
+
+    @mixin where-light {
+        border-color: var(--mantine-color-gray-3);
+    }
+
+    @mixin where-dark {
+        border-color: var(--mantine-color-dark-4);
+    }
+}

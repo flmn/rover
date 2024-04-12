@@ -12,7 +12,7 @@ import {
 } from "@tabler/icons-react";
 import { Link, useRouterState } from "@tanstack/react-router";
 
-export function Menu() {
+export function AppMenu() {
     const state = useRouterState({
         select: (state) => state.location,
     })
