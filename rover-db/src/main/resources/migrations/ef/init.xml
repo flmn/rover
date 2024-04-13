@@ -6,22 +6,22 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
     <changeSet author="jitao" id="create table ef_enum">
         <createTable tableName="ef_enum">
-            <column name="id" type="varchar(36)">
+            <column name="id" type="text">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="ef_enum_pk"/>
             </column>
-            <column name="name" type="varchar(20)">
+            <column name="name" type="text">
                 <constraints nullable="false"/>
             </column>
-            <column name="description" type="varchar(500)" defaultValue="">
+            <column name="description" type="text" defaultValue="">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_by" type="varchar(36)">
+            <column name="created_by" type="text">
                 <constraints nullable="false"/>
             </column>
             <column name="created_at" type="timestamptz" defaultValue="now()">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_by" type="varchar(36)"/>
+            <column name="updated_by" type="text"/>
             <column name="updated_at" type="timestamptz"/>
             <column name="version" type="int" defaultValue="0">
                 <constraints nullable="false"/>
@@ -32,13 +32,13 @@
 
     <changeSet author="jitao" id="create table ef_enum_member">
         <createTable tableName="ef_enum_member">
-            <column name="enum_id" type="varchar(36)">
+            <column name="enum_id" type="text">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="ef_enum_member_pk"/>
             </column>
-            <column name="value" type="varchar">
+            <column name="value" type="text">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="ef_enum_member_pk"/>
             </column>
-            <column name="label" type="varchar(20)">
+            <column name="label" type="text">
                 <constraints nullable="false"/>
             </column>
             <column name="display_order" type="int" defaultValue="0">

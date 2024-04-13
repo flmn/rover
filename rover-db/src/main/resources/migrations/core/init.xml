@@ -6,43 +6,54 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
     <changeSet author="jitao" id="create table core_platform_config">
         <createTable tableName="core_platform_config">
-            <column name="id" type="varchar(128)">
+            <column name="id" type="text">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="core_platform_config_pk"/>
             </column>
-            <column name="name" type="varchar(30)">
+            <column name="name" type="text">
                 <constraints nullable="false" unique="true" uniqueConstraintName="core_platform_config_name_uk"/>
             </column>
-            <column name="value" type="varchar(500)">
+            <column name="value" type="text">
                 <constraints nullable="false"/>
             </column>
-            <column name="description" type="varchar(200)" defaultValue="">
+            <column name="description" type="text" defaultValue="">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_by" type="varchar(36)">
+            <column name="created_by" type="text">
                 <constraints nullable="false"/>
             </column>
             <column name="created_at" type="timestamptz" defaultValue="now()">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_by" type="varchar(36)"/>
+            <column name="updated_by" type="text"/>
             <column name="updated_at" type="timestamptz"/>
             <column name="version" type="int" defaultValue="0">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="jitao" id="create table core_platform_user">
-        <createTable tableName="core_platform_user">
-            <column name="id" type="varchar(36)">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="core_platform_user_pk"/>
+    <changeSet author="jitao" id="create table core_platform_privilege">
+        <createTable tableName="core_platform_privilege">
+            <column name="id" type="text">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="core_platform_privilege_pk"/>
             </column>
-            <column name="email" type="varchar(255)">
-                <constraints nullable="false" unique="true" uniqueConstraintName="core_platform_user_email_uk"/>
-            </column>
-            <column name="password" type="varchar(64)">
+            <column name="name" type="text">
                 <constraints nullable="false"/>
             </column>
-            <column name="name" type="varchar(10)">
+            <column name="parent" type="text"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="jitao" id="create table core_platform_user">
+        <createTable tableName="core_platform_user">
+            <column name="id" type="text">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="core_platform_user_pk"/>
+            </column>
+            <column name="email" type="text">
+                <constraints nullable="false" unique="true" uniqueConstraintName="core_platform_user_email_uk"/>
+            </column>
+            <column name="password" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="text">
                 <constraints nullable="false"/>
             </column>
             <column name="is_enabled" type="boolean" defaultValueBoolean="true">
@@ -51,18 +62,18 @@
             <column name="is_locked" type="boolean" defaultValueBoolean="false">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_by" type="varchar(36)">
+            <column name="created_by" type="text">
                 <constraints nullable="false"/>
             </column>
             <column name="created_at" type="timestamptz" defaultValue="now()">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_by" type="varchar(36)"/>
+            <column name="updated_by" type="text"/>
             <column name="updated_at" type="timestamptz"/>
             <column name="is_deleted" type="boolean" defaultValueBoolean="false">
                 <constraints nullable="false"/>
             </column>
-            <column name="deleted_by" type="varchar(36)"/>
+            <column name="deleted_by" type="text"/>
             <column name="deleted_at" type="timestamptz"/>
             <column name="version" type="int" defaultValue="0">
                 <constraints nullable="false"/>
@@ -71,19 +82,28 @@
     </changeSet>
     <changeSet author="jitao" id="create table core_platform_role">
         <createTable tableName="core_platform_role">
-            <column name="id" type="varchar(36)">
+            <column name="id" type="text">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="core_platform_role_pk"/>
             </column>
-            <column name="name" type="varchar(20)">
+            <column name="name" type="text">
                 <constraints nullable="false" unique="true" uniqueConstraintName="core_platform_role_name_uk"/>
             </column>
-            <column name="created_by" type="varchar(36)">
+            <column name="description" type="text" defaultValue="">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_permission" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="privileges" type="text[]" defaultValue="{}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="text">
                 <constraints nullable="false"/>
             </column>
             <column name="created_at" type="timestamptz" defaultValue="now()">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_by" type="varchar(36)"/>
+            <column name="updated_by" type="text"/>
             <column name="updated_at" type="timestamptz"/>
             <column name="version" type="int" defaultValue="0">
                 <constraints nullable="false"/>
@@ -92,29 +112,29 @@
     </changeSet>
     <changeSet author="jitao" id="create table core_platform_session">
         <createTable tableName="core_platform_session">
-            <column name="id" type="varchar(36)">
+            <column name="id" type="text">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="core_platform_session_pk"/>
             </column>
-            <column name="user_id" type="varchar(36)">
+            <column name="user_id" type="text">
                 <constraints nullable="false"/>
             </column>
-            <column name="access_token" type="varchar(128)">
+            <column name="access_token" type="text">
                 <constraints nullable="false" unique="true"
                              uniqueConstraintName="core_platform_session_access_token_uk"/>
             </column>
             <column name="expires_at" type="timestamptz">
                 <constraints nullable="false"/>
             </column>
-            <column name="data" type="varchar(1024)" defaultValue="'{}'">
+            <column name="data" type="text" defaultValue="'{}'">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_by" type="varchar(36)">
+            <column name="created_by" type="text">
                 <constraints nullable="false"/>
             </column>
             <column name="created_at" type="timestamptz" defaultValue="now()">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_by" type="varchar(36)"/>
+            <column name="updated_by" type="text"/>
             <column name="updated_at" type="timestamptz"/>
             <column name="version" type="int" defaultValue="0">
                 <constraints nullable="false"/>
@@ -123,28 +143,28 @@
     </changeSet>
     <changeSet author="jitao" id="create table core_platform_token">
         <createTable tableName="core_platform_token">
-            <column name="id" type="varchar(36)">
+            <column name="id" type="text">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="core_platform_token_pk"/>
             </column>
-            <column name="user_id" type="varchar(36)">
+            <column name="user_id" type="text">
                 <constraints nullable="false"/>
             </column>
-            <column name="type" type="varchar(16)">
+            <column name="type" type="text">
                 <constraints nullable="false"/>
             </column>
-            <column name="token" type="varchar(64)">
+            <column name="token" type="text">
                 <constraints nullable="false" unique="true" uniqueConstraintName="core_platform_token_token_uk"/>
             </column>
             <column name="expires_at" type="timestamptz">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_by" type="varchar(36)">
+            <column name="created_by" type="text">
                 <constraints nullable="false"/>
             </column>
             <column name="created_at" type="timestamptz" defaultValue="now()">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_by" type="varchar(36)"/>
+            <column name="updated_by" type="text"/>
             <column name="updated_at" type="timestamptz"/>
             <column name="version" type="int" defaultValue="0">
                 <constraints nullable="false"/>
@@ -155,27 +175,27 @@
     </changeSet>
     <changeSet author="jitao" id="create table ent_fleet_airline">
         <createTable tableName="ent_fleet_airline">
-            <column name="id" type="varchar(36)">
+            <column name="id" type="text">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="ent_fleet_airline_pk"/>
             </column>
-            <column name="code" type="varchar(4)">
+            <column name="code" type="text">
                 <constraints nullable="false"/>
             </column>
-            <column name="name" type="varchar(20)">
+            <column name="name" type="text">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_by" type="varchar(36)">
+            <column name="created_by" type="text">
                 <constraints nullable="false"/>
             </column>
             <column name="created_at" type="timestamptz" defaultValue="now()">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_by" type="varchar(36)"/>
+            <column name="updated_by" type="text"/>
             <column name="updated_at" type="timestamptz"/>
             <column name="is_deleted" type="boolean" defaultValueBoolean="false">
                 <constraints nullable="false"/>
             </column>
-            <column name="deleted_by" type="varchar(36)"/>
+            <column name="deleted_by" type="text"/>
             <column name="deleted_at" type="timestamptz"/>
             <column name="version" type="int" defaultValue="0">
                 <constraints nullable="false"/>
