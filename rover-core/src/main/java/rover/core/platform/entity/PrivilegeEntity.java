@@ -7,7 +7,6 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Table("core_platform_privilege")
 public class PrivilegeEntity {
-    public static final String ID_PREFIX = "pri";
 
     @Id
     private String id;

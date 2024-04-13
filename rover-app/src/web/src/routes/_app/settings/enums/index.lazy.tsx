@@ -282,7 +282,7 @@ const EnumDetails = ({activeEnum}: {
     if (activeEnum === undefined) {
         return (
             <Center w="100%">
-                <Text size="xl">请从列表选择一个字典。</Text>
+                <Text size="xl">请从左侧列表选择一个字典。</Text>
             </Center>
         );
     }

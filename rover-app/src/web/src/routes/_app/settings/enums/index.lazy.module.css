@@ -6,7 +6,7 @@
     display: block;
     text-decoration: none;
     border: rem(1px) solid;
-    border-radius: var(--mantine-radius-md);
+    border-radius: var(--mantine-radius-sm);
     color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
     padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
     font-size: var(--mantine-font-size-lg);

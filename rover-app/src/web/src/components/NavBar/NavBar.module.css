@@ -16,6 +16,15 @@
 }
 
 .account {
+    border-bottom: rem(1px) solid;
+
+    @mixin where-light {
+        border-color: var(--mantine-color-gray-3);
+    }
+
+    @mixin where-dark {
+        border-color: var(--mantine-color-dark-4);
+    }
 }
 
 .workspace {

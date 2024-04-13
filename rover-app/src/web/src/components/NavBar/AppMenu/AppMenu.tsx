@@ -32,7 +32,7 @@ export function AppMenu() {
                          active={state.pathname === '/fleet/aircrafts'}/>
             </NavLink>
 
-            <NavLink label="设置" href="#"
+            <NavLink label="系统设置" href="#"
                      leftSection={<IconSettings size="1.5rem" stroke={1.5}/>}
                      childrenOffset={24}
                      defaultOpened={state.pathname.startsWith('/settings')}>
