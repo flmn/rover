@@ -1,5 +1,5 @@
 package rover.app.platform.dto;
 
-public record ProfileDTO(String name,
+public record AccountDTO(String name,
                          String avatar) {
 }

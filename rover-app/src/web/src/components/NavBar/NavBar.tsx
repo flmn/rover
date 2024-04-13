@@ -3,7 +3,7 @@ import { IconDotsVertical, IconLayoutSidebarLeftCollapse, IconLogout, IconUserCi
 import { Link } from "@tanstack/react-router";
 import { ColorSchemeToggle } from "@/components";
 import { AppMenu } from "./AppMenu";
-import { Profile } from "./Profile";
+import { Account } from "./Account";
 import classes from "./NavBar.module.css";
 
 export function NavBar() {
@@ -14,9 +14,9 @@ export function NavBar() {
                     <Title order={1} fw="bolder">Rover</Title>
                 </Flex>
             </AppShell.Section>
-            <AppShell.Section className={classes.profile}>
+            <AppShell.Section className={classes.account}>
                 <Flex justify="space-between" align="center" p="xs" w="100%" h={59}>
-                    <Profile/>
+                    <Account/>
                     <Group gap={2}>
                         <Menu position="right-start" shadow="md" width={200}>
                             <Menu.Target>
@@ -27,7 +27,7 @@ export function NavBar() {
 
                             <Menu.Dropdown>
                                 <Menu.Item leftSection={<IconUserCircle size="1.2rem"/>}
-                                           to="/user/profile" component={Link}>
+                                           to="/account/profile" component={Link}>
                                     个人资料
                                 </Menu.Item>
                                 <Menu.Item leftSection={<IconLogout size="1.2rem"/>}>

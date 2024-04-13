@@ -1,8 +1,8 @@
 import { Avatar, Group, Text } from "@mantine/core";
-import { useProfileMeQuery } from "@/hooks";
+import { useAccountQuery } from "@/hooks";
 
-export function Profile() {
-    const {data} = useProfileMeQuery();
+export function Account() {
+    const {data} = useAccountQuery();
 
     const name = data?.name ?? '用户';
 

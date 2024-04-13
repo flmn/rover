@@ -1,4 +1,4 @@
-export interface ProfileDTO {
+export interface AccountDTO {
     name: string;
     avatar: string;
 }
