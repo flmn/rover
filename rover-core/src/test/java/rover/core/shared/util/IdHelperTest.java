@@ -1,4 +1,4 @@
-package rover.ef.util;
+package rover.core.shared.util;
 
 import org.junit.jupiter.api.Test;
 

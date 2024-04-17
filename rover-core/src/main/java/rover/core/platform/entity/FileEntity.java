@@ -4,7 +4,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 import rover.core.shared.entity.SoftDeletableEntity;
 
-@Table("core_platform_file")
+@Table("platform_file")
 public class FileEntity extends SoftDeletableEntity {
 
     @Column("name")

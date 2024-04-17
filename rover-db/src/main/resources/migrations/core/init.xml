@@ -4,13 +4,13 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
-    <changeSet author="jitao" id="create table core_platform_config">
-        <createTable tableName="core_platform_config">
+    <changeSet author="jitao" id="create table platform_config">
+        <createTable tableName="platform_config">
             <column name="id" type="text">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="core_platform_config_pk"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="platform_config_pk"/>
             </column>
             <column name="name" type="text">
-                <constraints nullable="false" unique="true" uniqueConstraintName="core_platform_config_name_uk"/>
+                <constraints nullable="false" unique="true" uniqueConstraintName="platform_config_name_uk"/>
             </column>
             <column name="value" type="text">
                 <constraints nullable="false"/>
@@ -31,10 +31,10 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="jitao" id="create table core_platform_privilege">
-        <createTable tableName="core_platform_privilege">
+    <changeSet author="jitao" id="create table platform_privilege">
+        <createTable tableName="platform_privilege">
             <column name="id" type="text">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="core_platform_privilege_pk"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="platform_privilege_pk"/>
             </column>
             <column name="name" type="text">
                 <constraints nullable="false"/>
@@ -42,13 +42,59 @@
             <column name="parent" type="text"/>
         </createTable>
     </changeSet>
-    <changeSet author="jitao" id="create table core_platform_user">
-        <createTable tableName="core_platform_user">
+    <changeSet author="jitao" id="create table platform_enum">
+        <createTable tableName="platform_enum">
             <column name="id" type="text">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="core_platform_user_pk"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="platform_enum_pk"/>
+            </column>
+            <column name="name" type="text">
+                <constraints nullable="false" unique="true" uniqueConstraintName="platform_enum_name_uk"/>
+            </column>
+            <column name="description" type="text" defaultValue="">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamptz" defaultValue="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="text"/>
+            <column name="updated_at" type="timestamptz"/>
+            <column name="version" type="int" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="jitao" id="create table platform_enum_member">
+        <createTable tableName="platform_enum_member">
+            <column name="enum_id" type="text">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="platform_enum_member_pk"/>
+            </column>
+            <column name="value" type="text">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="platform_enum_member_pk"/>
+            </column>
+            <column name="label" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="display_order" type="int" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_default" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="platform_enum_member" columnNames="enum_id, label"
+                             constraintName="platform_enum_member_label_uk"/>
+    </changeSet>
+    <changeSet author="jitao" id="create table platform_user">
+        <createTable tableName="platform_user">
+            <column name="id" type="text">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="platform_user_pk"/>
             </column>
             <column name="email" type="text">
-                <constraints nullable="false" unique="true" uniqueConstraintName="core_platform_user_email_uk"/>
+                <constraints nullable="false" unique="true" uniqueConstraintName="platform_user_email_uk"/>
             </column>
             <column name="password" type="text">
                 <constraints nullable="false"/>
@@ -80,13 +126,13 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="jitao" id="create table core_platform_role">
-        <createTable tableName="core_platform_role">
+    <changeSet author="jitao" id="create table platform_role">
+        <createTable tableName="platform_role">
             <column name="id" type="text">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="core_platform_role_pk"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="platform_role_pk"/>
             </column>
             <column name="name" type="text">
-                <constraints nullable="false" unique="true" uniqueConstraintName="core_platform_role_name_uk"/>
+                <constraints nullable="false" unique="true" uniqueConstraintName="platform_role_name_uk"/>
             </column>
             <column name="description" type="text" defaultValue="">
                 <constraints nullable="false"/>
@@ -110,17 +156,17 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="jitao" id="create table core_platform_session">
-        <createTable tableName="core_platform_session">
+    <changeSet author="jitao" id="create table platform_session">
+        <createTable tableName="platform_session">
             <column name="id" type="text">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="core_platform_session_pk"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="platform_session_pk"/>
             </column>
             <column name="user_id" type="text">
                 <constraints nullable="false"/>
             </column>
             <column name="access_token" type="text">
                 <constraints nullable="false" unique="true"
-                             uniqueConstraintName="core_platform_session_access_token_uk"/>
+                             uniqueConstraintName="platform_session_access_token_uk"/>
             </column>
             <column name="expires_at" type="timestamptz">
                 <constraints nullable="false"/>
@@ -141,10 +187,10 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="jitao" id="create table core_platform_token">
-        <createTable tableName="core_platform_token">
+    <changeSet author="jitao" id="create table platform_token">
+        <createTable tableName="platform_token">
             <column name="id" type="text">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="core_platform_token_pk"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="platform_token_pk"/>
             </column>
             <column name="user_id" type="text">
                 <constraints nullable="false"/>
@@ -153,7 +199,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="token" type="text">
-                <constraints nullable="false" unique="true" uniqueConstraintName="core_platform_token_token_uk"/>
+                <constraints nullable="false" unique="true" uniqueConstraintName="platform_token_token_uk"/>
             </column>
             <column name="expires_at" type="timestamptz">
                 <constraints nullable="false"/>
@@ -170,13 +216,13 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addUniqueConstraint tableName="core_platform_token" columnNames="user_id,type"
-                             constraintName="core_platform_token_user_type_uk"/>
+        <addUniqueConstraint tableName="platform_token" columnNames="user_id,type"
+                             constraintName="platform_token_user_type_uk"/>
     </changeSet>
-    <changeSet author="jitao" id="create table ent_fleet_airline">
-        <createTable tableName="ent_fleet_airline">
+    <changeSet author="jitao" id="create table fleet_airline">
+        <createTable tableName="fleet_airline">
             <column name="id" type="text">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="ent_fleet_airline_pk"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="fleet_airline_pk"/>
             </column>
             <column name="code" type="text">
                 <constraints nullable="false"/>

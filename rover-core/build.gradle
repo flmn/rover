@@ -10,13 +10,18 @@ bootJar {
 }
 
 dependencies {
-    implementation project(':rover-ef')
-
+    api 'org.springframework.boot:spring-boot-starter'
+    api 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'org.springframework.security:spring-security-core'
     implementation "org.jobrunr:jobrunr-spring-boot-3-starter:${jobrunrVersion}"
+    implementation "com.github.ben-manes.caffeine:caffeine"
     implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation "com.github.f4b6a3:tsid-creator:${tsidCreatorVersion}"
 
     implementation "net.datafaker:datafaker:${datafakerVersion}"
+
+    runtimeOnly 'org.postgresql:postgresql'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

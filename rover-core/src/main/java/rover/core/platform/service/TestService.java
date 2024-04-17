@@ -4,10 +4,9 @@ import net.datafaker.Faker;
 import org.jobrunr.scheduling.JobBuilder;
 import org.jobrunr.scheduling.JobRequestScheduler;
 import org.springframework.stereotype.Service;
+import rover.core.platform.entity.EnumMember;
 import rover.core.platform.job.email.SendEmailJobRequest;
-import rover.ef.enumeration.entity.EnumMember;
-import rover.ef.enumeration.service.EnumService;
-import rover.ef.util.IdHelper;
+import rover.core.shared.util.IdHelper;
 
 import java.util.ArrayList;
 import java.util.List;

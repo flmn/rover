@@ -1,4 +1,4 @@
-package rover.ef.enumeration.service;
+package rover.core.platform.service;
 
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -6,11 +6,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import rover.ef.enumeration.entity.EnumEntity;
-import rover.ef.enumeration.entity.EnumMember;
-import rover.ef.enumeration.repository.EnumRepository;
-import rover.ef.exception.NotFoundException;
-import rover.ef.util.NullHelper;
+import rover.core.platform.entity.EnumEntity;
+import rover.core.platform.entity.EnumMember;
+import rover.core.platform.repository.EnumRepository;
+import rover.core.shared.exception.NotFoundException;
+import rover.core.shared.util.NullHelper;
 
 import java.util.List;
 

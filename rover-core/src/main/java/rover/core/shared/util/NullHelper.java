@@ -1,4 +1,4 @@
-package rover.ef.util;
+package rover.core.shared.util;
 
 public final class NullHelper {
 

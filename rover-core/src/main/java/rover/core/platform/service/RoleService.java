@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import rover.core.platform.entity.RoleEntity;
 import rover.core.platform.repository.RoleRepository;
-import rover.ef.util.IdHelper;
+import rover.core.shared.util.IdHelper;
 
 import java.util.List;
 import java.util.Optional;

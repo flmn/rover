@@ -4,7 +4,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 import rover.core.shared.entity.BaseEntity;
 
-@Table("core_platform_config")
+@Table("platform_config")
 public class ConfigEntity extends BaseEntity {
 
     @Column("name")

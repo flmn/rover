@@ -1,9 +1,9 @@
-package rover.ef.enumeration.repository;
+package rover.core.platform.repository;
 
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.ListPagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
-import rover.ef.enumeration.entity.EnumEntity;
+import rover.core.platform.entity.EnumEntity;
 
 
 @Repository

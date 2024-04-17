@@ -6,7 +6,7 @@ import rover.core.shared.entity.BaseEntity;
 
 import java.time.LocalDateTime;
 
-@Table("core_platform_session")
+@Table("platform_session")
 public class SessionEntity extends BaseEntity {
     public static final String ID_PREFIX = "ssn";
 

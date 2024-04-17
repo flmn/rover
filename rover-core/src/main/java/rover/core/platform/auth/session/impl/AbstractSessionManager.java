@@ -2,7 +2,7 @@ package rover.core.platform.auth.session.impl;
 
 import rover.core.platform.auth.session.Session;
 import rover.core.platform.auth.session.SessionManager;
-import rover.ef.util.IdHelper;
+import rover.core.shared.util.IdHelper;
 
 import java.time.LocalDateTime;
 

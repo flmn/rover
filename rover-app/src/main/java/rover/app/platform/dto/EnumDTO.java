@@ -1,7 +1,7 @@
 package rover.app.platform.dto;
 
 import rover.app.shared.dto.DataTransferObject;
-import rover.ef.enumeration.entity.EnumEntity;
+import rover.core.platform.entity.EnumEntity;
 
 import java.time.LocalDateTime;
 import java.util.List;

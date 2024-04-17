@@ -1,9 +1,9 @@
-package rover.ef.enumeration.entity;
+package rover.core.platform.entity;
 
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table("ef_enum_member")
+@Table("platform_enum_member")
 public class EnumMember {
 
     @Column("enum_id")

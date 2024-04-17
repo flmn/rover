@@ -1,4 +1,4 @@
-package rover.ef.exception;
+package rover.core.shared.exception;
 
 public class NotFoundException extends Exception {
 

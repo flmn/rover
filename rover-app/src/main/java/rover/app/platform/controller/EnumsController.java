@@ -4,10 +4,10 @@ import org.springframework.web.bind.annotation.*;
 import rover.app.platform.dto.EnumDTO;
 import rover.app.shared.dto.ListResultDTO;
 import rover.app.shared.dto.ListResultMetaDTO;
-import rover.ef.enumeration.entity.EnumEntity;
-import rover.ef.enumeration.entity.EnumMember;
-import rover.ef.enumeration.service.EnumService;
-import rover.ef.util.NullHelper;
+import rover.core.platform.entity.EnumEntity;
+import rover.core.platform.entity.EnumMember;
+import rover.core.platform.service.EnumService;
+import rover.core.shared.util.NullHelper;
 
 import java.util.Collections;
 import java.util.List;

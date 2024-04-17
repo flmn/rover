@@ -7,7 +7,7 @@ import rover.core.shared.entity.BaseEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table("core_platform_role")
+@Table("platform_role")
 public class RoleEntity extends BaseEntity {
     public static final String ID_PREFIX = "rol";
 

@@ -1,7 +1,7 @@
 package rover.app.platform.dto;
 
 import rover.app.shared.dto.DataTransferObject;
-import rover.ef.enumeration.entity.EnumMember;
+import rover.core.platform.entity.EnumMember;
 
 public record EnumMemberDTO(String value,
                             String label,

@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils;
 import rover.core.platform.auth.session.Session;
 import rover.core.platform.auth.session.SessionManager;
 import rover.core.platform.auth.session.impl.AbstractSessionManager;
-import rover.ef.util.IdHelper;
+import rover.core.shared.util.IdHelper;
 
 import java.time.LocalDateTime;
 import java.util.Collections;

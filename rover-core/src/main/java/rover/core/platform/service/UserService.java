@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import rover.core.platform.entity.UserEntity;
 import rover.core.platform.repository.UserRepository;
-import rover.ef.util.IdHelper;
+import rover.core.shared.util.IdHelper;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

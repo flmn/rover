@@ -1,4 +1,4 @@
-package rover.ef.enumeration.entity;
+package rover.core.platform.entity;
 
 import org.springframework.data.annotation.*;
 import org.springframework.data.relational.core.mapping.Column;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table("ef_enum")
+@Table("platform_enum")
 public class EnumEntity {
 
     @Id

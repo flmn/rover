@@ -1,4 +1,4 @@
-package rover.ef.util;
+package rover.core.shared.util;
 
 import com.github.f4b6a3.tsid.Tsid;
 import com.github.f4b6a3.tsid.TsidFactory;

@@ -6,7 +6,7 @@ import rover.core.shared.entity.BaseEntity;
 
 import java.time.LocalDateTime;
 
-@Table("core_platform_token")
+@Table("platform_token")
 public class TokenEntity extends BaseEntity {
     public static final String ID_PREFIX = "tkn";
 

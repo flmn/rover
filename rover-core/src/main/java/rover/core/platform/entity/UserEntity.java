@@ -4,7 +4,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 import rover.core.shared.entity.SoftDeletableEntity;
 
-@Table("core_platform_user")
+@Table("platform_user")
 public class UserEntity extends SoftDeletableEntity {
     public static final String ID_PREFIX = "usr";
 
