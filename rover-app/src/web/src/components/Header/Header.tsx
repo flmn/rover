@@ -1,9 +1,9 @@
 import { ActionIcon, AppShell, Breadcrumbs, Flex, Group, Text } from "@mantine/core";
+import { IconLayoutSidebarLeftCollapse } from "@tabler/icons-react";
 import { useRouterState } from "@tanstack/react-router";
 import { ColorSchemeToggle } from "@/components";
 import { Account } from "./Account";
 import classes from "./Header.module.css";
-import { IconLayoutSidebarLeftCollapse } from "@tabler/icons-react";
 
 export function Header() {
     const state = useRouterState({
@@ -23,7 +23,7 @@ export function Header() {
     return (
         <AppShell.Header>
             <Flex justify="space-between" align="center" className={classes.root} w="100%">
-                <Group gap="md" pl="4px">
+                <Group gap="md" pl="xs">
                     <ActionIcon variant="subtle" color="gray">
                         <IconLayoutSidebarLeftCollapse size="2.4rem"/>
                     </ActionIcon>

@@ -3,7 +3,6 @@ import {
     Button,
     Card,
     Container,
-    Flex,
     Grid,
     Group,
     Loader,
@@ -14,6 +13,7 @@ import {
     Title,
     Tooltip
 } from "@mantine/core";
+import { Toolbar } from "@/components";
 import { useServerInfoQuery } from "@/hooks";
 import { AppInfoDTO, CpuInfoDTO, DiskInfoDTO, JvmInfoDTO, MemInfoDTO, SysInfoDTO } from "@/types";
 
@@ -273,12 +273,12 @@ const ServerInfo = () => {
 
     return (
         <Container fluid p="sm">
-            <Flex justify="end" align="center" gap="sm" mb="sm">
+            <Toolbar>
                 {isFetching && <Loader size="sm"/>}
                 <Tooltip label="创建一个新用户">
                     <Button onClick={() => refetch()}>刷新</Button>
                 </Tooltip>
-            </Flex>
+            </Toolbar>
             <Grid>
                 <Grid.Col span={6}>
                     <AppInfo appInfo={app}/>

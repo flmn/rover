@@ -19,12 +19,14 @@ export const theme = createTheme({
     autoContrast: true,
     other: {
         headerHeight: '60px',
+        toolbarHeight: '36px',
     }
 });
 
 export const resolver: CSSVariablesResolver = (theme) => ({
     variables: {
         '--rover-header-height': theme.other.headerHeight,
+        '--rover-toolbar-height': theme.other.toolbarHeight,
     },
     light: {},
     dark: {},

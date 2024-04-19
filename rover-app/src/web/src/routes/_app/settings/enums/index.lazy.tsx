@@ -31,11 +31,12 @@ import {
 } from "mantine-react-table";
 import { MRT_Localization_ZH_HANS } from "mantine-react-table/locales/zh-Hans/index.esm.mjs";
 import dayjs from "dayjs";
+import { useQueryClient } from "@tanstack/react-query";
+import { modals } from "@mantine/modals";
+import { Toolbar } from "@/components";
 import { useEnumMembersMutation, useEnumQuery } from "@/hooks";
 import { EnumDTO, EnumMemberDTO } from "@/types";
 import classes from "./index.lazy.module.css";
-import { useQueryClient } from "@tanstack/react-query";
-import { modals } from "@mantine/modals";
 
 const EnumList = ({activeEnum, setActiveEnum}: {
     activeEnum: EnumDTO | undefined,
@@ -71,8 +72,8 @@ const EnumList = ({activeEnum, setActiveEnum}: {
     ));
 
     return (
-        <Stack w={300}>
-            <TextInput mx="xs" placeholder="搜索字典" value={searchValue}
+        <Stack w={300} pr="sm" className={classes.enumList}>
+            <TextInput placeholder="搜索字典" value={searchValue}
                        leftSection={<IconSearch/>}
                        rightSection={
                            searchValue ? (
@@ -86,7 +87,7 @@ const EnumList = ({activeEnum, setActiveEnum}: {
                            ) : null
                        }
                        onChange={(event) => setSearchValue(event.target.value)}/>
-            <ScrollArea scrollbars="y" mx="xs" w={280}>
+            <ScrollArea scrollbars="y" w={280}>
                 <Stack>
                     {enums}
                 </Stack>
@@ -336,7 +337,12 @@ const Enums = () => {
 
     return (
         <Container fluid p="sm">
-            <Flex className={classes.root} gap="xs" p={0}>
+            <Toolbar>
+                <Tooltip label="导出系统参数">
+                    <Button>全部导出</Button>
+                </Tooltip>
+            </Toolbar>
+            <Flex className={classes.root} gap="sm">
                 <EnumList activeEnum={activeEnum} setActiveEnum={setActiveEnum}/>
                 <EnumDetails activeEnum={activeEnum}/>
             </Flex>

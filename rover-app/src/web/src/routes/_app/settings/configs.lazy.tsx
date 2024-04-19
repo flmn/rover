@@ -13,8 +13,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ActionIcon, Button, Container, Flex, Group, Stack, Text, Title, Tooltip } from "@mantine/core";
 import { MRT_Localization_ZH_HANS } from "mantine-react-table/locales/zh-Hans/index.esm.mjs";
 import { IconInfoCircle, IconPencil } from "@tabler/icons-react";
-import { useConfigMutation, useConfigQuery } from "@/hooks";
 import { ConfigDTO } from "@/types";
+import { Toolbar } from '@/components';
+import { useConfigMutation, useConfigQuery } from "@/hooks";
 
 const Configs = () => {
     const columns = useMemo<MRT_ColumnDef<ConfigDTO>[]>(
@@ -170,11 +171,11 @@ const Configs = () => {
 
     return (
         <Container fluid p="sm">
-            <Flex justify="end" align="center" gap="sm" mb="sm">
+            <Toolbar>
                 <Tooltip label="导出系统参数">
-                    <Button>导出</Button>
+                    <Button>全部导出</Button>
                 </Tooltip>
-            </Flex>
+            </Toolbar>
             <MantineReactTable table={table}/>
         </Container>
     );

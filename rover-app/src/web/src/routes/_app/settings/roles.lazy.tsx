@@ -15,6 +15,7 @@ import {
     useMantineReactTable
 } from "mantine-react-table";
 import { MRT_Localization_ZH_HANS } from "mantine-react-table/locales/zh-Hans/index.esm.mjs";
+import { Toolbar } from "@/components";
 import { useRoleMutation, useRoleQuery } from "@/hooks";
 import { RoleDTO } from "@/types";
 
@@ -190,11 +191,11 @@ const Roles = () => {
 
     return (
         <Container fluid p="sm">
-            <Flex justify="end" align="center" gap="sm" mb="sm">
+            <Toolbar>
                 <Tooltip label="创建一个新角色">
                     <Button onClick={() => table.setCreatingRow(true)}>添加角色</Button>
                 </Tooltip>
-            </Flex>
+            </Toolbar>
             <MantineReactTable table={table}/>
         </Container>
     );
