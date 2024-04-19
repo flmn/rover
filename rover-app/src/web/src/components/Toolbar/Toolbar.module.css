@@ -1,3 +1,4 @@
 .root {
+    width: 100%;
     height: var(--rover-toolbar-height);
 }

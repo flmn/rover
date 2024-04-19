@@ -4,17 +4,10 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import { Badge, Button, Container, Drawer, Menu, Text, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
-import {
-    MantineReactTable,
-    type MRT_ColumnDef,
-    MRT_PaginationState,
-    MRT_SortingState,
-    useMantineReactTable
-} from 'mantine-react-table';
-import { MRT_Localization_ZH_HANS } from 'mantine-react-table/locales/zh-Hans/index.esm.mjs';
+import { MantineReactTable, type MRT_ColumnDef, MRT_PaginationState, MRT_SortingState } from 'mantine-react-table';
 import { Toolbar } from "@/components";
 import { UserForm } from "@/components/routes/settings/users";
-import { useUserQuery } from "@/hooks";
+import { useDataTable, useUserQuery } from "@/hooks";
 import { UserDTO } from "@/types";
 
 const Users = () => {
@@ -93,41 +86,18 @@ const Users = () => {
     const records = data?.records ?? [];
     const total = data?.meta.total ?? 0;
 
-    const table = useMantineReactTable({
+    const table = useDataTable({
         columns,
         data: records,
         rowCount: total,
         // display
-        enableColumnActions: true,
-        enableColumnPinning: true,
-        enableDensityToggle: false,
-        enableRowActions: true,
-        enableRowNumbers: true,
         enableRowSelection: true,
-        enableStickyHeader: true,
-        localization: MRT_Localization_ZH_HANS,
-        positionActionsColumn: 'last',
-        positionGlobalFilter: 'left',
-        positionToolbarAlertBanner: 'head-overlay',
         manualSorting: true,
-        mantineTableProps: {
-            striped: true,
-        },
-        mantinePaginationProps: {
-            rowsPerPageOptions: ['10', '15', '20'],
-        },
         mantineToolbarAlertBannerProps: isError ? {color: 'red', children: '加载数据失败',} : undefined,
         // filtering
-        enableGlobalFilter: true,
-        enableColumnFilters: false,
         manualFiltering: true,
-        mantineSearchTextInputProps: {
-            variant: 'default',
-            w: '300',
-        },
         // pagination
         manualPagination: true,
-        paginationDisplayMode: 'pages',
         // row actions
         renderRowActionMenuItems: () => (
             <>
@@ -142,13 +112,6 @@ const Users = () => {
             <Text pl="xs">用户数：{total}</Text>
         ),
         // state
-        initialState: {
-            density: 'xs',
-            showGlobalFilter: true,
-            columnPinning: {
-                right: ['mrt-row-actions'],
-            },
-        },
         state: {
             isLoading,
             pagination,

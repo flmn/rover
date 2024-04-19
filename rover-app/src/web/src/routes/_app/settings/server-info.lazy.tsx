@@ -274,10 +274,10 @@ const ServerInfo = () => {
     return (
         <Container fluid p="sm">
             <Toolbar>
-                {isFetching && <Loader size="sm"/>}
                 <Tooltip label="创建一个新用户">
                     <Button onClick={() => refetch()}>刷新</Button>
                 </Tooltip>
+                {isFetching && <Loader size="sm"/>}
             </Toolbar>
             <Grid>
                 <Grid.Col span={6}>

@@ -10,8 +10,14 @@ public class ConfigEntity extends BaseEntity {
     @Column("name")
     private String name;
 
+    @Column("type")
+    private ConfigType type;
+
     @Column("value")
     private String value;
+
+    @Column("public_access")
+    private Boolean publicAccess;
 
     @Column("description")
     private String description;
@@ -24,12 +30,28 @@ public class ConfigEntity extends BaseEntity {
         this.name = name;
     }
 
+    public ConfigType getType() {
+        return type;
+    }
+
+    public void setType(ConfigType type) {
+        this.type = type;
+    }
+
     public String getValue() {
         return value;
     }
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public Boolean getPublicAccess() {
+        return publicAccess;
+    }
+
+    public void setPublicAccess(Boolean publicAccess) {
+        this.publicAccess = publicAccess;
     }
 
     public String getDescription() {

@@ -11,12 +11,10 @@ import {
     MRT_EditActionButtons,
     MRT_EditCellTextInput,
     MRT_Row,
-    MRT_TableOptions,
-    useMantineReactTable
+    MRT_TableOptions
 } from "mantine-react-table";
-import { MRT_Localization_ZH_HANS } from "mantine-react-table/locales/zh-Hans/index.esm.mjs";
 import { Toolbar } from "@/components";
-import { useRoleMutation, useRoleQuery } from "@/hooks";
+import { useDataTable, useRoleMutation, useRoleQuery } from "@/hooks";
 import { RoleDTO } from "@/types";
 
 const Roles = () => {
@@ -99,51 +97,27 @@ const Roles = () => {
     const records = data?.records ?? [];
     const total = data?.meta.total ?? 0;
 
-    const table = useMantineReactTable({
+    const table = useDataTable({
         columns,
         data: records,
         rowCount: total,
         // display
-        enableColumnActions: true,
-        enableColumnFilters: false,
-        enableColumnPinning: true,
-        enableDensityToggle: false,
         enableEditing: true,
-        enableRowActions: true,
-        enableRowNumbers: true,
-        enableStickyHeader: true,
-        localization: MRT_Localization_ZH_HANS,
-        paginationDisplayMode: 'pages',
-        positionActionsColumn: 'last',
-        positionGlobalFilter: 'left',
-        positionToolbarAlertBanner: 'head-overlay',
-        mantineTableProps: {
-            striped: true,
-            withTableBorder: false,
-        },
-        mantinePaginationProps: {
-            rowsPerPageOptions: ['10', '15', '20'],
-        },
-        mantineSearchTextInputProps: {
-            variant: 'default',
-            w: '300',
-        },
         mantineEditRowModalProps: {
             closeOnClickOutside: false,
         },
         mantineToolbarAlertBannerProps: isError ? {color: 'red', children: '加载数据失败',} : undefined,
         // toolbar
         renderBottomToolbarCustomActions: () => (
-            <Group mih={56}>
+            <Group>
                 <Text pl="xs">角色数：{total}</Text>
             </Group>
-
         ),
         // row actions
         renderRowActions: ({row, table}) => (
             <Flex gap="md">
                 <Tooltip label="修改角色">
-                    <ActionIcon variant="subtle" color="gray" onClick={() => table.setEditingRow(row)}>
+                    <ActionIcon variant="subtle" onClick={() => table.setEditingRow(row)}>
                         <IconPencil size="1.3rem"/>
                     </ActionIcon>
                 </Tooltip>
@@ -173,13 +147,6 @@ const Roles = () => {
             )
         },
         // state
-        initialState: {
-            density: 'xs',
-            showGlobalFilter: true,
-            columnPinning: {
-                right: ['mrt-row-actions'],
-            },
-        },
         state: {
             isLoading,
             isSaving: isCreatingRole || isUpdatingRole || isDeletingRole,

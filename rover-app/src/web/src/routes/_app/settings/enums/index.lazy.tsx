@@ -26,15 +26,13 @@ import {
     MRT_ColumnDef,
     MRT_Row,
     MRT_TableOptions,
-    MRT_ToggleFullScreenButton,
-    useMantineReactTable
+    MRT_ToggleFullScreenButton
 } from "mantine-react-table";
-import { MRT_Localization_ZH_HANS } from "mantine-react-table/locales/zh-Hans/index.esm.mjs";
 import dayjs from "dayjs";
 import { useQueryClient } from "@tanstack/react-query";
 import { modals } from "@mantine/modals";
 import { Toolbar } from "@/components";
-import { useEnumMembersMutation, useEnumQuery } from "@/hooks";
+import { useDataTable, useEnumMembersMutation, useEnumQuery } from "@/hooks";
 import { EnumDTO, EnumMemberDTO } from "@/types";
 import classes from "./index.lazy.module.css";
 
@@ -171,32 +169,18 @@ const EnumDetails = ({activeEnum}: {
         setDirty(false);
     }
 
-    const table = useMantineReactTable({
+    const table = useDataTable({
         columns,
         data: records,
         // display
-        enableColumnActions: false,
-        enableColumnFilters: false,
-        enableDensityToggle: false,
         enableEditing: true,
         enableHiding: false,
-        enableRowNumbers: true,
         enableRowOrdering: true,
         enableSorting: false,
         createDisplayMode: 'row',
         editDisplayMode: 'row',
-        localization: MRT_Localization_ZH_HANS,
-        paginationDisplayMode: 'pages',
-        positionActionsColumn: 'last',
-        positionGlobalFilter: 'left',
-        positionToolbarAlertBanner: 'head-overlay',
-        mantineTableProps: {
-            striped: true,
-        },
-        mantinePaginationProps: {
-            rowsPerPageOptions: ['10', '15', '20'],
-        },
         mantineSearchTextInputProps: {
+            placeholder: '搜索字典成员',
             variant: 'default',
             w: '300',
         },
@@ -237,7 +221,7 @@ const EnumDetails = ({activeEnum}: {
         renderRowActions: ({row, table}) => (
             <Flex gap="md">
                 <Tooltip label="修改条目">
-                    <ActionIcon variant="subtle" color="gray" onClick={() => table.setEditingRow(row)}>
+                    <ActionIcon variant="subtle" onClick={() => table.setEditingRow(row)}>
                         <IconPencil size="1.3rem"/>
                     </ActionIcon>
                 </Tooltip>
@@ -255,10 +239,6 @@ const EnumDetails = ({activeEnum}: {
 
         ),
         // state
-        initialState: {
-            density: 'xs',
-            showGlobalFilter: true,
-        },
         state: {
             isSaving: isUpdatingMembers,
         },
