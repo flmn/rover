@@ -1,6 +1,6 @@
 import ky, { HTTPError } from "ky";
 
-const TOKEN_KEY = 'API_ACCESS_TOKEN';
+const TOKEN_KEY = 'rover-access-token';
 
 interface LoginResult {
     accessToken: string;
@@ -8,13 +8,13 @@ interface LoginResult {
 }
 
 export function isAuthenticated(): boolean {
-    let accessToken = localStorage.getItem(TOKEN_KEY);
+    const accessToken = localStorage.getItem(TOKEN_KEY);
 
     return accessToken != null && accessToken.length > 0;
 }
 
 async function requestWithAuthHeader(url: string, options: object) {
-    let accessToken = localStorage.getItem(TOKEN_KEY);
+    const accessToken = localStorage.getItem(TOKEN_KEY);
 
     try {
         return await ky(url, {
@@ -25,7 +25,7 @@ async function requestWithAuthHeader(url: string, options: object) {
         }).json();
     } catch (error) {
         console.log(error);
-        let httpError = error as HTTPError
+        const httpError = error as HTTPError
 
         if (httpError.response.status === 401) {
             window.location.href = '/login';
@@ -34,7 +34,7 @@ async function requestWithAuthHeader(url: string, options: object) {
 }
 
 export async function getWithAuthHeader(url: string) {
-    let options = {
+    const options = {
         method: 'get'
     };
 
@@ -42,7 +42,7 @@ export async function getWithAuthHeader(url: string) {
 }
 
 export async function postWithAuthHeader(url: string, json: object) {
-    let options = {
+    const options = {
         method: 'post',
         json
     };
@@ -51,7 +51,7 @@ export async function postWithAuthHeader(url: string, json: object) {
 }
 
 export async function deleteWithAuthHeader(url: string) {
-    let options = {
+    const options = {
         method: 'delete'
     };
 
@@ -59,12 +59,12 @@ export async function deleteWithAuthHeader(url: string) {
 }
 
 export async function login(data: any): Promise<boolean> {
-    const response = ky.post('/auth/login', {
+    const response = ky.post('/api/public/login', {
         json: data
     })
 
     try {
-        let loginResult = await response.json() as LoginResult;
+        const loginResult = await response.json() as LoginResult;
 
         localStorage.setItem(TOKEN_KEY, loginResult.accessToken)
 
@@ -75,13 +75,9 @@ export async function login(data: any): Promise<boolean> {
 }
 
 export async function logout(): Promise<void> {
-    const response = ky.post('/auth/logout')
+    await requestWithAuthHeader('/api/account/logout', {
+        method: 'post'
+    });
 
-    try {
-        await response.json
-
-        localStorage.removeItem(TOKEN_KEY);
-    } catch (error) {
-        console.log(error)
-    }
+    localStorage.removeItem(TOKEN_KEY);
 }

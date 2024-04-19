@@ -48,14 +48,14 @@ const EnumList = ({activeEnum, setActiveEnum}: {
 
     const {data} = useEnumQuery()
 
-    const records = data?.records ?? [];
+    const items = data?.items ?? [];
 
-    const filteredRecords = records.filter(item =>
+    const filteredItems = items.filter(item =>
         item.id.toLowerCase().includes(debouncedSearchValue.toLowerCase())
         || item.name.toLowerCase().includes(debouncedSearchValue.toLowerCase())
     );
 
-    const enums = filteredRecords?.map((enumDTO) => (
+    const enums = filteredItems?.map((enumDTO) => (
         <UnstyledButton className={classes.enum} key={enumDTO.id}
                         data-active={activeEnum === enumDTO || undefined}
                         onClick={(event) => {

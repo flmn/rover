@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import rover.app.platform.dto.RoleDTO;
+import rover.app.shared.config.Constants;
 import rover.app.shared.dto.ListResultDTO;
-import rover.app.shared.dto.ListResultMetaDTO;
 import rover.core.platform.entity.RoleEntity;
 import rover.core.platform.service.RoleService;
 
@@ -25,12 +25,12 @@ public class RolesController {
 
     @GetMapping
     public ListResultDTO<RoleDTO> list() {
-        List<RoleDTO> records = roleService.list()
+        List<RoleDTO> items = roleService.list()
                 .stream()
                 .map(RoleDTO::from)
                 .toList();
 
-        return new ListResultDTO<>(new ListResultMetaDTO(records.size()), records);
+        return new ListResultDTO<>(1, Constants.MAX_PAGE_SIZE, items.size(), items);
     }
 
     @PostMapping

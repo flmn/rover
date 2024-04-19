@@ -1,4 +1,4 @@
-package rover.core.shared.constant;
+package rover.core.shared.constants;
 
 public interface SysConfigs {
     String SERVER_ALARM_DISK = "cnf-server-alarm-disk";

@@ -36,6 +36,24 @@ public record ConfigDTO(String id,
                 entity.getUpdatedAt());
     }
 
+    public static ConfigDTO simple(ConfigEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+
+        return new ConfigDTO(entity.getId(),
+                null,
+                null,
+                null,
+                entity.getValue(),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+    }
+
     public static String name(ConfigType type) {
         return switch (type) {
             case ENUM -> "枚举值";

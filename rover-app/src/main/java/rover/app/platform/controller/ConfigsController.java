@@ -3,8 +3,8 @@ package rover.app.platform.controller;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import rover.app.platform.dto.ConfigDTO;
+import rover.app.shared.config.Constants;
 import rover.app.shared.dto.ListResultDTO;
-import rover.app.shared.dto.ListResultMetaDTO;
 import rover.core.platform.auth.RoverUserDetails;
 import rover.core.platform.entity.ConfigEntity;
 import rover.core.platform.service.ConfigService;
@@ -22,12 +22,12 @@ public class ConfigsController {
 
     @GetMapping
     public ListResultDTO<ConfigDTO> list() {
-        List<ConfigDTO> records = configService.list()
+        List<ConfigDTO> items = configService.list(false)
                 .stream()
                 .map(ConfigDTO::from)
                 .toList();
 
-        return new ListResultDTO<>(new ListResultMetaDTO(records.size()), records);
+        return new ListResultDTO<>(1, Constants.MAX_PAGE_SIZE, items.size(), items);
     }
 
     @PostMapping("/{id}")

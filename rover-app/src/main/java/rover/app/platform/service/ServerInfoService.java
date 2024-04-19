@@ -12,7 +12,7 @@ import oshi.software.os.OperatingSystem;
 import oshi.util.Util;
 import rover.app.platform.dto.server.*;
 import rover.core.platform.service.ConfigService;
-import rover.core.shared.constant.SysConfigs;
+import rover.core.shared.constants.SysConfigs;
 import rover.core.shared.util.DateTimeHelper;
 import rover.core.shared.util.IpHelper;
 import rover.core.shared.util.NumberHelper;

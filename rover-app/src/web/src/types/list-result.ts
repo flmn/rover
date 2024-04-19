@@ -1,8 +1,6 @@
-interface Meta {
-    total: number;
-}
-
 export interface ListResultDTO<T> {
-    meta: Meta;
-    records: T[]
+    pageNumber: number;
+    pageSize: number;
+    total: number;
+    items: T[]
 }

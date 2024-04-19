@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Alert, Anchor, Box, Button, Card, Group, PasswordInput, Space, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
 import { IconInfoCircle, IconLogin2 } from "@tabler/icons-react";
 import { login } from "@/auth";
 import classes from './login.module.css';
@@ -24,10 +25,15 @@ const Login = () => {
     async function doLogin(values: any) {
         setFailed(false);
 
-        let ok = await login(values)
+        const ok = await login(values)
 
         if (ok) {
             await navigate({to: '/'})
+
+            notifications.show({
+                title: '通知',
+                message: '登录成功。',
+            })
         } else {
             setFailed(true);
         }

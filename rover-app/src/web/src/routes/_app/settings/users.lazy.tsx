@@ -83,12 +83,12 @@ const Users = () => {
         sorting,
     });
 
-    const records = data?.records ?? [];
-    const total = data?.meta.total ?? 0;
+    const items = data?.items ?? [];
+    const total = data?.total ?? 0;
 
     const table = useDataTable({
         columns,
-        data: records,
+        data: items,
         rowCount: total,
         // display
         enableRowSelection: true,

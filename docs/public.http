@@ -1,0 +1,14 @@
+### configs
+
+GET http://localhost:8000/api/public/configs
+Content-Type: application/json
+
+### configs
+
+GET http://localhost:8000/api/public/configs/cnf-system-title
+Content-Type: application/json
+
+### not public access
+
+GET http://localhost:8000/api/public/configs/cnf-server-alarm-disk
+Content-Type: application/json

@@ -10,7 +10,7 @@ import java.util.*;
 
 public class RoverUserDetails implements UserDetails, CredentialsContainer {
     private final String userId;
-    private final String sessionId;
+    private final String accessToken;
     private final String email;
     private final String name;
     private final Set<GrantedAuthority> authorities;
@@ -21,7 +21,7 @@ public class RoverUserDetails implements UserDetails, CredentialsContainer {
     private String password;
 
     public RoverUserDetails(String userId,
-                            String sessionId,
+                            String accessToken,
                             String email,
                             String name,
                             String password,
@@ -32,7 +32,7 @@ public class RoverUserDetails implements UserDetails, CredentialsContainer {
                             Collection<? extends GrantedAuthority> authorities) {
         Assert.isTrue(StringUtils.hasText(userId) && StringUtils.hasText(email), "Cannot pass null or empty values to constructor");
         this.userId = userId;
-        this.sessionId = sessionId;
+        this.accessToken = accessToken;
         this.email = email;
         this.name = name;
         this.password = password;
@@ -105,8 +105,8 @@ public class RoverUserDetails implements UserDetails, CredentialsContainer {
         return userId;
     }
 
-    public String getSessionId() {
-        return sessionId;
+    public String getAccessToken() {
+        return accessToken;
     }
 
     public String getName() {

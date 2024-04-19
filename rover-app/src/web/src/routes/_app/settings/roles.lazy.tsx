@@ -94,12 +94,12 @@ const Roles = () => {
 
     const {data, isError, isLoading} = useRoleQuery();
 
-    const records = data?.records ?? [];
-    const total = data?.meta.total ?? 0;
+    const items = data?.items ?? [];
+    const total = data?.total ?? 0;
 
     const table = useDataTable({
         columns,
-        data: records,
+        data: items,
         rowCount: total,
         // display
         enableEditing: true,

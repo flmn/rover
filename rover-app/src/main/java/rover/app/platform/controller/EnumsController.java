@@ -2,8 +2,8 @@ package rover.app.platform.controller;
 
 import org.springframework.web.bind.annotation.*;
 import rover.app.platform.dto.EnumDTO;
+import rover.app.shared.config.Constants;
 import rover.app.shared.dto.ListResultDTO;
-import rover.app.shared.dto.ListResultMetaDTO;
 import rover.core.platform.entity.EnumEntity;
 import rover.core.platform.entity.EnumMember;
 import rover.core.platform.service.EnumService;
@@ -23,12 +23,12 @@ public class EnumsController {
 
     @GetMapping
     public ListResultDTO<EnumDTO> list() {
-        List<EnumDTO> records = enumService.list()
+        List<EnumDTO> items = enumService.list()
                 .stream()
                 .map(EnumDTO::from)
                 .toList();
 
-        return new ListResultDTO<>(new ListResultMetaDTO(records.size()), records);
+        return new ListResultDTO<>(1, Constants.MAX_PAGE_SIZE, items.size(), items);
     }
 
     //    @PostMapping

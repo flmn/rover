@@ -1,0 +1,32 @@
+### login
+
+POST http://localhost:8000/api/public/login
+Content-Type: application/json
+
+{
+  "email": "admin@admin.com",
+  "password": "admin123"
+}
+
+### bad login
+
+POST http://localhost:8000/api/public/login
+Content-Type: application/json
+
+{
+  "email": "admin@admin.com",
+  "password": "admin"
+}
+
+### me
+
+GET http://localhost:8000/api/account/me
+Content-Type: application/json
+Authorization: Bearer aed1edb934a44923be6635dcbb9e4381
+
+### logout
+
+POST http://localhost:8000/api/account/logout
+Content-Type: application/json
+Authorization: Bearer 773c8e6f37d9424a924c844f8d6ce2d9
+

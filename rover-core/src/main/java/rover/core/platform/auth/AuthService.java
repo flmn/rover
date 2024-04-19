@@ -46,4 +46,8 @@ public class AuthService {
 
         return Optional.empty();
     }
+
+    public void logout(String accessToken) {
+        sessionManager.delete(accessToken);
+    }
 }

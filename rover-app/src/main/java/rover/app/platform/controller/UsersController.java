@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import rover.app.platform.dto.UserDTO;
 import rover.app.shared.dto.ListResultDTO;
-import rover.app.shared.dto.ListResultMetaDTO;
 import rover.core.platform.auth.RoverUserDetails;
 import rover.core.platform.entity.UserEntity;
 import rover.core.platform.service.UserService;
@@ -34,11 +33,11 @@ public class UsersController {
 
         Page<UserEntity> page = userService.list(search, pageNumber, pageSize, sort, direction);
 
-        List<UserDTO> records = page.stream()
+        List<UserDTO> items = page.stream()
                 .map(UserDTO::from)
                 .toList();
 
-        return new ListResultDTO<>(new ListResultMetaDTO(page.getTotalElements()), records);
+        return new ListResultDTO<>(pageNumber, pageSize, items.size(), items);
     }
 
     @PostMapping

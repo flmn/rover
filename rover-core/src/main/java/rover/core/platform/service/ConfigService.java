@@ -9,6 +9,7 @@ import rover.core.platform.entity.ConfigEntity;
 import rover.core.platform.repository.ConfigRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @CacheConfig(cacheNames = "configs")
@@ -19,8 +20,18 @@ public class ConfigService {
         this.configRepository = configRepository;
     }
 
-    public List<ConfigEntity> list() {
-        return configRepository.findAll(Sort.by("id"));
+    public List<ConfigEntity> list(boolean publicOnly) {
+        var sort = Sort.by("id");
+
+        if (publicOnly) {
+            return configRepository.findAllByPublicAccess(true, sort);
+        }
+
+        return configRepository.findAll(sort);
+    }
+
+    public Optional<ConfigEntity> get(String id) {
+        return configRepository.findById(id);
     }
 
     public String getString(String id) {
