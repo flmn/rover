@@ -7,6 +7,7 @@ import {
     Card,
     Center,
     Code,
+    Container,
     CopyButton,
     Flex,
     Group,
@@ -30,7 +31,6 @@ import {
 } from "mantine-react-table";
 import { MRT_Localization_ZH_HANS } from "mantine-react-table/locales/zh-Hans/index.esm.mjs";
 import dayjs from "dayjs";
-import { Page } from "@/components";
 import { useEnumMembersMutation, useEnumQuery } from "@/hooks";
 import { EnumDTO, EnumMemberDTO } from "@/types";
 import classes from "./index.lazy.module.css";
@@ -335,12 +335,12 @@ const Enums = () => {
     const [activeEnum, setActiveEnum] = useState<EnumDTO | undefined>(undefined);
 
     return (
-        <Page title="数据字典管理">
+        <Container fluid p="sm">
             <Flex className={classes.root} gap="xs" p={0}>
                 <EnumList activeEnum={activeEnum} setActiveEnum={setActiveEnum}/>
                 <EnumDetails activeEnum={activeEnum}/>
             </Flex>
-        </Page>
+        </Container>
     );
 }
 

@@ -11,6 +11,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 // Import Routes
+
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
 import { Route as AppImport } from './routes/_app'
@@ -79,7 +80,7 @@ const AppAccountProfileLazyRoute = AppAccountProfileLazyImport.update({
   path: '/account/profile',
   getParentRoute: () => AppRoute,
 } as any).lazy(() =>
-    import('./routes/_app/account/profile.lazy').then((d) => d.Route),
+  import('./routes/_app/account/profile.lazy').then((d) => d.Route),
 )
 
 const AppFleetAircraftsRoute = AppFleetAircraftsImport.update({

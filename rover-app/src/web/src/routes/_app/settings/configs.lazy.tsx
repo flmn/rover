@@ -10,10 +10,9 @@ import {
 } from "mantine-react-table";
 import dayjs from "dayjs";
 import { useQueryClient } from "@tanstack/react-query";
-import { ActionIcon, Flex, Group, Stack, Text, Title, Tooltip } from "@mantine/core";
+import { ActionIcon, Button, Container, Flex, Group, Stack, Text, Title, Tooltip } from "@mantine/core";
 import { MRT_Localization_ZH_HANS } from "mantine-react-table/locales/zh-Hans/index.esm.mjs";
 import { IconInfoCircle, IconPencil } from "@tabler/icons-react";
-import { Page } from "@/components";
 import { useConfigMutation, useConfigQuery } from "@/hooks";
 import { ConfigDTO } from "@/types";
 
@@ -170,9 +169,14 @@ const Configs = () => {
     });
 
     return (
-        <Page title="系统参数">
+        <Container fluid p="sm">
+            <Flex justify="end" align="center" gap="sm" mb="sm">
+                <Tooltip label="导出系统参数">
+                    <Button>导出</Button>
+                </Tooltip>
+            </Flex>
             <MantineReactTable table={table}/>
-        </Page>
+        </Container>
     );
 }
 

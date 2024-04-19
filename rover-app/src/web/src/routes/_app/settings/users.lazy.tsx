@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { useMemo, useState } from "react";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { Badge, Button, Drawer, Group, Menu, Text, Tooltip } from "@mantine/core";
+import { Badge, Button, Container, Drawer, Flex, Menu, Text, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 import {
@@ -12,7 +12,6 @@ import {
     useMantineReactTable
 } from 'mantine-react-table';
 import { MRT_Localization_ZH_HANS } from 'mantine-react-table/locales/zh-Hans/index.esm.mjs';
-import { Page } from "@/components";
 import { UserForm } from "@/components/routes/settings/users";
 import { useUserQuery } from "@/hooks";
 import { UserDTO } from "@/types";
@@ -165,20 +164,19 @@ const Users = () => {
     const [opened, handlers] = useDisclosure(false);
 
     return (
-        <>
-            <Page title="用户管理" toolbar={
-                <Group>
-                    <Tooltip label="创建一个新用户">
-                        <Button onClick={handlers.open}>添加用户</Button>
-                    </Tooltip>
-                </Group>}>
-                <MantineReactTable table={table}/>
-            </Page>
+        <Container fluid p="sm">
+            <Flex justify="end" align="center" gap="sm" mb="sm">
+                <Tooltip label="创建一个新用户">
+                    <Button onClick={handlers.open}>添加用户</Button>
+                </Tooltip>
+            </Flex>
+            <MantineReactTable table={table}/>
+
             <Drawer title="添加用户" position="right" size="lg" offset={4} radius="sm"
                     opened={opened} onClose={handlers.close}>
                 <UserForm/>
             </Drawer>
-        </>
+        </Container>
     );
 }
 

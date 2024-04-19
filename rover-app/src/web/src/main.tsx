@@ -8,7 +8,7 @@ import { ModalsProvider } from '@mantine/modals';
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 import 'mantine-react-table/styles.css';
-import { theme } from '@/theme';
+import { resolver, theme } from '@/theme';
 import './index.css'
 import { routeTree } from './routeTree.gen'
 
@@ -31,7 +31,7 @@ declare module '@tanstack/react-router' {
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <QueryClientProvider client={queryClient}>
-            <MantineProvider theme={theme} classNamesPrefix="mt">
+            <MantineProvider classNamesPrefix="mt" theme={theme} cssVariablesResolver={resolver}>
                 <ModalsProvider>
                     <RouterProvider router={router}/>
                 </ModalsProvider>

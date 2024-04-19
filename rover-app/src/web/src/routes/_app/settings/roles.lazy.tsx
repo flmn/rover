@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { useMemo } from "react";
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { useQueryClient } from "@tanstack/react-query";
-import { ActionIcon, Button, Flex, Group, Stack, Text, Title, Tooltip } from "@mantine/core";
+import { ActionIcon, Button, Container, Flex, Group, Stack, Text, Title, Tooltip } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
 import {
@@ -15,7 +15,6 @@ import {
     useMantineReactTable
 } from "mantine-react-table";
 import { MRT_Localization_ZH_HANS } from "mantine-react-table/locales/zh-Hans/index.esm.mjs";
-import { Page } from "@/components";
 import { useRoleMutation, useRoleQuery } from "@/hooks";
 import { RoleDTO } from "@/types";
 
@@ -190,14 +189,14 @@ const Roles = () => {
     });
 
     return (
-        <Page title="角色管理" toolbar={
-            <Group>
+        <Container fluid p="sm">
+            <Flex justify="end" align="center" gap="sm" mb="sm">
                 <Tooltip label="创建一个新角色">
                     <Button onClick={() => table.setCreatingRow(true)}>添加角色</Button>
                 </Tooltip>
-            </Group>}>
+            </Flex>
             <MantineReactTable table={table}/>
-        </Page>
+        </Container>
     );
 }
 

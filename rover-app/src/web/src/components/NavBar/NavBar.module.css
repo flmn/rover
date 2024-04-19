@@ -3,7 +3,7 @@
     /*color: white;*/
 }
 
-.logo {
+.logoSection {
     border-bottom: rem(1px) solid;
 
     @mixin where-light {
@@ -15,20 +15,13 @@
     }
 }
 
-.account {
-    border-bottom: rem(1px) solid;
-
-    @mixin where-light {
-        border-color: var(--mantine-color-gray-3);
-    }
-
-    @mixin where-dark {
-        border-color: var(--mantine-color-dark-4);
-    }
+.logo {
+    width: 100%;
+    height: calc(var(--rover-header-height) - 1px);
 }
 
 .workspace {
-    border-bottom: rem(1px) solid;
+    border-top: rem(1px) solid;
 
     @mixin where-light {
         border-color: var(--mantine-color-gray-3);

@@ -17,7 +17,7 @@ values ('tkn-00w3n62q8a8am', 'usr-00vchk38dg640', 'ACCESS_TOKEN', 'aed1edb934a44
 
 insert into platform_session (id, user_id, access_token, expires_at, data, created_by)
 values ('ssn-0108pz0c7sww2', 'usr-00vchk38dg640', 'aed1edb934a44923be6635dcbb9e4381', '2025-05-29 19:17:18',
-        '{"locked":false,"email":"admin@admin.com","enabled":true,"authorities":[]}', 'system');
+        '{"locked":false,"email":"admin@admin.com","name":"管理员","enabled":true,"authorities":[]}', 'system');
 
 insert into platform_enum (id, name, created_by)
 values ('Aircraft.AcType', '机型', 'system');

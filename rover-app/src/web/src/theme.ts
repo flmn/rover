@@ -1,4 +1,4 @@
-import { createTheme } from '@mantine/core';
+import { createTheme, CSSVariablesResolver } from '@mantine/core';
 
 export const theme = createTheme({
     primaryColor: 'paleblue',
@@ -17,4 +17,15 @@ export const theme = createTheme({
         ]
     },
     autoContrast: true,
+    other: {
+        headerHeight: '60px',
+    }
+});
+
+export const resolver: CSSVariablesResolver = (theme) => ({
+    variables: {
+        '--rover-header-height': theme.other.headerHeight,
+    },
+    light: {},
+    dark: {},
 });

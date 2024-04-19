@@ -1,6 +1,19 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { Button, Card, Grid, Group, Loader, Progress, Stack, Table, Text, Title, Tooltip } from "@mantine/core";
-import { Page } from "@/components";
+import {
+    Button,
+    Card,
+    Container,
+    Flex,
+    Grid,
+    Group,
+    Loader,
+    Progress,
+    Stack,
+    Table,
+    Text,
+    Title,
+    Tooltip
+} from "@mantine/core";
 import { useServerInfoQuery } from "@/hooks";
 import { AppInfoDTO, CpuInfoDTO, DiskInfoDTO, JvmInfoDTO, MemInfoDTO, SysInfoDTO } from "@/types";
 
@@ -259,14 +272,14 @@ const ServerInfo = () => {
     const disks = data?.disks ?? [];
 
     return (
-        <Page title="系统信息" toolbar={
-            <Group>
+        <Container fluid p="sm">
+            <Flex justify="end" align="center" gap="sm" mb="sm">
                 {isFetching && <Loader size="sm"/>}
                 <Tooltip label="创建一个新用户">
                     <Button onClick={() => refetch()}>刷新</Button>
                 </Tooltip>
-            </Group>}>
-            <Grid p="sm">
+            </Flex>
+            <Grid>
                 <Grid.Col span={6}>
                     <AppInfo appInfo={app}/>
                 </Grid.Col>
@@ -286,7 +299,7 @@ const ServerInfo = () => {
                     <DiskInfo diskInfos={disks}/>
                 </Grid.Col>
             </Grid>
-        </Page>
+        </Container>
     );
 }
 
