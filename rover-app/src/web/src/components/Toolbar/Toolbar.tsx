@@ -1,9 +1,10 @@
+import { ReactNode } from "react";
 import { Flex } from "@mantine/core";
 import classes from "./Toolbar.module.css";
 
 
 interface ToolbarProps {
-    children: any;
+    children: ReactNode;
 }
 
 export function Toolbar(props: ToolbarProps) {

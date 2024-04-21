@@ -8,6 +8,7 @@ import rover.app.shared.dto.ListResultDTO;
 import rover.core.platform.auth.RoverUserDetails;
 import rover.core.platform.entity.ConfigEntity;
 import rover.core.platform.service.ConfigService;
+import rover.core.shared.exception.NotFoundException;
 
 import java.util.List;
 
@@ -28,6 +29,17 @@ public class ConfigsController {
                 .toList();
 
         return new ListResultDTO<>(1, Constants.MAX_PAGE_SIZE, items.size(), items);
+    }
+
+    @GetMapping("/{id}")
+    public ConfigDTO get(@PathVariable String id) throws NotFoundException {
+        var opt = configService.get(id);
+
+        if (opt.isEmpty() || !opt.get().getPublicAccess()) {
+            throw new NotFoundException("Can not found config");
+        }
+
+        return ConfigDTO.from(opt.get());
     }
 
     @PostMapping("/{id}")

@@ -1,5 +1,5 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
 import { useMemo } from "react";
+import { createLazyFileRoute } from '@tanstack/react-router'
 import {
     MantineReactTable,
     MRT_ColumnDef,
@@ -13,7 +13,20 @@ import { ActionIcon, Anchor, Badge, Button, Container, Flex, Group, Stack, Text,
 import { IconExternalLink, IconInfoCircle, IconPencil } from "@tabler/icons-react";
 import { ConfigDTO } from "@/types";
 import { Toolbar } from '@/components';
-import { useConfigMutation, useConfigQuery, useDataTable } from "@/hooks";
+import { useConfigMutation, useConfigQuery, useDataTable, useEditor } from "@/hooks";
+import { Editor } from "@/components/Editor/Editor";
+
+interface FormProps {
+    id?: string;
+}
+
+const EditForm = (props: FormProps) => {
+    return (
+        <>
+            {props.id}
+        </>
+    );
+}
 
 const Configs = () => {
     const columns = useMemo<MRT_ColumnDef<ConfigDTO>[]>(
@@ -127,6 +140,10 @@ const Configs = () => {
         table.setEditingRow(null); //exit editing mode
     };
 
+    const editor = useEditor({
+        form: <EditForm/>,
+    });
+
     const {data, isError, isLoading} = useConfigQuery();
 
     const items = data?.items ?? [];
@@ -157,6 +174,9 @@ const Configs = () => {
                         <IconPencil size="1.3rem"/>
                     </ActionIcon>
                 </Tooltip>
+                <ActionIcon variant="subtle" onClick={() => editor.edit(row.original.id)}>
+                    <IconPencil size="1.3rem"/>
+                </ActionIcon>
             </Flex>
         ),
         renderEditRowModalContent: ({row, table}) => {
@@ -195,6 +215,7 @@ const Configs = () => {
                 </Tooltip>
             </Toolbar>
             <MantineReactTable table={table}/>
+            <Editor editor={editor}/>
         </Container>
     );
 }

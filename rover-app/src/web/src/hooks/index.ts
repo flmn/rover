@@ -6,3 +6,4 @@ export * from './use-server-apis'
 export * from './use-user-apis'
 
 export * from './use-data-table'
+export * from './use-editor'

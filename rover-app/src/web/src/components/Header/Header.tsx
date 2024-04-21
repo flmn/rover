@@ -1,11 +1,16 @@
 import { ActionIcon, AppShell, Breadcrumbs, Flex, Group, Text } from "@mantine/core";
-import { IconLayoutSidebarLeftCollapse } from "@tabler/icons-react";
+import { IconLayoutSidebarLeftCollapse, IconLayoutSidebarRightCollapse } from "@tabler/icons-react";
 import { useRouterState } from "@tanstack/react-router";
 import { ColorSchemeToggle } from "@/components";
 import { Account } from "./Account";
 import classes from "./Header.module.css";
 
-export function Header() {
+interface HeaderProps {
+    collapsed: boolean;
+    toggleCollapsed: () => void;
+}
+
+export function Header(props: HeaderProps) {
     const state = useRouterState({
         select: (state) => state.location,
     })
@@ -24,8 +29,9 @@ export function Header() {
         <AppShell.Header>
             <Flex justify="space-between" align="center" className={classes.root} w="100%">
                 <Group gap="md" pl="xs">
-                    <ActionIcon variant="subtle" color="gray">
-                        <IconLayoutSidebarLeftCollapse size="2.4rem"/>
+                    <ActionIcon variant="subtle" color="gray" onClick={props.toggleCollapsed}>
+                        {props.collapsed ? <IconLayoutSidebarRightCollapse size="2.4rem"/> :
+                            <IconLayoutSidebarLeftCollapse size="2.4rem"/>}
                     </ActionIcon>
                     <Breadcrumbs>{items}</Breadcrumbs>
                 </Group>

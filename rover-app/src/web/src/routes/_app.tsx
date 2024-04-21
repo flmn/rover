@@ -1,18 +1,20 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 import { AppShell } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { Header, NavBar } from "@/components";
 
 const AppLayout = () => {
+    const [collapsed, handlers] = useDisclosure(false);
 
     return (
         <AppShell layout="alt" padding="0"
                   navbar={{
-                      width: 240,
+                      width: collapsed ? 60 : 240,
                       breakpoint: 'sm',
                   }}
                   header={{height: 60}}>
-            <Header/>
-            <NavBar/>
+            <Header collapsed={collapsed} toggleCollapsed={handlers.toggle}/>
+            <NavBar collapsed={collapsed}/>
             <AppShell.Main>
                 <Outlet/>
             </AppShell.Main>
