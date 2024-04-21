@@ -1,69 +1,7 @@
-import { ActionIcon, Menu, NavLink, Stack, Tooltip, UnstyledButton } from "@mantine/core";
-import {
-    IconAdjustments,
-    IconCpu,
-    IconHome,
-    IconPlane,
-    IconPlaneTilt,
-    IconSettings,
-    IconUsers,
-    IconUsersGroup,
-    IconVocabulary
-} from "@tabler/icons-react";
+import { Group, Menu, NavLink, Stack, Tooltip, UnstyledButton } from "@mantine/core";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { MenuModel } from "@/types";
-
-const menus: MenuModel[] = [
-    {
-        icon: <IconHome size="1.5rem" stroke={1.5}/>,
-        label: '首页',
-        path: '/',
-    },
-    {
-        icon: <IconPlaneTilt size="1.5rem" stroke={1.5}/>,
-        label: '机队管理',
-        path: '/fleet',
-        children: [
-            {
-                icon: <IconPlane size="1.5rem" stroke={1.5}/>,
-                label: '飞机管理',
-                path: '/fleet/aircrafts',
-            },
-        ]
-    },
-    {
-        icon: <IconSettings size="1.5rem" stroke={1.5}/>,
-        label: '系统设置',
-        path: '/settings',
-        children: [
-            {
-                icon: <IconUsers size="1.5rem" stroke={1.5}/>,
-                label: '用户管理',
-                path: '/settings/users',
-            },
-            {
-                icon: <IconUsersGroup size="1.5rem" stroke={1.5}/>,
-                label: '角色管理',
-                path: '/settings/roles',
-            },
-            {
-                icon: <IconVocabulary size="1.5rem" stroke={1.5}/>,
-                label: '数据字典管理',
-                path: '/settings/enums',
-            },
-            {
-                icon: <IconAdjustments size="1.5rem" stroke={1.5}/>,
-                label: '系统参数',
-                path: '/settings/configs',
-            },
-            {
-                icon: <IconCpu size="1.5rem" stroke={1.5}/>,
-                label: '系统信息',
-                path: '/settings/server-info',
-            },
-        ]
-    },
-];
+import { menus } from "@/config";
+import classes from "./AppMenu.module.css";
 
 interface AppMenuProps {
     collapsed: boolean;
@@ -101,27 +39,39 @@ function NormalMenu({pathname}: { pathname: string }) {
     );
 }
 
-function CollapsedMenu() {
+function CollapsedMenu({pathname}: { pathname: string }) {
+    console.log(pathname)
     return (
         <Stack gap={0} align="center">
             {menus.map((item, index) => {
                 if (!item.children) {
                     return (
-                        <UnstyledButton h={40} to={item.path} component={Link}>
-                            <Tooltip label={item.label} key={index}>
-                                <ActionIcon variant="subtle" color="black">{item.icon}</ActionIcon>
-                            </Tooltip>
+                        <UnstyledButton h={48} w={59}
+                                        to={item.path} component={Link}
+                                        data-active={pathname === item.path || undefined}
+                                        className={classes.iconButton}
+                                        key={index}>
+                            <Group justify="center" align="center">
+                                <Tooltip label={item.label} key={index}>
+                                    {item.icon}
+                                </Tooltip>
+                            </Group>
                         </UnstyledButton>
                     );
                 } else {
                     return (
                         <Menu trigger="click-hover" position="right-start"
-                              width={180} shadow="md" offset={16}>
+                              width={180} shadow="md" offset={16}
+                              key={index}>
                             <Menu.Target>
-                                <UnstyledButton h={40}>
-                                    <Tooltip label={item.label} key={index}>
-                                        <ActionIcon variant="subtle" color="black">{item.icon}</ActionIcon>
-                                    </Tooltip>
+                                <UnstyledButton h={48} w={59}
+                                                data-active={pathname.startsWith(item.path) || undefined}
+                                                className={classes.iconButton}>
+                                    <Group justify="center" align="center">
+                                        <Tooltip label={item.label}>
+                                            {item.icon}
+                                        </Tooltip>
+                                    </Group>
                                 </UnstyledButton>
                             </Menu.Target>
                             <Menu.Dropdown>
@@ -147,7 +97,7 @@ export function AppMenu(props: AppMenuProps) {
     })
 
     if (props.collapsed) {
-        return <CollapsedMenu/>
+        return <CollapsedMenu pathname={state.pathname}/>
     } else {
         return <NormalMenu pathname={state.pathname}/>
     }

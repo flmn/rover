@@ -1,0 +1,16 @@
+.iconButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+        background-color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-6));
+    }
+
+    &[data-active] {
+        &,
+        &:hover {
+            background-color: light-dark(#EFF2F7, #2C323D);
+        }
+    }
+}

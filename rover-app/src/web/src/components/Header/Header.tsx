@@ -1,9 +1,11 @@
-import { ActionIcon, AppShell, Breadcrumbs, Flex, Group, Text } from "@mantine/core";
+import { ActionIcon, Anchor, AppShell, Breadcrumbs, Flex, Group, Text } from "@mantine/core";
 import { IconLayoutSidebarLeftCollapse, IconLayoutSidebarRightCollapse } from "@tabler/icons-react";
-import { useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { ColorSchemeToggle } from "@/components";
 import { Account } from "./Account";
 import classes from "./Header.module.css";
+import { splitPath } from "@/utils";
+import { getMenuName } from "@/config";
 
 interface HeaderProps {
     collapsed: boolean;
@@ -15,13 +17,14 @@ export function Header(props: HeaderProps) {
         select: (state) => state.location,
     })
 
-    const segments = state.pathname.split('/')
+    const segments = splitPath(state.pathname);
 
-    const items = segments.map((item, index) => {
-        if (index === 0 && item === '') {
-            return (<Text key={index}>首页</Text>);
+    const breadcrumbs = segments.map((item, index) => {
+        console.log(index, item)
+        if (index === 0 && item === '/') {
+            return <Anchor to="/" component={Link} key={index}>首页</Anchor>;
         } else {
-            return (<Text key={index}>{item}</Text>);
+            return <Text key={index}>{getMenuName(item)}</Text>;
         }
     })
 
@@ -33,7 +36,7 @@ export function Header(props: HeaderProps) {
                         {props.collapsed ? <IconLayoutSidebarRightCollapse size="2.4rem"/> :
                             <IconLayoutSidebarLeftCollapse size="2.4rem"/>}
                     </ActionIcon>
-                    <Breadcrumbs>{items}</Breadcrumbs>
+                    <Breadcrumbs>{breadcrumbs}</Breadcrumbs>
                 </Group>
                 <Group gap="md" pr="md">
                     <ColorSchemeToggle/>
