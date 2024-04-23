@@ -1,4 +1,4 @@
-import { type QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteWithAuthHeader, getWithAuthHeader, postWithAuthHeader } from "@/auth";
 import { ListResultDTO, RoleDTO } from "@/types";
 
@@ -11,7 +11,9 @@ const useRoleQuery = () => {
     });
 }
 
-const useRoleMutation = ({action, queryClient}: { action: string, queryClient: QueryClient }) => {
+const useRoleMutation = ({action}: { action: string }) => {
+    const queryClient = useQueryClient();
+
     const mutationFn = async (roleDTO: RoleDTO): Promise<unknown> => {
         switch (action) {
             case 'create':

@@ -29,7 +29,6 @@ import {
     MRT_ToggleFullScreenButton
 } from "mantine-react-table";
 import dayjs from "dayjs";
-import { useQueryClient } from "@tanstack/react-query";
 import { modals } from "@mantine/modals";
 import { Toolbar } from "@/components";
 import { useDataTable, useEnumMembersMutation, useEnumQuery } from "@/hooks";
@@ -144,8 +143,8 @@ const EnumDetails = ({activeEnum}: {
     const openDeleteConfirmModal = (row: MRT_Row<EnumMemberDTO>) => {
         modals.openConfirmModal({
             title: '确认',
-            children: <Text>确定删除条目【{row.original.label}】？删除后不可恢复。</Text>,
-            labels: {confirm: '删除', cancel: '取消'},
+            children: <Text>确定移除条目【{row.original.label}】？</Text>,
+            labels: {confirm: '移除', cancel: '取消'},
             confirmProps: {color: 'red'},
             onConfirm: () => {
                 records.splice(row.index, 1);
@@ -155,8 +154,7 @@ const EnumDetails = ({activeEnum}: {
         });
     }
 
-    const queryClient = useQueryClient();
-    const {mutateAsync: updateMembers, isPending: isUpdatingMembers} = useEnumMembersMutation({queryClient});
+    const {mutateAsync: updateMembers, isPending: isUpdatingMembers} = useEnumMembersMutation();
 
     const handleSaveAll = async () => {
         const enumDTO = {
@@ -203,16 +201,10 @@ const EnumDetails = ({activeEnum}: {
             <Flex gap="xs" align="center">
                 <Button variant="filled" onClick={() => {
                     table.setCreatingRow(true)
-                }}>
-                    添加
-                </Button>
+                }}>添加条目</Button>
                 <Space w="md"/>
-                <Button variant="default" disabled={!dirty} onClick={handleReset}>
-                    重置
-                </Button>
-                <Button variant="filled" disabled={!dirty} onClick={handleSaveAll}>
-                    保存
-                </Button>
+                <Button variant="default" disabled={!dirty} onClick={handleReset}>重置</Button>
+                <Button variant="filled" disabled={!dirty} onClick={handleSaveAll}>保存更改</Button>
                 <Space w="md"/>
                 <MRT_ToggleFullScreenButton table={table}/>
             </Flex>
@@ -225,7 +217,7 @@ const EnumDetails = ({activeEnum}: {
                         <IconPencil size="1.3rem"/>
                     </ActionIcon>
                 </Tooltip>
-                <Tooltip label="删除条目">
+                <Tooltip label="移除条目">
                     <ActionIcon variant="subtle" color="red" onClick={() => openDeleteConfirmModal(row)}>
                         <IconTrash size="1.3rem"/>
                     </ActionIcon>

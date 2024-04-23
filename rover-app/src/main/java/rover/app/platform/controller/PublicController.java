@@ -4,12 +4,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.*;
 import rover.app.platform.dto.ConfigDTO;
+import rover.app.platform.dto.LoginRequestDTO;
+import rover.app.platform.dto.LoginResultDTO;
 import rover.core.platform.auth.AuthService;
 import rover.core.platform.auth.session.Session;
 import rover.core.platform.service.ConfigService;
 import rover.core.shared.exception.NotFoundException;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,13 +27,19 @@ public class PublicController {
     }
 
     @PostMapping("/login")
-    public Object login(@RequestBody LoginRequest request) {
+    public Object login(@RequestBody LoginRequestDTO request) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         Optional<Session> opt = authService.login(request.email(), request.password());
 
         if (opt.isPresent()) {
             Session session = opt.get();
 
-            return new LoginResult(session.getAccessToken(), session.getExpiresAt());
+            return new LoginResultDTO(session.getAccessToken(), session.getExpiresAt());
         } else {
             return ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, "Login failed");
         }
@@ -55,11 +62,5 @@ public class PublicController {
         }
 
         return ConfigDTO.simple(opt.get());
-    }
-
-    public record LoginRequest(String email, String password) {
-    }
-
-    record LoginResult(String accessToken, LocalDateTime expiresAt) {
     }
 }

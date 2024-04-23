@@ -4,8 +4,9 @@ import { Alert, Anchor, Box, Button, Card, Group, PasswordInput, Space, TextInpu
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { IconInfoCircle, IconLogin2 } from "@tabler/icons-react";
-import { login } from "@/auth";
 import classes from './login.module.css';
+import { useLoginMutation } from "@/hooks";
+import { LoginRequestDTO } from "@/types";
 
 const Login = () => {
     const navigate = useNavigate()
@@ -22,12 +23,14 @@ const Login = () => {
         },
     });
 
-    async function doLogin(values: any) {
+    const {mutateAsync: login, isPending} = useLoginMutation();
+
+    async function doLogin(loginRequest: LoginRequestDTO) {
         setFailed(false);
 
-        const ok = await login(values)
+        const result = await login(loginRequest)
 
-        if (ok) {
+        if (result && result.accessToken) {
             await navigate({to: '/'})
 
             notifications.show({
@@ -64,7 +67,8 @@ const Login = () => {
                                 邮件或密码不匹配。
                             </Alert>}
                         <Button fullWidth mt="xl" type="submit"
-                                leftSection={<IconLogin2 size="1.2rem"/>}>登录</Button>
+                                leftSection={<IconLogin2 size="1.2rem"/>}
+                                loading={isPending}>登录</Button>
                     </form>
                 </Card>
                 <Space h="xl"/>

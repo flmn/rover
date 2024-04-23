@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import { useMemo } from "react";
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { useQueryClient } from "@tanstack/react-query";
 import { ActionIcon, Button, Container, Flex, Group, Stack, Text, Title, Tooltip } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
@@ -58,18 +57,14 @@ const Roles = () => {
         [],
     );
 
-    const queryClient = useQueryClient();
     const {mutateAsync: createRole, isPending: isCreatingRole} = useRoleMutation({
-        action: 'create',
-        queryClient
+        action: 'create'
     });
     const {mutateAsync: updateRole, isPending: isUpdatingRole} = useRoleMutation({
-        action: 'update',
-        queryClient
+        action: 'update'
     });
     const {mutateAsync: deleteRole, isPending: isDeletingRole} = useRoleMutation({
-        action: 'delete',
-        queryClient
+        action: 'delete'
     });
 
     const handleCreateRole: MRT_TableOptions<RoleDTO>['onCreatingRowSave'] = async ({values, exitCreatingMode,}) => {

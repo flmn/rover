@@ -3,6 +3,7 @@ package rover.core.platform.service;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import rover.core.platform.entity.DataPermission;
 import rover.core.platform.entity.RoleEntity;
 import rover.core.platform.repository.RoleRepository;
 import rover.core.shared.util.IdHelper;
@@ -30,6 +31,8 @@ public class RoleService {
         RoleEntity entity = new RoleEntity();
         entity.setId(IdHelper.newTsid(RoleEntity.ID_PREFIX));
         entity.setName(name);
+        entity.setDescription("");
+        entity.setDataPermission(DataPermission.ALL);
 
         return roleRepository.save(entity);
     }

@@ -1,6 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
-import { getWithAuthHeader } from "@/auth";
-import { AccountDTO } from "@/types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { ACCESS_TOKEN_KEY } from "@/config/constants";
+import { getWithAuthHeader, request, requestWithAuthHeader } from "@/auth";
+import { AccountDTO, LoginRequestDTO, LoginResultDTO } from "@/types";
 
 const useAccountQuery = () => {
     return useQuery<AccountDTO>({
@@ -11,4 +12,37 @@ const useAccountQuery = () => {
     });
 }
 
-export { useAccountQuery }
+const useLoginMutation = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async (loginRequest: LoginRequestDTO) => request<LoginResultDTO>(`/api/public/login`, {
+            method: 'post',
+            json: loginRequest
+        }),
+        onSuccess: async (loginResult: LoginResultDTO) => {
+            localStorage.setItem(ACCESS_TOKEN_KEY, loginResult.accessToken)
+        },
+        onSettled: async () => {
+            await queryClient.invalidateQueries({queryKey: ['account']})
+        },
+    });
+}
+
+const useLogoutMutation = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async () => requestWithAuthHeader('/api/account/logout', {
+            method: 'post'
+        }),
+        onSuccess: async () => {
+            localStorage.removeItem(ACCESS_TOKEN_KEY);
+        },
+        onSettled: async () => {
+            await queryClient.invalidateQueries({queryKey: ['account']})
+        },
+    })
+}
+
+export { useAccountQuery, useLoginMutation, useLogoutMutation }

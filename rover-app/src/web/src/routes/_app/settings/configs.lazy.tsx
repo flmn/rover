@@ -8,7 +8,6 @@ import {
     MRT_TableOptions
 } from "mantine-react-table";
 import dayjs from "dayjs";
-import { useQueryClient } from "@tanstack/react-query";
 import { ActionIcon, Anchor, Badge, Button, Container, Flex, Group, Stack, Text, Title, Tooltip } from "@mantine/core";
 import { IconExternalLink, IconInfoCircle, IconPencil } from "@tabler/icons-react";
 import { ConfigDTO } from "@/types";
@@ -131,9 +130,7 @@ const Configs = () => {
         [],
     );
 
-    const queryClient = useQueryClient();
-
-    const {mutateAsync: updateConfig, isPending: isUpdatingConfig} = useConfigMutation({queryClient});
+    const {mutateAsync: updateConfig, isPending: isUpdatingConfig} = useConfigMutation();
 
     const handleUpdateConfig: MRT_TableOptions<ConfigDTO>['onEditingRowSave'] = async ({values, table,}) => {
         await updateConfig(values);

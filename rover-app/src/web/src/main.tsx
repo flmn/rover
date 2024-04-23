@@ -39,7 +39,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                     <RouterProvider router={router}/>
                 </ModalsProvider>
             </MantineProvider>
-            <ReactQueryDevtools position={'bottom'}/>
+            <ReactQueryDevtools position="bottom" buttonPosition="bottom-left"/>
         </QueryClientProvider>
     </React.StrictMode>,
 )

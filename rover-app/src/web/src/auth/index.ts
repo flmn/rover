@@ -1,20 +1,18 @@
 import ky, { HTTPError } from "ky";
-
-const TOKEN_KEY = 'rover-access-token';
-
-interface LoginResult {
-    accessToken: string;
-    expiresAt: Date;
-}
+import { ACCESS_TOKEN_KEY } from "@/config/constants";
 
 export function isAuthenticated(): boolean {
-    const accessToken = localStorage.getItem(TOKEN_KEY);
+    const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
 
     return accessToken != null && accessToken.length > 0;
 }
 
-async function requestWithAuthHeader(url: string, options: object) {
-    const accessToken = localStorage.getItem(TOKEN_KEY);
+export async function request<T>(url: string, options: object): Promise<T> {
+    return await ky(url, options).json();
+}
+
+export async function requestWithAuthHeader(url: string, options: object) {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
 
     try {
         return await ky(url, {
@@ -56,28 +54,4 @@ export async function deleteWithAuthHeader(url: string) {
     };
 
     return requestWithAuthHeader(url, options);
-}
-
-export async function login(data: any): Promise<boolean> {
-    const response = ky.post('/api/public/login', {
-        json: data
-    })
-
-    try {
-        const loginResult = await response.json() as LoginResult;
-
-        localStorage.setItem(TOKEN_KEY, loginResult.accessToken)
-
-        return true;
-    } catch (error) {
-        return false;
-    }
-}
-
-export async function logout(): Promise<void> {
-    await requestWithAuthHeader('/api/account/logout', {
-        method: 'post'
-    });
-
-    localStorage.removeItem(TOKEN_KEY);
 }

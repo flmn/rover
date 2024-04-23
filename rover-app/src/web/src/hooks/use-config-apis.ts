@@ -1,4 +1,4 @@
-import { type QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getWithAuthHeader, postWithAuthHeader } from "@/auth";
 import { ConfigDTO, ListResultDTO } from "@/types";
 
@@ -11,7 +11,9 @@ const useConfigQuery = () => {
     });
 }
 
-const useConfigMutation = ({queryClient}: { queryClient: QueryClient }) => {
+const useConfigMutation = () => {
+    const queryClient = useQueryClient();
+
     return useMutation({
         mutationFn: async (configDTO: ConfigDTO) => postWithAuthHeader(`/api/platform/configs/${configDTO.id}`, configDTO),
         onSettled: async () => {

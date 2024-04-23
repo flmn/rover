@@ -3,12 +3,12 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { Avatar, Group, Menu, Text, UnstyledButton } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconLogout, IconUserCircle } from "@tabler/icons-react";
-import { logout } from "@/auth";
-import { useAccountQuery } from "@/hooks";
+import { useAccountQuery, useLogoutMutation } from "@/hooks";
 
 export function Account() {
     const navigate = useNavigate()
     const {data} = useAccountQuery();
+    const {mutateAsync: logout} = useLogoutMutation();
 
     const name = data?.name ?? '用户';
 
@@ -21,7 +21,7 @@ export function Account() {
             title: '通知',
             message: '已退出登录。',
         })
-    }, [navigate]);
+    }, [navigate, logout]);
 
     return (
         <Group gap="xs">
