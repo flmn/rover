@@ -1,10 +1,11 @@
+import { useAtom } from "jotai";
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 import { AppShell } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { Header, NavBar } from "@/components";
+import { collapsedAtom } from "@/store";
 
 const AppLayout = () => {
-    const [collapsed, handlers] = useDisclosure(false);
+    const [collapsed] = useAtom(collapsedAtom)
 
     return (
         <AppShell layout="alt" padding="0"
@@ -13,8 +14,8 @@ const AppLayout = () => {
                       breakpoint: 'sm',
                   }}
                   header={{height: 60}}>
-            <Header collapsed={collapsed} toggleCollapsed={handlers.toggle}/>
-            <NavBar collapsed={collapsed}/>
+            <Header/>
+            <NavBar/>
             <AppShell.Main>
                 <Outlet/>
             </AppShell.Main>

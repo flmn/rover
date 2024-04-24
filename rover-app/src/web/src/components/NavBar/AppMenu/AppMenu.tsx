@@ -1,11 +1,9 @@
+import { useAtom } from "jotai";
 import { Group, Menu, NavLink, Stack, Tooltip, UnstyledButton } from "@mantine/core";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { menus } from "@/config";
+import { collapsedAtom } from "@/store";
 import classes from "./AppMenu.module.css";
-
-interface AppMenuProps {
-    collapsed: boolean;
-}
 
 function NormalMenu({pathname}: { pathname: string }) {
     return (
@@ -40,7 +38,6 @@ function NormalMenu({pathname}: { pathname: string }) {
 }
 
 function CollapsedMenu({pathname}: { pathname: string }) {
-    console.log(pathname)
     return (
         <Stack gap={0} align="center">
             {menus.map((item, index) => {
@@ -91,12 +88,13 @@ function CollapsedMenu({pathname}: { pathname: string }) {
     );
 }
 
-export function AppMenu(props: AppMenuProps) {
+export function AppMenu() {
+    const [collapsed] = useAtom(collapsedAtom)
     const state = useRouterState({
         select: (state) => state.location,
     })
 
-    if (props.collapsed) {
+    if (collapsed) {
         return <CollapsedMenu pathname={state.pathname}/>
     } else {
         return <NormalMenu pathname={state.pathname}/>
