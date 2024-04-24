@@ -1,28 +1,79 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { createLazyFileRoute } from '@tanstack/react-router'
-import {
-    MantineReactTable,
-    MRT_ColumnDef,
-    MRT_EditActionButtons,
-    MRT_EditCellTextInput,
-    MRT_TableOptions
-} from "mantine-react-table";
+import { MantineReactTable, MRT_ColumnDef, MRT_TableOptions } from "mantine-react-table";
 import dayjs from "dayjs";
-import { ActionIcon, Anchor, Badge, Button, Container, Flex, Group, Stack, Text, Title, Tooltip } from "@mantine/core";
+import {
+    ActionIcon,
+    Anchor,
+    Badge,
+    Button,
+    Container,
+    Flex,
+    Group,
+    NumberInput,
+    Stack,
+    Text,
+    TextInput,
+    Tooltip
+} from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { IconExternalLink, IconInfoCircle, IconPencil } from "@tabler/icons-react";
 import { ConfigDTO } from "@/types";
-import { Editor, Toolbar } from '@/components';
-import { useConfigMutation, useConfigQuery, useDataTable, useEditor } from "@/hooks";
+import { Toolbar } from '@/components';
+import { EditorFormProps, useConfigMutation, useConfigQuery, useConfigsQuery, useDataTable, useEditor } from "@/hooks";
+import { modals } from "@mantine/modals";
 
-interface FormProps {
-    id?: string;
-}
+const EditForm = (props: EditorFormProps) => {
+    const {data: config} = useConfigQuery(`${props.id}`);
+    const form = useForm<ConfigDTO>({
+        mode: 'uncontrolled',
+        initialValues: {} as ConfigDTO,
+        enhanceGetInputProps: (payload) => {
+            if (!payload.form.initialized) {
+                return {disabled: true};
+            }
 
-const EditForm = (props: FormProps) => {
+            return {};
+        },
+    });
+
+    useEffect(() => {
+        if (config) {
+            form.initialize(config);
+        }
+    }, [form, config]);
+
+    const {mutateAsync, isPending} = useConfigMutation();
+
+    const handleSubmit = async (values: ConfigDTO) => {
+        await mutateAsync(values);
+
+        modals.closeAll();
+    };
+
     return (
-        <>
-            {props.id}
-        </>
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+            <Stack gap="md">
+                <Text fz="sm">{config?.description}</Text>
+                <TextInput disabled label="ID"
+                           key={form.key('id')}
+                           {...form.getInputProps('id')}
+                />
+                {config?.type === 'TEXT' && <TextInput required label="值"
+                                                       key={form.key('value')}
+                                                       {...form.getInputProps('value')}
+                />}
+                {config?.type === 'PERCENT' && <NumberInput
+                    required label="值" suffix="%" clampBehavior="strict" min={0} max={100}
+                    key={form.key('value')}
+                    {...form.getInputProps('value')}
+                />}
+                <Group justify="end" mt="md">
+                    <Button variant="default" onClick={() => modals.closeAll()}>取消</Button>
+                    <Button type="submit" loading={isPending}>保存</Button>
+                </Group>
+            </Stack>
+        </form>
     );
 }
 
@@ -131,16 +182,17 @@ const Configs = () => {
 
     const {mutateAsync: updateConfig, isPending: isUpdatingConfig} = useConfigMutation();
 
-    const handleUpdateConfig: MRT_TableOptions<ConfigDTO>['onEditingRowSave'] = async ({values, table,}) => {
+    const handleUpdateConfig: MRT_TableOptions<ConfigDTO>['onEditingRowSave'] = async ({values,}) => {
         await updateConfig(values);
-        table.setEditingRow(null); //exit editing mode
     };
 
     const editor = useEditor({
-        form: <EditForm/>,
+        entityName: '系统参数',
+        size: 'xl',
+        form: (props) => (<EditForm {...props}/>),
     });
 
-    const {data, isError, isLoading} = useConfigQuery();
+    const {data, isError, isLoading} = useConfigsQuery();
 
     const items = data?.items ?? [];
     const total = data?.total ?? 0;
@@ -151,10 +203,6 @@ const Configs = () => {
         rowCount: total,
         // display
         enableColumnFilters: true,
-        enableEditing: true,
-        mantineEditRowModalProps: {
-            closeOnClickOutside: false,
-        },
         mantineToolbarAlertBannerProps: isError ? {color: 'red', children: '加载数据失败',} : undefined,
         // toolbar
         renderBottomToolbarCustomActions: () => (
@@ -163,36 +211,15 @@ const Configs = () => {
             </Group>
         ),
         // row actions
-        renderRowActions: ({row, table}) => (
+        renderRowActions: ({row}) => (
             <Flex gap="md">
                 <Tooltip label="修改参数">
-                    <ActionIcon variant="subtle" onClick={() => table.setEditingRow(row)}>
+                    <ActionIcon variant="subtle" onClick={() => editor.edit(row.original.id)}>
                         <IconPencil size="1.3rem"/>
                     </ActionIcon>
                 </Tooltip>
-                <ActionIcon variant="subtle" onClick={() => editor.edit(row.original.id)}>
-                    <IconPencil size="1.3rem"/>
-                </ActionIcon>
             </Flex>
         ),
-        renderEditRowModalContent: ({row, table}) => {
-            const internalEditComponents = row
-                .getAllCells()
-                .filter((cell) => cell.column.columnDef.columnDefType === 'data'
-                    && cell.column.columnDef.enableEditing)
-                .map((cell) => (
-                    <MRT_EditCellTextInput cell={cell} key={cell.id} table={table}/>
-                ));
-            return (
-                <Stack>
-                    <Title order={4}>修改参数</Title>
-                    {internalEditComponents}
-                    <Flex justify="flex-end">
-                        <MRT_EditActionButtons row={row} table={table} variant="text"/>
-                    </Flex>
-                </Stack>
-            )
-        },
         // state
         state: {
             isLoading,
@@ -211,7 +238,6 @@ const Configs = () => {
                 </Tooltip>
             </Toolbar>
             <MantineReactTable table={table}/>
-            <Editor editor={editor}/>
         </Container>
     );
 }

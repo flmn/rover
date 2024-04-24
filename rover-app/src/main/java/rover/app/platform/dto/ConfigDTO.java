@@ -56,6 +56,8 @@ public record ConfigDTO(String id,
 
     public static String name(ConfigType type) {
         return switch (type) {
+            case BOOLEAN -> "布尔";
+            case COLOR -> "颜色";
             case ENUM -> "枚举值";
             case INTEGER -> "数字";
             case PERCENT -> "百分比";

@@ -13,7 +13,7 @@ import {
     MRT_TableOptions
 } from "mantine-react-table";
 import { Toolbar } from "@/components";
-import { useDataTable, useRoleMutation, useRoleQuery } from "@/hooks";
+import { useDataTable, useRoleMutation, useRolesQuery } from "@/hooks";
 import { RoleDTO } from "@/types";
 
 const Roles = () => {
@@ -87,7 +87,7 @@ const Roles = () => {
         });
     }
 
-    const {data, isError, isLoading} = useRoleQuery();
+    const {data, isError, isLoading} = useRolesQuery();
 
     const items = data?.items ?? [];
     const total = data?.total ?? 0;

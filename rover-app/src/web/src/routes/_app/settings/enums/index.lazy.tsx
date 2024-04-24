@@ -31,7 +31,7 @@ import {
 import dayjs from "dayjs";
 import { modals } from "@mantine/modals";
 import { Toolbar } from "@/components";
-import { useDataTable, useEnumMembersMutation, useEnumQuery } from "@/hooks";
+import { useDataTable, useEnumMembersMutation, useEnumsQuery } from "@/hooks";
 import { EnumDTO, EnumMemberDTO } from "@/types";
 import classes from "./index.lazy.module.css";
 
@@ -45,7 +45,7 @@ const EnumList = ({activeEnum, setActiveEnum}: {
         setSearchValue('');
     };
 
-    const {data} = useEnumQuery()
+    const {data} = useEnumsQuery()
 
     const items = data?.items ?? [];
 

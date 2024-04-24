@@ -7,7 +7,7 @@ import { IconEdit, IconTrash } from "@tabler/icons-react";
 import { MantineReactTable, type MRT_ColumnDef, MRT_PaginationState, MRT_SortingState } from 'mantine-react-table';
 import { Toolbar } from "@/components";
 import { UserForm } from "@/components/routes/settings/users";
-import { useDataTable, useUserQuery } from "@/hooks";
+import { useDataTable, useUsersQuery } from "@/hooks";
 import { UserDTO } from "@/types";
 
 const Users = () => {
@@ -77,7 +77,7 @@ const Users = () => {
     });
     const [globalFilter, setGlobalFilter] = useState('');
     const [sorting, setSorting] = useState<MRT_SortingState>([]);
-    const {data, isError, isLoading} = useUserQuery({
+    const {data, isError, isLoading} = useUsersQuery({
         pagination,
         globalFilter,
         sorting,

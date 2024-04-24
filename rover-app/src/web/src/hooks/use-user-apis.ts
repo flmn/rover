@@ -9,7 +9,7 @@ interface QueryParams {
     sorting: MRT_SortingState;
 }
 
-const useUserQuery = ({globalFilter, pagination, sorting}: QueryParams) => {
+const useUsersQuery = ({globalFilter, pagination, sorting}: QueryParams) => {
     const fetchURL = new URL('/api/platform/users', 'http://localhost:5173'); // todo remove base
     fetchURL.searchParams.set('pageNumber', `${pagination.pageIndex}`,);
     fetchURL.searchParams.set('pageSize', `${pagination.pageSize}`);
@@ -52,4 +52,4 @@ const useUserMutation = ({action, queryClient}: { action: string, queryClient: Q
     });
 }
 
-export { useUserQuery, useUserMutation }
+export { useUsersQuery, useUserMutation }

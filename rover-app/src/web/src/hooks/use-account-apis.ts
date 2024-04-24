@@ -1,4 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
+import { notifications } from "@mantine/notifications";
 import { ACCESS_TOKEN_KEY } from "@/config/constants";
 import { getWithAuthHeader, request, requestWithAuthHeader } from "@/auth";
 import { AccountDTO, LoginRequestDTO, LoginResultDTO } from "@/types";
@@ -13,6 +15,7 @@ const useAccountQuery = () => {
 }
 
 const useLoginMutation = () => {
+    const navigate = useNavigate()
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -22,6 +25,13 @@ const useLoginMutation = () => {
         }),
         onSuccess: async (loginResult: LoginResultDTO) => {
             localStorage.setItem(ACCESS_TOKEN_KEY, loginResult.accessToken)
+
+            await navigate({to: '/'})
+
+            notifications.show({
+                title: '通知',
+                message: '登录成功。',
+            })
         },
         onSettled: async () => {
             await queryClient.invalidateQueries({queryKey: ['account']})
@@ -30,6 +40,7 @@ const useLoginMutation = () => {
 }
 
 const useLogoutMutation = () => {
+    const navigate = useNavigate()
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -38,6 +49,13 @@ const useLogoutMutation = () => {
         }),
         onSuccess: async () => {
             localStorage.removeItem(ACCESS_TOKEN_KEY);
+
+            await navigate({to: '/login'})
+
+            notifications.show({
+                title: '通知',
+                message: '已退出登录。',
+            })
         },
         onSettled: async () => {
             await queryClient.invalidateQueries({queryKey: ['account']})

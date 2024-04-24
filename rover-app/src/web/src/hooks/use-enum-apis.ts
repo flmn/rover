@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getWithAuthHeader, postWithAuthHeader } from "@/auth";
 import { EnumDTO, ListResultDTO } from "@/types";
 
-const useEnumQuery = () => {
+const useEnumsQuery = () => {
     return useQuery<ListResultDTO<EnumDTO>>({
         queryKey: ['enums'],
         queryFn: () => getWithAuthHeader('/api/platform/enums') as Promise<ListResultDTO<EnumDTO>>,
@@ -22,4 +22,4 @@ const useEnumMembersMutation = () => {
     });
 }
 
-export { useEnumQuery, useEnumMembersMutation }
+export { useEnumsQuery, useEnumMembersMutation }

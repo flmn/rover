@@ -35,7 +35,7 @@ public class ConfigsController {
     public ConfigDTO get(@PathVariable String id) throws NotFoundException {
         var opt = configService.get(id);
 
-        if (opt.isEmpty() || !opt.get().getPublicAccess()) {
+        if (opt.isEmpty()) {
             throw new NotFoundException("Can not found config");
         }
 

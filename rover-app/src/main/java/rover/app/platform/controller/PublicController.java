@@ -28,12 +28,6 @@ public class PublicController {
 
     @PostMapping("/login")
     public Object login(@RequestBody LoginRequestDTO request) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
         Optional<Session> opt = authService.login(request.email(), request.password());
 
         if (opt.isPresent()) {

@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteWithAuthHeader, getWithAuthHeader, postWithAuthHeader } from "@/auth";
 import { ListResultDTO, RoleDTO } from "@/types";
 
-const useRoleQuery = () => {
+const useRolesQuery = () => {
     return useQuery<ListResultDTO<RoleDTO>>({
         queryKey: ['roles'],
         queryFn: () => getWithAuthHeader('/api/platform/roles') as Promise<ListResultDTO<RoleDTO>>,
@@ -33,4 +33,4 @@ const useRoleMutation = ({action}: { action: string }) => {
     });
 }
 
-export { useRoleQuery, useRoleMutation }
+export { useRolesQuery, useRoleMutation }
