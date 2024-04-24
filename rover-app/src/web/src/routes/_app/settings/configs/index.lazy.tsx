@@ -10,7 +10,7 @@ import {
     Container,
     Flex,
     Group,
-    NumberInput,
+    Slider,
     Stack,
     Text,
     TextInput,
@@ -63,11 +63,18 @@ const EditForm = (props: EditorFormProps) => {
                                                        key={form.key('value')}
                                                        {...form.getInputProps('value')}
                 />}
-                {config?.type === 'PERCENT' && <NumberInput
-                    required label="值" suffix="%" clampBehavior="strict" min={0} max={100}
-                    key={form.key('value')}
-                    {...form.getInputProps('value')}
-                />}
+                {config?.type === 'PERCENT' && <><Text size="sm" fw={500}>值</Text>
+                    <Slider
+                        label={(value) => `${value}%`}
+                        labelAlwaysOn
+                        marks={[
+                            {value: 20, label: '20%'},
+                            {value: 50, label: '50%'},
+                            {value: 80, label: '80%'},
+                        ]}
+                        key={form.key('value')}
+                        {...form.getInputProps('value')}
+                    /></>}
                 <Group justify="end" mt="md">
                     <Button variant="default" onClick={() => modals.closeAll()}>取消</Button>
                     <Button type="submit" loading={isPending}>保存</Button>
@@ -242,6 +249,6 @@ const Configs = () => {
     );
 }
 
-export const Route = createLazyFileRoute('/_app/settings/configs')({
+export const Route = createLazyFileRoute('/_app/settings/configs/')({
     component: Configs,
 })

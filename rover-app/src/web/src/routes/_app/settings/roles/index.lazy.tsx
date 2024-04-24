@@ -163,6 +163,6 @@ const Roles = () => {
     );
 }
 
-export const Route = createLazyFileRoute('/_app/settings/roles')({
+export const Route = createLazyFileRoute('/_app/settings/roles/')({
     component: Roles,
 })

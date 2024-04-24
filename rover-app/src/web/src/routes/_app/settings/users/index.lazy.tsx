@@ -144,6 +144,6 @@ const Users = () => {
     );
 }
 
-export const Route = createLazyFileRoute('/_app/settings/users')({
+export const Route = createLazyFileRoute('/_app/settings/users/')({
     component: Users,
 })
