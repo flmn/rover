@@ -20,6 +20,7 @@ export const theme = createTheme({
     other: {
         headerHeight: '60px',
         toolbarHeight: '36px',
+        footerHeight: '48px',
     }
 });
 
@@ -27,6 +28,7 @@ export const resolver: CSSVariablesResolver = (theme) => ({
     variables: {
         '--rover-header-height': theme.other.headerHeight,
         '--rover-toolbar-height': theme.other.toolbarHeight,
+        '--rover-footer-height': theme.other.footerHeight,
     },
     light: {},
     dark: {},

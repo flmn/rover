@@ -1,0 +1,15 @@
+.root {
+    background-color: var(--mantine-color-body);
+    height: calc(var(--rover-footer-height) - 1px);
+
+    border: rem(1px) solid;
+    border-top: 0;
+
+    @mixin where-light {
+        border-color: var(--mantine-color-gray-3);
+    }
+
+    @mixin where-dark {
+        border-color: var(--mantine-color-dark-4);
+    }
+}

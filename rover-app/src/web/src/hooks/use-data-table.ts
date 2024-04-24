@@ -10,6 +10,7 @@ const useDataTable = <TData extends MRT_RowData>(tableOptions: MRT_TableOptions<
         enableDensityToggle: false,
         enableRowActions: true,
         enableRowNumbers: true,
+        // enableStickyFooter: true,
         enableStickyHeader: true,
         localization: MRT_Localization_ZH_HANS,
         positionActionsColumn: 'last',

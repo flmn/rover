@@ -11,9 +11,8 @@ import dayjs from "dayjs";
 import { ActionIcon, Anchor, Badge, Button, Container, Flex, Group, Stack, Text, Title, Tooltip } from "@mantine/core";
 import { IconExternalLink, IconInfoCircle, IconPencil } from "@tabler/icons-react";
 import { ConfigDTO } from "@/types";
-import { Toolbar } from '@/components';
+import { Editor, Toolbar } from '@/components';
 import { useConfigMutation, useConfigQuery, useDataTable, useEditor } from "@/hooks";
-import { Editor } from "@/components/Editor/Editor";
 
 interface FormProps {
     id?: string;
