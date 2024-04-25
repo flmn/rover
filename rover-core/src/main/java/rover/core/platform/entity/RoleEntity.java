@@ -2,12 +2,13 @@ package rover.core.platform.entity;
 
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
+import rover.core.shared.constants.PlatformTableNames;
 import rover.core.shared.entity.BaseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Table("platform_role")
+@Table(PlatformTableNames.ROLE)
 public class RoleEntity extends BaseEntity {
     public static final String ID_PREFIX = "rol";
 

@@ -2,9 +2,10 @@ package rover.core.features.fleet.entity;
 
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
+import rover.core.features.fleet.constants.FleetTableNames;
 import rover.core.shared.entity.SoftDeletableEntity;
 
-@Table("fleet_fleet")
+@Table(FleetTableNames.FLEET)
 public class FleetEntity extends SoftDeletableEntity {
 
     @Column("name")

@@ -31,6 +31,10 @@ public class RoleService {
         return roleRepository.findAllById(ids);
     }
 
+    public int countUsers(String id) {
+        return roleRepository.countRoleUsers(id);
+    }
+
     public RoleEntity create(String name) {
         RoleEntity entity = new RoleEntity();
         entity.setId(IdHelper.newTsid(RoleEntity.ID_PREFIX));

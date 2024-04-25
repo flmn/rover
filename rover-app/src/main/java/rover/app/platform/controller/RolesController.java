@@ -9,8 +9,10 @@ import rover.app.shared.config.Constants;
 import rover.app.shared.dto.ListResultDTO;
 import rover.core.platform.entity.RoleEntity;
 import rover.core.platform.service.RoleService;
+import rover.core.platform.service.UserService;
 import rover.core.shared.exception.NotFoundException;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -18,9 +20,12 @@ import java.util.List;
 public class RolesController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final RoleService roleService;
+    private final UserService userService;
 
-    public RolesController(RoleService roleService) {
+    public RolesController(RoleService roleService,
+                           UserService userService) {
         this.roleService = roleService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -35,7 +40,7 @@ public class RolesController {
 
         List<RoleDTO> items = roleService.list()
                 .stream()
-                .map(entity -> RoleDTO.from(entity, 0))
+                .map(entity -> RoleDTO.from(entity, roleService.countUsers(entity.getId())))
                 .toList();
 
         return new ListResultDTO<>(1, Constants.MAX_PAGE_SIZE, items.size(), items);
@@ -45,7 +50,7 @@ public class RolesController {
     public RoleDTO create(@RequestBody RoleDTO request) {
         RoleEntity entity = roleService.create(request.name());
 
-        return RoleDTO.from(entity, 0);
+        return RoleDTO.from(entity, roleService.countUsers(entity.getId()));
     }
 
     @GetMapping("/{id}")
@@ -56,7 +61,12 @@ public class RolesController {
             throw new NotFoundException("Can not found role");
         }
 
-        return RoleDTO.from(opt.get(), 0);
+        return RoleDTO.from(opt.get(), roleService.countUsers(id));
+    }
+
+    @GetMapping("/{id}/users")
+    public Object users(@PathVariable("id") String id) throws NotFoundException {
+        return Collections.emptyList(); // todo
     }
 
     @PostMapping("/{id}")
@@ -64,13 +74,13 @@ public class RolesController {
                           @RequestBody RoleDTO request) {
         RoleEntity entity = roleService.update(id, request.name());
 
-        return RoleDTO.from(entity, 0);
+        return RoleDTO.from(entity, roleService.countUsers(id));
     }
 
     @DeleteMapping("/{id}")
     public RoleDTO delete(@PathVariable("id") String id) {
         RoleEntity entity = roleService.delete(id);
 
-        return RoleDTO.from(entity, 0);
+        return RoleDTO.from(entity, roleService.countUsers(id));
     }
 }

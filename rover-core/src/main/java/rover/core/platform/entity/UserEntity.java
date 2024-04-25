@@ -3,12 +3,13 @@ package rover.core.platform.entity;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
+import rover.core.shared.constants.PlatformTableNames;
 import rover.core.shared.entity.SoftDeletableEntity;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Table("platform_user")
+@Table(PlatformTableNames.USER)
 public class UserEntity extends SoftDeletableEntity {
     public static final String ID_PREFIX = "usr";
 

@@ -2,11 +2,12 @@ package rover.core.platform.auth.session.impl.db;
 
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
+import rover.core.shared.constants.PlatformTableNames;
 import rover.core.shared.entity.BaseEntity;
 
 import java.time.LocalDateTime;
 
-@Table("platform_session")
+@Table(PlatformTableNames.SESSION)
 public class SessionEntity extends BaseEntity {
     public static final String ID_PREFIX = "ssn";
 

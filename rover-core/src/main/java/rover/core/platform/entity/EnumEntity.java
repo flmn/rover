@@ -4,12 +4,13 @@ import org.springframework.data.annotation.*;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
+import rover.core.shared.constants.PlatformTableNames;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table("platform_enum")
+@Table(PlatformTableNames.ENUM)
 public class EnumEntity {
 
     @Id

@@ -2,9 +2,10 @@ package rover.core.platform.entity;
 
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
+import rover.core.shared.constants.PlatformTableNames;
 import rover.core.shared.entity.BaseEntity;
 
-@Table("platform_config")
+@Table(PlatformTableNames.CONFIG)
 public class ConfigEntity extends BaseEntity {
 
     @Column("name")

@@ -2,8 +2,9 @@ package rover.core.platform.entity;
 
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
+import rover.core.shared.constants.PlatformTableNames;
 
-@Table("platform_enum_member")
+@Table(PlatformTableNames.ENUM_MEMBER)
 public class EnumMember {
 
     @Column("enum_id")

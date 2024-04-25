@@ -2,8 +2,9 @@ package rover.core.platform.entity;
 
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
+import rover.core.shared.constants.PlatformTableNames;
 
-@Table("platform_user_role")
+@Table(PlatformTableNames.ROLE_REF)
 public class RoleRef {
 
     @Column("user_id")
