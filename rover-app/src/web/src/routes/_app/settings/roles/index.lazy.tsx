@@ -3,28 +3,33 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 import {
     ActionIcon,
     Button,
+    Card,
     Center,
     Container,
     Flex,
     Group,
+    Loader,
     ScrollArea,
     Stack,
+    Tabs,
     Text,
     TextInput,
+    Title,
     Tooltip,
     UnstyledButton
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDebouncedValue } from "@mantine/hooks";
-import { IconSearch, IconX } from "@tabler/icons-react";
-import { Toolbar } from "@/components";
+import { IconListDetails, IconPlus, IconSearch, IconUsers, IconX } from "@tabler/icons-react";
 import { EditorFormProps, useEditor, useGetRoleQuery, useRoleMutation, useRolesQuery } from "@/hooks";
 import { RoleDTO } from "@/types";
 import classes from "./index.lazy.module.css";
 import { modals } from "@mantine/modals";
 
-const EditForm = (props: EditorFormProps) => {
-    const {data: role} = useGetRoleQuery(props.id);
+const EditForm = ({id, setActiveRoleId}: {
+    setActiveRoleId: React.Dispatch<React.SetStateAction<string | undefined>>
+} & EditorFormProps) => {
+    const {data: role} = useGetRoleQuery(id);
     const form = useForm<RoleDTO>({
         mode: 'uncontrolled',
         initialValues: {} as RoleDTO,
@@ -44,13 +49,13 @@ const EditForm = (props: EditorFormProps) => {
     }, [form, role]);
 
     const {mutateAsync, isPending} = useRoleMutation({
-        action: props.id ? 'update' : 'create'
+        action: id ? 'update' : 'create'
     });
 
     const handleSubmit = async (values: RoleDTO) => {
-        console.log(values);
+        const result = await mutateAsync(values);
 
-        await mutateAsync(values);
+        setActiveRoleId(result?.id);
 
         modals.closeAll();
     };
@@ -59,6 +64,7 @@ const EditForm = (props: EditorFormProps) => {
         <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack gap="md">
                 <TextInput required label="角色名称"
+                           data-autofocus
                            key={form.key('name')}
                            {...form.getInputProps('name')}/>
                 <Group justify="end" mt="md">
@@ -70,9 +76,9 @@ const EditForm = (props: EditorFormProps) => {
     );
 }
 
-const RolesList = ({activeRole, setActiveRole}: {
-    activeRole: RoleDTO | undefined,
-    setActiveRole: React.Dispatch<React.SetStateAction<RoleDTO | undefined>>
+const RolesList = ({activeRoleId, setActiveRoleId}: {
+    activeRoleId: string | undefined,
+    setActiveRoleId: React.Dispatch<React.SetStateAction<string | undefined>>
 }) => {
     const [searchValue, setSearchValue] = useState('');
     const [debouncedSearchValue] = useDebouncedValue(searchValue, 200,);
@@ -82,22 +88,28 @@ const RolesList = ({activeRole, setActiveRole}: {
 
     const {data} = useRolesQuery();
 
+    const editor = useEditor({
+        entityName: '角色',
+        size: 'md',
+        form: (props) => (<EditForm setActiveRoleId={setActiveRoleId} {...props}/>),
+    });
+
     const items = data?.items ?? [];
 
     const filteredItems = items.filter(item =>
-        item.id.toLowerCase().includes(debouncedSearchValue.toLowerCase())
-        || item.name.toLowerCase().includes(debouncedSearchValue.toLowerCase())
+        item.name.toLowerCase().includes(debouncedSearchValue.toLowerCase())
     );
 
     const roles = filteredItems?.map((roleDTO) => (
         <UnstyledButton className={classes.role} key={roleDTO.id}
-                        data-active={activeRole === roleDTO || undefined}
+                        data-active={activeRoleId === roleDTO.id || undefined}
                         onClick={(event) => {
                             event.preventDefault();
-                            setActiveRole(roleDTO);
+                            setActiveRoleId(roleDTO.id);
                         }}>
             <Stack gap={1} justify="space-between">
                 {roleDTO.name}
+                <Text size="sm">用户数: {roleDTO.userCount}</Text>
             </Stack>
         </UnstyledButton>
     ));
@@ -119,7 +131,14 @@ const RolesList = ({activeRole, setActiveRole}: {
                        }
                        onChange={(event) => setSearchValue(event.target.value)}/>
             <ScrollArea scrollbars="y" w={280}>
-                <Stack>
+                <Stack gap="xs">
+                    <UnstyledButton className={classes.role} key={0}
+                                    onClick={() => editor.create()}>
+                        <Group gap="0.4rem" justify="center">
+                            <IconPlus size="1.2rem"/>
+                            <Text size="sm">新建角色</Text>
+                        </Group>
+                    </UnstyledButton>
                     {roles}
                 </Stack>
             </ScrollArea>
@@ -127,10 +146,19 @@ const RolesList = ({activeRole, setActiveRole}: {
     );
 }
 
-const RoleDetails = ({activeRole}: {
-    activeRole: RoleDTO | undefined
+const RoleDetails = ({activeRoleId, setActiveRoleId}: {
+    activeRoleId: string | undefined,
+    setActiveRoleId: React.Dispatch<React.SetStateAction<string | undefined>>
 }) => {
-    if (activeRole === undefined) {
+    const {data: role, isLoading} = useGetRoleQuery(activeRoleId);
+
+    const editor = useEditor({
+        entityName: '角色',
+        size: 'md',
+        form: (props) => (<EditForm setActiveRoleId={setActiveRoleId} {...props}/>),
+    });
+
+    if (activeRoleId === undefined) {
         return (
             <Center w="100%">
                 <Text size="xl">请从左侧列表选择一个角色。</Text>
@@ -138,15 +166,48 @@ const RoleDetails = ({activeRole}: {
         );
     }
 
+    if (isLoading) {
+        return (
+            <Center w="100%">
+                <Loader/>
+            </Center>
+        );
+    }
+
     return (
-        <>
-            {activeRole?.name}
-        </>
+        <Stack w="100%">
+            <Card withBorder shadow="xs">
+                <Card.Section m="0.2rem">
+                    <Group justify="space-between">
+                        <Title order={4} mr="sm">{role?.name}</Title>
+                        <Tooltip label="创建一个新角色">
+                            <Button onClick={() => editor.edit(activeRoleId)}>修改名称</Button>
+                        </Tooltip>
+                    </Group>
+                </Card.Section>
+            </Card>
+            <Tabs defaultValue="gallery">
+                <Tabs.List>
+                    <Tabs.Tab value="gallery" leftSection={<IconListDetails size="1.2rem"/>}>
+                        权限
+                    </Tabs.Tab>
+                    <Tabs.Tab value="messages" leftSection={<IconUsers size="1.2rem"/>}>
+                        用户
+                    </Tabs.Tab>
+                </Tabs.List>
+                <Tabs.Panel value="gallery">
+                    Gallery tab content
+                </Tabs.Panel>
+                <Tabs.Panel value="messages">
+                    Messages tab content
+                </Tabs.Panel>
+            </Tabs>
+        </Stack>
     );
 }
 
 const Roles = () => {
-    const [activeRole, setActiveRole] = useState<RoleDTO | undefined>(undefined);
+    const [activeRoleId, setActiveRoleId] = useState<string | undefined>(undefined);
 
 
     // const {mutateAsync: deleteRole, isPending: isDeletingRole} = useRoleMutation({
@@ -163,22 +224,11 @@ const Roles = () => {
     //     });
     // }
 
-    const editor = useEditor({
-        entityName: '角色',
-        size: 'xl',
-        form: (props) => (<EditForm {...props}/>),
-    });
-
     return (
         <Container fluid p="sm">
-            <Toolbar>
-                <Tooltip label="创建一个新角色">
-                    <Button onClick={() => editor.create()}>添加角色</Button>
-                </Tooltip>
-            </Toolbar>
             <Flex className={classes.root} gap="sm">
-                <RolesList activeRole={activeRole} setActiveRole={setActiveRole}/>
-                <RoleDetails activeRole={activeRole}/>
+                <RolesList activeRoleId={activeRoleId} setActiveRoleId={setActiveRoleId}/>
+                <RoleDetails activeRoleId={activeRoleId} setActiveRoleId={setActiveRoleId}/>
             </Flex>
         </Container>
     );

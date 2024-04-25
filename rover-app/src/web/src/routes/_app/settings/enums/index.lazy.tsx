@@ -85,7 +85,7 @@ const EnumsList = ({activeEnum, setActiveEnum}: {
                        }
                        onChange={(event) => setSearchValue(event.target.value)}/>
             <ScrollArea scrollbars="y" w={280}>
-                <Stack>
+                <Stack gap="xs">
                     {enums}
                 </Stack>
             </ScrollArea>

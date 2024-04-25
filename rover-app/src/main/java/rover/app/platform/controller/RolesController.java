@@ -26,7 +26,7 @@ public class RolesController {
     public ListResultDTO<RoleDTO> list() {
         List<RoleDTO> items = roleService.list()
                 .stream()
-                .map(RoleDTO::from)
+                .map(entity -> RoleDTO.from(entity, 0))
                 .toList();
 
         return new ListResultDTO<>(1, Constants.MAX_PAGE_SIZE, items.size(), items);
@@ -36,7 +36,7 @@ public class RolesController {
     public RoleDTO create(@RequestBody RoleDTO request) {
         RoleEntity entity = roleService.create(request.name());
 
-        return RoleDTO.from(entity);
+        return RoleDTO.from(entity, 0);
     }
 
     @GetMapping("/{id}")
@@ -47,7 +47,7 @@ public class RolesController {
             throw new NotFoundException("Can not found role");
         }
 
-        return RoleDTO.from(opt.get());
+        return RoleDTO.from(opt.get(), 0);
     }
 
     @PostMapping("/{id}")
@@ -55,13 +55,13 @@ public class RolesController {
                           @RequestBody RoleDTO request) {
         RoleEntity entity = roleService.update(id, request.name());
 
-        return RoleDTO.from(entity);
+        return RoleDTO.from(entity, 0);
     }
 
     @DeleteMapping("/{id}")
     public RoleDTO delete(@PathVariable("id") String id) {
         RoleEntity entity = roleService.delete(id);
 
-        return RoleDTO.from(entity);
+        return RoleDTO.from(entity, 0);
     }
 }

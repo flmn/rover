@@ -12,7 +12,6 @@
     @mixin where-dark {
         border-color: var(--mantine-color-dark-4);
     }
-
 }
 
 .enum {

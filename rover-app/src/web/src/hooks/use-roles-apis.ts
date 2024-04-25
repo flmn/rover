@@ -29,14 +29,14 @@ const useGetRoleQuery = (id?: string) => {
 const useRoleMutation = ({action}: { action: string }) => {
     const queryClient = useQueryClient();
 
-    const mutationFn = async (roleDTO: RoleDTO): Promise<unknown> => {
+    const mutationFn = async (roleDTO: RoleDTO): Promise<RoleDTO | undefined> => {
         switch (action) {
             case 'create':
-                return postWithAuthHeader('/api/platform/roles', roleDTO)
+                return postWithAuthHeader('/api/platform/roles', roleDTO) as Promise<RoleDTO>
             case 'update':
-                return postWithAuthHeader(`/api/platform/roles/${roleDTO.id}`, roleDTO)
+                return postWithAuthHeader(`/api/platform/roles/${roleDTO.id}`, roleDTO) as Promise<RoleDTO>
             case 'delete':
-                return deleteWithAuthHeader(`/api/platform/roles/${roleDTO.id}`)
+                return deleteWithAuthHeader(`/api/platform/roles/${roleDTO.id}`) as Promise<RoleDTO>
         }
     }
 
