@@ -12,6 +12,14 @@ public class RoleRef {
     @Column("role_id")
     private String roleId;
 
+    public RoleRef() {
+    }
+
+    public RoleRef(String userId, String roleId) {
+        this.userId = userId;
+        this.roleId = roleId;
+    }
+
     public String getUserId() {
         return userId;
     }

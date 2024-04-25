@@ -6,12 +6,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import rover.core.platform.entity.RoleRef;
 import rover.core.platform.entity.UserEntity;
 import rover.core.platform.repository.UserRepository;
 import rover.core.shared.util.IdHelper;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -67,7 +71,8 @@ public class UserService {
                              String password,
                              String name,
                              Boolean enabled,
-                             Boolean locked) {
+                             Boolean locked,
+                             List<String> roles) {
         var opt = userRepository.findById(id);
 
         if (opt.isEmpty()) {
@@ -90,6 +95,14 @@ public class UserService {
 
         if (locked != null) {
             entity.setLocked(locked);
+        }
+
+        if (roles != null) {
+            Set<RoleRef> refs = roles.stream()
+                    .map(roleId -> new RoleRef(entity.getId(), roleId))
+                    .collect(Collectors.toSet());
+
+            entity.setRoles(refs);
         }
 
         return userRepository.save(entity);

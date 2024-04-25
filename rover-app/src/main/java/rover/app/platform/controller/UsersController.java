@@ -9,12 +9,10 @@ import org.springframework.web.server.ResponseStatusException;
 import rover.app.platform.dto.UserDTO;
 import rover.app.shared.dto.ListResultDTO;
 import rover.core.platform.auth.RoverUserDetails;
-import rover.core.platform.entity.RoleRef;
 import rover.core.platform.entity.UserEntity;
 import rover.core.platform.service.RoleService;
 import rover.core.platform.service.UserService;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -40,7 +38,7 @@ public class UsersController {
         Page<UserEntity> page = userService.list(search, pageNumber, pageSize, sort, direction);
 
         List<UserDTO> items = page.stream()
-                .map(entity -> UserDTO.from(entity, Collections.emptyList()))
+                .map(UserDTO::from)
                 .toList();
 
         return new ListResultDTO<>(pageNumber, pageSize, items.size(), items);
@@ -72,7 +70,8 @@ public class UsersController {
                 request.password(),
                 request.name(),
                 request.isEnabled(),
-                request.isLocked());
+                request.isLocked(),
+                request.roles());
 
         return toDTO(entity);
     }
@@ -86,8 +85,10 @@ public class UsersController {
     }
 
     private UserDTO toDTO(UserEntity entity) {
-        List<String> roleIds = entity.getRoles().stream().map(RoleRef::getRoleId).toList();
+//        List<String> roleIds = entity.getRoles().stream().map(RoleRef::getRoleId).toList();
+//
+//        return UserDTO.from(entity, roleService.getAllByIds(roleIds));
 
-        return UserDTO.from(entity, roleService.getAllByIds(roleIds));
+        return UserDTO.from(entity);
     }
 }

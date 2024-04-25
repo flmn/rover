@@ -1,7 +1,7 @@
 package rover.app.platform.dto;
 
 import rover.app.shared.dto.DataTransferObject;
-import rover.core.platform.entity.RoleEntity;
+import rover.core.platform.entity.RoleRef;
 import rover.core.platform.entity.UserEntity;
 
 import java.time.LocalDateTime;
@@ -13,14 +13,19 @@ public record UserDTO(String id,
                       String name,
                       Boolean isEnabled,
                       Boolean isLocked,
-                      List<RoleDTO> roles,
+                      List<String> roles,
                       LocalDateTime createdAt,
                       LocalDateTime updatedAt) implements DataTransferObject {
 
-    public static UserDTO from(UserEntity entity, List<RoleEntity> roles) {
+    public static UserDTO from(UserEntity entity) {
         if (entity == null) {
             return null;
         }
+
+        List<String> roles = entity.getRoles()
+                .stream()
+                .map(RoleRef::getRoleId)
+                .toList();
 
         return new UserDTO(entity.getId(),
                 entity.getEmail(),
@@ -28,7 +33,7 @@ public record UserDTO(String id,
                 entity.getName(),
                 entity.getEnabled(),
                 entity.getLocked(),
-                roles.stream().map(RoleDTO::simple).toList(),
+                roles,
                 entity.getCreatedAt(),
                 entity.getUpdatedAt());
     }

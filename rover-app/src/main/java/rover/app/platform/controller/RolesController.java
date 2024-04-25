@@ -3,6 +3,7 @@ package rover.app.platform.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+import rover.app.platform.dto.ComboboxItemDTO;
 import rover.app.platform.dto.RoleDTO;
 import rover.app.shared.config.Constants;
 import rover.app.shared.dto.ListResultDTO;
@@ -23,7 +24,15 @@ public class RolesController {
     }
 
     @GetMapping
-    public ListResultDTO<RoleDTO> list() {
+    public Object list(@RequestParam(value = "type", required = false) String type) {
+        List<RoleEntity> list = roleService.list();
+
+        if ("combobox".equals(type)) {
+            return list.stream()
+                    .map(entity -> new ComboboxItemDTO(entity.getId(), entity.getName()))
+                    .toList();
+        }
+
         List<RoleDTO> items = roleService.list()
                 .stream()
                 .map(entity -> RoleDTO.from(entity, 0))

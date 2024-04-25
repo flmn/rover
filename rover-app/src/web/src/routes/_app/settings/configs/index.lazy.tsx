@@ -31,7 +31,7 @@ import {
 import { modals } from "@mantine/modals";
 
 const EditForm = (props: EditorFormProps) => {
-    const {data: config} = useGetConfigQuery(`${props.id}`);
+    const {data: config} = useGetConfigQuery(props.id);
     const form = useForm<ConfigDTO>({
         mode: 'uncontrolled',
         initialValues: {} as ConfigDTO,
@@ -101,13 +101,11 @@ const Configs = () => {
                 size: 80,
                 enableClickToCopy: true,
                 enableColumnFilter: false,
-                enableEditing: false,
             },
             {
                 accessorKey: 'name',
                 header: '名称',
                 enableColumnFilter: false,
-                enableEditing: false,
                 Cell: ({cell, row}) => (
                     <Group gap="4">
                         <span>{cell.getValue<string>()}</span>
@@ -122,7 +120,6 @@ const Configs = () => {
                 accessorKey: 'typeText',
                 header: '类型',
                 size: 60,
-                enableEditing: false,
                 filterVariant: 'select',
                 mantineFilterSelectProps: {
                     data: [
@@ -138,7 +135,6 @@ const Configs = () => {
                 accessorKey: 'value',
                 header: '值',
                 enableColumnFilter: false,
-                enableEditing: true,
                 mantineEditTextInputProps: {
                     required: true,
                 },
@@ -163,7 +159,6 @@ const Configs = () => {
                 accessorKey: 'publicAccess',
                 header: '公开访问',
                 size: 120,
-                enableEditing: false,
                 filterVariant: 'checkbox',
                 Cell: ({cell}) => (
                     cell.getValue<boolean>() ? <Badge variant="light">是</Badge>
@@ -175,7 +170,6 @@ const Configs = () => {
                 header: '创建时间',
                 size: 80,
                 enableColumnFilter: false,
-                enableEditing: false,
                 Cell: ({cell}) => (
                     <span>{dayjs(cell.getValue<Date>()).format('YYYY-MM-DD日 HH:mm:ss')}</span>
                 ),
@@ -185,7 +179,6 @@ const Configs = () => {
                 header: '最后更新时间',
                 size: 80,
                 enableColumnFilter: false,
-                enableEditing: false,
                 Cell: ({cell}) => (
                     cell.getValue() != null &&
                     <span>{dayjs(cell.getValue<Date>()).format('YYYY-MM-DD日 HH:mm:ss')}</span>

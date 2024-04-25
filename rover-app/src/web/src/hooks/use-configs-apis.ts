@@ -11,10 +11,16 @@ const useConfigsQuery = () => {
     });
 }
 
-const useGetConfigQuery = (id: string) => {
+const useGetConfigQuery = (id?: string) => {
     return useQuery<ConfigDTO>({
         queryKey: ['configs', id],
-        queryFn: () => getWithAuthHeader(`/api/platform/configs/${id}`) as Promise<ConfigDTO>,
+        queryFn: () => {
+            if (!id) {
+                return {} as ConfigDTO;
+            }
+
+            return getWithAuthHeader(`/api/platform/configs/${id}`) as Promise<ConfigDTO>
+        },
         refetchOnWindowFocus: false,
         gcTime: 0, // no cache
     });

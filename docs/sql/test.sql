@@ -5,6 +5,9 @@ insert into platform_user (id, email, password, name, created_by)
 values ('usr-00vchk38dg640', 'admin@admin.com', '$2a$10$9JH0KnjwB1KNXQhKv7OdbuNcMeoxLRgvfQY.RhZrmhXQPCAa/9i/.',
         '管理员', 'system');
 
+insert into platform_user_role(user_id, role_id)
+values ('usr-00vchk38dg640', 'rol-system-admin');
+
 insert into platform_token (id, user_id, type, token, expires_at, created_by)
 values ('tkn-00w3n62q8a8am', 'usr-00vchk38dg640', 'ACCESS_TOKEN', 'aed1edb934a44923be6635dcbb9e4381',
         '2025-05-29 19:17:18', 'system');

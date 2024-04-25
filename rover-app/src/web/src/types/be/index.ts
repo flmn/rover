@@ -1,4 +1,5 @@
 export * from './account'
+export * from './combobox-item'
 export * from './config'
 export * from './enum'
 export * from './list-result'

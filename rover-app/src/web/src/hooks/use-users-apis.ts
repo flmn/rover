@@ -1,4 +1,4 @@
-import { type QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteWithAuthHeader, getWithAuthHeader, postWithAuthHeader } from "@/auth";
 import { ListResultDTO, UserDTO } from "@/types";
 import { MRT_PaginationState, MRT_SortingState } from "mantine-react-table";
@@ -32,7 +32,24 @@ const useUsersQuery = ({globalFilter, pagination, sorting}: QueryParams) => {
     });
 }
 
-const useUserMutation = ({action, queryClient}: { action: string, queryClient: QueryClient }) => {
+const useGetUserQuery = (id?: string) => {
+    return useQuery<UserDTO>({
+        queryKey: ['users', id],
+        queryFn: () => {
+            if (!id) {
+                return {} as UserDTO;
+            }
+
+            return getWithAuthHeader(`/api/platform/users/${id}`) as Promise<UserDTO>;
+        },
+        refetchOnWindowFocus: false,
+        gcTime: 0, // no cache
+    });
+}
+
+const useUserMutation = ({action}: { action: string }) => {
+    const queryClient = useQueryClient();
+
     const mutationFn = async (userDTO: UserDTO): Promise<unknown> => {
         switch (action) {
             case 'create':
@@ -52,4 +69,4 @@ const useUserMutation = ({action, queryClient}: { action: string, queryClient: Q
     });
 }
 
-export { useUsersQuery, useUserMutation }
+export { useUsersQuery, useGetUserQuery, useUserMutation }
