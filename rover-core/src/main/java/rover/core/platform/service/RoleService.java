@@ -27,6 +27,10 @@ public class RoleService {
         return roleRepository.findById(id);
     }
 
+    public List<RoleEntity> getAllByIds(List<String> ids) {
+        return roleRepository.findAllById(ids);
+    }
+
     public RoleEntity create(String name) {
         RoleEntity entity = new RoleEntity();
         entity.setId(IdHelper.newTsid(RoleEntity.ID_PREFIX));

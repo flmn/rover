@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 public record RoleDTO(String id,
                       String name,
-                      int userCount,
+                      Integer userCount,
                       LocalDateTime createdAt,
                       LocalDateTime updatedAt) implements DataTransferObject {
 
@@ -21,5 +21,17 @@ public record RoleDTO(String id,
                 userCount,
                 entity.getCreatedAt(),
                 entity.getUpdatedAt());
+    }
+
+    public static RoleDTO simple(RoleEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+
+        return new RoleDTO(entity.getId(),
+                entity.getName(),
+                null,
+                null,
+                null);
     }
 }

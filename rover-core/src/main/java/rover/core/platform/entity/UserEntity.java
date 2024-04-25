@@ -1,8 +1,12 @@
 package rover.core.platform.entity;
 
 import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 import rover.core.shared.entity.SoftDeletableEntity;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Table("platform_user")
 public class UserEntity extends SoftDeletableEntity {
@@ -22,6 +26,9 @@ public class UserEntity extends SoftDeletableEntity {
 
     @Column("is_locked")
     private Boolean isLocked = false;
+
+    @MappedCollection(idColumn = "user_id")
+    private Set<RoleRef> roles = new HashSet<>();
 
     public String getEmail() {
         return email;
@@ -61,5 +68,13 @@ public class UserEntity extends SoftDeletableEntity {
 
     public void setLocked(Boolean locked) {
         isLocked = locked;
+    }
+
+    public Set<RoleRef> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<RoleRef> roles) {
+        this.roles = roles;
     }
 }

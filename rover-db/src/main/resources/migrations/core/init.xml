@@ -64,6 +64,9 @@
         </createTable>
         <addUniqueConstraint tableName="platform_enum_member" columnNames="enum_id, label"
                              constraintName="platform_enum_member_label_uk"/>
+        <addForeignKeyConstraint baseTableName="platform_enum_member" baseColumnNames="enum_id"
+                                 constraintName="platform_enum_member_enum_id_fk" referencedTableName="platform_enum"
+                                 referencedColumnNames="id" onDelete="CASCADE"/>
     </changeSet>
 
     <changeSet author="jitao" id="create table platform_config">
@@ -168,6 +171,23 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+    </changeSet>
+
+    <changeSet author="jitao" id="create table platform_user_role">
+        <createTable tableName="platform_user_role">
+            <column name="user_id" type="text">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="platform_user_role_pk"/>
+            </column>
+            <column name="role_id" type="text">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="platform_user_role_pk"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="platform_user_role" baseColumnNames="user_id"
+                                 constraintName="platform_user_role_user_id_fk" referencedTableName="platform_user"
+                                 referencedColumnNames="id" onDelete="CASCADE"/>
+        <addForeignKeyConstraint baseTableName="platform_user_role" baseColumnNames="role_id"
+                                 constraintName="platform_user_role_role_id_fk" referencedTableName="platform_role"
+                                 referencedColumnNames="id" onDelete="CASCADE"/>
     </changeSet>
 
     <changeSet author="jitao" id="create table platform_session">

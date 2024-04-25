@@ -9,18 +9,24 @@ import org.springframework.web.server.ResponseStatusException;
 import rover.app.platform.dto.UserDTO;
 import rover.app.shared.dto.ListResultDTO;
 import rover.core.platform.auth.RoverUserDetails;
+import rover.core.platform.entity.RoleRef;
 import rover.core.platform.entity.UserEntity;
+import rover.core.platform.service.RoleService;
 import rover.core.platform.service.UserService;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/platform/users")
 public class UsersController {
     private final UserService userService;
+    private final RoleService roleService;
 
-    public UsersController(UserService userService) {
+    public UsersController(UserService userService,
+                           RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping
@@ -34,7 +40,7 @@ public class UsersController {
         Page<UserEntity> page = userService.list(search, pageNumber, pageSize, sort, direction);
 
         List<UserDTO> items = page.stream()
-                .map(UserDTO::from)
+                .map(entity -> UserDTO.from(entity, Collections.emptyList()))
                 .toList();
 
         return new ListResultDTO<>(pageNumber, pageSize, items.size(), items);
@@ -47,7 +53,7 @@ public class UsersController {
                 request.name(),
                 request.isEnabled());
 
-        return UserDTO.from(entity);
+        return toDTO(entity);
     }
 
     @GetMapping("/{id}")
@@ -56,7 +62,7 @@ public class UsersController {
 
         UserEntity entity = opt.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        return UserDTO.from(entity);
+        return toDTO(entity);
     }
 
     @PostMapping("/{id}")
@@ -68,7 +74,7 @@ public class UsersController {
                 request.isEnabled(),
                 request.isLocked());
 
-        return UserDTO.from(entity);
+        return toDTO(entity);
     }
 
     @DeleteMapping("/{id}")
@@ -76,6 +82,12 @@ public class UsersController {
                           @AuthenticationPrincipal RoverUserDetails user) {
         UserEntity entity = userService.delete(id);
 
-        return UserDTO.from(entity);
+        return toDTO(entity);
+    }
+
+    private UserDTO toDTO(UserEntity entity) {
+        List<String> roleIds = entity.getRoles().stream().map(RoleRef::getRoleId).toList();
+
+        return UserDTO.from(entity, roleService.getAllByIds(roleIds));
     }
 }
