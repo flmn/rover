@@ -14,6 +14,9 @@ public class PrivilegeEntity {
     @Column("name")
     private String name;
 
+    @Column("level")
+    private Integer level;
+
     @Column("parent")
     private AggregateReference<PrivilegeEntity, String> parent;
 
@@ -31,6 +34,14 @@ public class PrivilegeEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 
     public AggregateReference<PrivilegeEntity, String> getParent() {

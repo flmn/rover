@@ -11,7 +11,7 @@ const useConfigsQuery = () => {
     });
 }
 
-const useConfigQuery = (id: string) => {
+const useGetConfigQuery = (id: string) => {
     return useQuery<ConfigDTO>({
         queryKey: ['configs', id],
         queryFn: () => getWithAuthHeader(`/api/platform/configs/${id}`) as Promise<ConfigDTO>,
@@ -31,4 +31,4 @@ const useConfigMutation = () => {
     });
 }
 
-export { useConfigsQuery, useConfigQuery, useConfigMutation }
+export { useConfigsQuery, useGetConfigQuery, useConfigMutation }

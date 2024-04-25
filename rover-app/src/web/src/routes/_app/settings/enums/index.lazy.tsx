@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { useDebouncedValue } from "@mantine/hooks";
 import {
     ActionIcon,
     Button,
@@ -20,6 +19,7 @@ import {
     Tooltip,
     UnstyledButton
 } from "@mantine/core";
+import { useDebouncedValue } from "@mantine/hooks";
 import { IconCheck, IconCopy, IconPencil, IconSearch, IconTrash, IconX } from "@tabler/icons-react";
 import {
     MantineReactTable,
@@ -35,7 +35,7 @@ import { useDataTable, useEnumMembersMutation, useEnumsQuery } from "@/hooks";
 import { EnumDTO, EnumMemberDTO } from "@/types";
 import classes from "./index.lazy.module.css";
 
-const EnumList = ({activeEnum, setActiveEnum}: {
+const EnumsList = ({activeEnum, setActiveEnum}: {
     activeEnum: EnumDTO | undefined,
     setActiveEnum: React.Dispatch<React.SetStateAction<EnumDTO | undefined>>
 }) => {
@@ -90,7 +90,6 @@ const EnumList = ({activeEnum, setActiveEnum}: {
                 </Stack>
             </ScrollArea>
         </Stack>
-
     );
 }
 
@@ -315,7 +314,7 @@ const Enums = () => {
                 </Tooltip>
             </Toolbar>
             <Flex className={classes.root} gap="sm">
-                <EnumList activeEnum={activeEnum} setActiveEnum={setActiveEnum}/>
+                <EnumsList activeEnum={activeEnum} setActiveEnum={setActiveEnum}/>
                 <EnumDetails activeEnum={activeEnum}/>
             </Flex>
         </Container>

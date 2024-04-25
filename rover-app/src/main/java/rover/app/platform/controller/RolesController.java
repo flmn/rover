@@ -2,14 +2,13 @@ package rover.app.platform.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import rover.app.platform.dto.RoleDTO;
 import rover.app.shared.config.Constants;
 import rover.app.shared.dto.ListResultDTO;
 import rover.core.platform.entity.RoleEntity;
 import rover.core.platform.service.RoleService;
+import rover.core.shared.exception.NotFoundException;
 
 import java.util.List;
 
@@ -41,12 +40,14 @@ public class RolesController {
     }
 
     @GetMapping("/{id}")
-    public RoleDTO get(@PathVariable("id") String id) {
+    public RoleDTO get(@PathVariable("id") String id) throws NotFoundException {
         var opt = roleService.getById(id);
 
-        RoleEntity entity = opt.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        if (opt.isEmpty()) {
+            throw new NotFoundException("Can not found role");
+        }
 
-        return RoleDTO.from(entity);
+        return RoleDTO.from(opt.get());
     }
 
     @PostMapping("/{id}")

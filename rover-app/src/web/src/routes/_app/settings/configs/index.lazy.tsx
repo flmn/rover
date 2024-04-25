@@ -20,11 +20,18 @@ import { useForm } from "@mantine/form";
 import { IconExternalLink, IconInfoCircle, IconPencil } from "@tabler/icons-react";
 import { ConfigDTO } from "@/types";
 import { Toolbar } from '@/components';
-import { EditorFormProps, useConfigMutation, useConfigQuery, useConfigsQuery, useDataTable, useEditor } from "@/hooks";
+import {
+    EditorFormProps,
+    useConfigMutation,
+    useConfigsQuery,
+    useDataTable,
+    useEditor,
+    useGetConfigQuery,
+} from "@/hooks";
 import { modals } from "@mantine/modals";
 
 const EditForm = (props: EditorFormProps) => {
-    const {data: config} = useConfigQuery(`${props.id}`);
+    const {data: config} = useGetConfigQuery(`${props.id}`);
     const form = useForm<ConfigDTO>({
         mode: 'uncontrolled',
         initialValues: {} as ConfigDTO,
@@ -54,27 +61,28 @@ const EditForm = (props: EditorFormProps) => {
     return (
         <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack gap="md">
-                <Text fz="sm">{config?.description}</Text>
+                <Text size="sm">{config?.description}</Text>
                 <TextInput disabled label="ID"
                            key={form.key('id')}
-                           {...form.getInputProps('id')}
-                />
-                {config?.type === 'TEXT' && <TextInput required label="值"
-                                                       key={form.key('value')}
-                                                       {...form.getInputProps('value')}
-                />}
-                {config?.type === 'PERCENT' && <><Text size="sm" fw={500}>值</Text>
-                    <Slider
-                        label={(value) => `${value}%`}
-                        labelAlwaysOn
-                        marks={[
-                            {value: 20, label: '20%'},
-                            {value: 50, label: '50%'},
-                            {value: 80, label: '80%'},
-                        ]}
-                        key={form.key('value')}
-                        {...form.getInputProps('value')}
-                    /></>}
+                           {...form.getInputProps('id')}/>
+                {(config?.type === 'TEXT' || config?.type === 'URL') &&
+                    <TextInput required label="值"
+                               key={form.key('value')}
+                               {...form.getInputProps('value')}/>}
+                {config?.type === 'PERCENT' &&
+                    <>
+                        <Text size="sm" fw={500}>值</Text>
+                        <Slider
+                            label={(value) => `${value}%`}
+                            labelAlwaysOn
+                            marks={[
+                                {value: 20, label: '20%'},
+                                {value: 50, label: '50%'},
+                                {value: 80, label: '80%'},
+                            ]}
+                            key={form.key('value')}
+                            {...form.getInputProps('value')}/>
+                    </>}
                 <Group justify="end" mt="md">
                     <Button variant="default" onClick={() => modals.closeAll()}>取消</Button>
                     <Button type="submit" loading={isPending}>保存</Button>

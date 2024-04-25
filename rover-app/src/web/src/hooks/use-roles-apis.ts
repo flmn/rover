@@ -11,6 +11,21 @@ const useRolesQuery = () => {
     });
 }
 
+const useGetRoleQuery = (id?: string) => {
+    return useQuery<RoleDTO>({
+        queryKey: ['roles', id],
+        queryFn: () => {
+            if (!id) {
+                return {} as RoleDTO;
+            }
+
+            return getWithAuthHeader(`/api/platform/roles/${id}`) as Promise<RoleDTO>;
+        },
+        refetchOnWindowFocus: false,
+        gcTime: 0, // no cache
+    });
+}
+
 const useRoleMutation = ({action}: { action: string }) => {
     const queryClient = useQueryClient();
 
@@ -33,4 +48,4 @@ const useRoleMutation = ({action}: { action: string }) => {
     });
 }
 
-export { useRolesQuery, useRoleMutation }
+export { useRolesQuery, useGetRoleQuery, useRoleMutation }

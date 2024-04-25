@@ -12,6 +12,9 @@
             <column name="name" type="text">
                 <constraints nullable="false"/>
             </column>
+            <column name="level" type="int">
+                <constraints nullable="false"/>
+            </column>
             <column name="parent" type="text"/>
         </createTable>
     </changeSet>

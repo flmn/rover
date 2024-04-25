@@ -1,5 +1,5 @@
 import { ReactNode, useCallback } from "react";
-import { MantineSize, Title } from "@mantine/core";
+import { MantineSize, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 
 type EditorOptions = {
@@ -21,12 +21,17 @@ type EditorState = {
 
 const useEditor = (options: EditorOptions): EditorState => {
     const create = useCallback(() => {
-        console.log('editor create');
-    }, []);
-    const edit = useCallback((id: string) => {
-        console.log('editor edit', id);
         modals.open({
-            title: <Title order={4}>{`编辑${options.entityName}`}</Title>,
+            title: <Text size="xl" fw={500}>{`新建${options.entityName}`}</Text>,
+            fullScreen: options.fullScreen,
+            size: options.size,
+            children: <>{options.form({})}</>,
+        });
+    }, [options]);
+
+    const edit = useCallback((id: string) => {
+        modals.open({
+            title: <Text size="xl" fw={500}>{`编辑${options.entityName}`}</Text>,
             fullScreen: options.fullScreen,
             size: options.size,
             children: <>{options.form({id})}</>,

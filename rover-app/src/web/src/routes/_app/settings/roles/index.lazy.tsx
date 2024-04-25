@@ -1,164 +1,185 @@
-import dayjs from "dayjs";
-import { useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { ActionIcon, Button, Container, Flex, Group, Stack, Text, Title, Tooltip } from "@mantine/core";
-import { modals } from "@mantine/modals";
-import { IconPencil, IconTrash } from "@tabler/icons-react";
 import {
-    MantineReactTable,
-    type MRT_ColumnDef,
-    MRT_EditActionButtons,
-    MRT_EditCellTextInput,
-    MRT_Row,
-    MRT_TableOptions
-} from "mantine-react-table";
+    ActionIcon,
+    Button,
+    Center,
+    Container,
+    Flex,
+    Group,
+    ScrollArea,
+    Stack,
+    Text,
+    TextInput,
+    Tooltip,
+    UnstyledButton
+} from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { useDebouncedValue } from "@mantine/hooks";
+import { IconSearch, IconX } from "@tabler/icons-react";
 import { Toolbar } from "@/components";
-import { useDataTable, useRoleMutation, useRolesQuery } from "@/hooks";
+import { EditorFormProps, useEditor, useGetRoleQuery, useRoleMutation, useRolesQuery } from "@/hooks";
 import { RoleDTO } from "@/types";
+import classes from "./index.lazy.module.css";
+import { modals } from "@mantine/modals";
 
-const Roles = () => {
-    const columns = useMemo<MRT_ColumnDef<RoleDTO>[]>(
-        () => [
-            {
-                accessorKey: 'id',
-                header: 'ID',
-                size: 80,
-                enableClickToCopy: true,
-                enableEditing: false,
-            },
-            {
-                accessorKey: 'name',
-                header: '名称',
-                enableEditing: true,
-                mantineEditTextInputProps: {
-                    required: true,
-                },
-            },
-            {
-                accessorKey: 'createdAt',
-                header: '创建时间',
-                size: 80,
-                enableEditing: false,
-                Cell: ({cell}) => (
-                    <span>{dayjs(cell.getValue<Date>()).format('YYYY-MM-DD日 HH:mm:ss')}</span>
-                ),
-            },
-            {
-                accessorKey: 'updatedAt',
-                header: '最后更新时间',
-                size: 80,
-                enableEditing: false,
-                Cell: ({cell}) => (
-                    cell.getValue() != null &&
-                    <span>{dayjs(cell.getValue<Date>()).format('YYYY-MM-DD日 HH:mm:ss')}</span>
-                ),
-            },
-        ],
-        [],
-    );
+const EditForm = (props: EditorFormProps) => {
+    const {data: role} = useGetRoleQuery(props.id);
+    const form = useForm<RoleDTO>({
+        mode: 'uncontrolled',
+        initialValues: {} as RoleDTO,
+        enhanceGetInputProps: (payload) => {
+            if (!payload.form.initialized) {
+                return {disabled: true};
+            }
 
-    const {mutateAsync: createRole, isPending: isCreatingRole} = useRoleMutation({
-        action: 'create'
-    });
-    const {mutateAsync: updateRole, isPending: isUpdatingRole} = useRoleMutation({
-        action: 'update'
-    });
-    const {mutateAsync: deleteRole, isPending: isDeletingRole} = useRoleMutation({
-        action: 'delete'
+            return {};
+        },
     });
 
-    const handleCreateRole: MRT_TableOptions<RoleDTO>['onCreatingRowSave'] = async ({values, exitCreatingMode,}) => {
-        await createRole(values);
-        exitCreatingMode();
-    }
+    useEffect(() => {
+        if (role) {
+            form.initialize(role);
+        }
+    }, [form, role]);
 
-    const handleUpdateRole: MRT_TableOptions<RoleDTO>['onEditingRowSave'] = async ({values, table,}) => {
-        await updateRole(values);
-        table.setEditingRow(null); //exit editing mode
+    const {mutateAsync, isPending} = useRoleMutation({
+        action: props.id ? 'update' : 'create'
+    });
+
+    const handleSubmit = async (values: RoleDTO) => {
+        console.log(values);
+
+        await mutateAsync(values);
+
+        modals.closeAll();
     };
 
-    const openDeleteConfirmModal = (row: MRT_Row<RoleDTO>) => {
-        modals.openConfirmModal({
-            title: '确认',
-            children: <Text>确定删除角色【{row.original.name}】？删除后不可恢复。</Text>,
-            labels: {confirm: '删除', cancel: '取消'},
-            confirmProps: {color: 'red'},
-            onConfirm: () => deleteRole(row.original),
-        });
-    }
+    return (
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+            <Stack gap="md">
+                <TextInput required label="角色名称"
+                           key={form.key('name')}
+                           {...form.getInputProps('name')}/>
+                <Group justify="end" mt="md">
+                    <Button variant="default" onClick={() => modals.closeAll()}>取消</Button>
+                    <Button type="submit" loading={isPending}>保存</Button>
+                </Group>
+            </Stack>
+        </form>
+    );
+}
 
-    const {data, isError, isLoading} = useRolesQuery();
+const RolesList = ({activeRole, setActiveRole}: {
+    activeRole: RoleDTO | undefined,
+    setActiveRole: React.Dispatch<React.SetStateAction<RoleDTO | undefined>>
+}) => {
+    const [searchValue, setSearchValue] = useState('');
+    const [debouncedSearchValue] = useDebouncedValue(searchValue, 200,);
+    const handleClear = () => {
+        setSearchValue('');
+    };
+
+    const {data} = useRolesQuery();
 
     const items = data?.items ?? [];
-    const total = data?.total ?? 0;
 
-    const table = useDataTable({
-        columns,
-        data: items,
-        rowCount: total,
-        // display
-        enableEditing: true,
-        mantineEditRowModalProps: {
-            closeOnClickOutside: false,
-        },
-        mantineToolbarAlertBannerProps: isError ? {color: 'red', children: '加载数据失败',} : undefined,
-        // toolbar
-        renderBottomToolbarCustomActions: () => (
-            <Group>
-                <Text pl="xs">角色数：{total}</Text>
-            </Group>
-        ),
-        // row actions
-        renderRowActions: ({row, table}) => (
-            <Flex gap="md">
-                <Tooltip label="修改角色">
-                    <ActionIcon variant="subtle" onClick={() => table.setEditingRow(row)}>
-                        <IconPencil size="1.3rem"/>
-                    </ActionIcon>
-                </Tooltip>
-                <Tooltip label="删除角色">
-                    <ActionIcon variant="subtle" color="red" onClick={() => openDeleteConfirmModal(row)}>
-                        <IconTrash size="1.3rem"/>
-                    </ActionIcon>
-                </Tooltip>
-            </Flex>
-        ),
-        renderEditRowModalContent: ({row, table}) => {
-            const internalEditComponents = row
-                .getAllCells()
-                .filter((cell) => cell.column.columnDef.columnDefType === 'data'
-                    && cell.column.columnDef.enableEditing)
-                .map((cell) => (
-                    <MRT_EditCellTextInput cell={cell} key={cell.id} table={table}/>
-                ));
-            return (
+    const filteredItems = items.filter(item =>
+        item.id.toLowerCase().includes(debouncedSearchValue.toLowerCase())
+        || item.name.toLowerCase().includes(debouncedSearchValue.toLowerCase())
+    );
+
+    const roles = filteredItems?.map((roleDTO) => (
+        <UnstyledButton className={classes.role} key={roleDTO.id}
+                        data-active={activeRole === roleDTO || undefined}
+                        onClick={(event) => {
+                            event.preventDefault();
+                            setActiveRole(roleDTO);
+                        }}>
+            <Stack gap={1} justify="space-between">
+                {roleDTO.name}
+            </Stack>
+        </UnstyledButton>
+    ));
+
+    return (
+        <Stack w={300} pr="sm" className={classes.rolesList}>
+            <TextInput placeholder="搜索" value={searchValue}
+                       leftSection={<IconSearch/>}
+                       rightSection={
+                           searchValue ? (
+                               <ActionIcon variant="transparent" size="sm" color="gray"
+                                           disabled={!searchValue?.length}
+                                           onClick={handleClear}>
+                                   <Tooltip label="清除搜索">
+                                       <IconX/>
+                                   </Tooltip>
+                               </ActionIcon>
+                           ) : null
+                       }
+                       onChange={(event) => setSearchValue(event.target.value)}/>
+            <ScrollArea scrollbars="y" w={280}>
                 <Stack>
-                    <Title order={5}>{row.original.id ? '修改' : '创建'}角色</Title>
-                    {internalEditComponents}
-                    <Flex justify="flex-end">
-                        <MRT_EditActionButtons row={row} table={table} variant="text"/>
-                    </Flex>
+                    {roles}
                 </Stack>
-            )
-        },
-        // state
-        state: {
-            isLoading,
-            isSaving: isCreatingRole || isUpdatingRole || isDeletingRole,
-            showAlertBanner: isError,
-        },
-        onCreatingRowSave: handleCreateRole,
-        onEditingRowSave: handleUpdateRole,
+            </ScrollArea>
+        </Stack>
+    );
+}
+
+const RoleDetails = ({activeRole}: {
+    activeRole: RoleDTO | undefined
+}) => {
+    if (activeRole === undefined) {
+        return (
+            <Center w="100%">
+                <Text size="xl">请从左侧列表选择一个角色。</Text>
+            </Center>
+        );
+    }
+
+    return (
+        <>
+            {activeRole?.name}
+        </>
+    );
+}
+
+const Roles = () => {
+    const [activeRole, setActiveRole] = useState<RoleDTO | undefined>(undefined);
+
+
+    // const {mutateAsync: deleteRole, isPending: isDeletingRole} = useRoleMutation({
+    //     action: 'delete'
+    // });
+
+    // const openDeleteConfirmModal = (row: MRT_Row<RoleDTO>) => {
+    //     modals.openConfirmModal({
+    //         title: '确认',
+    //         children: <Text>确定删除角色【{row.original.name}】？删除后不可恢复。</Text>,
+    //         labels: {confirm: '删除', cancel: '取消'},
+    //         confirmProps: {color: 'red'},
+    //         onConfirm: () => deleteRole(row.original),
+    //     });
+    // }
+
+    const editor = useEditor({
+        entityName: '角色',
+        size: 'xl',
+        form: (props) => (<EditForm {...props}/>),
     });
 
     return (
         <Container fluid p="sm">
             <Toolbar>
                 <Tooltip label="创建一个新角色">
-                    <Button onClick={() => table.setCreatingRow(true)}>添加角色</Button>
+                    <Button onClick={() => editor.create()}>添加角色</Button>
                 </Tooltip>
             </Toolbar>
-            <MantineReactTable table={table}/>
+            <Flex className={classes.root} gap="sm">
+                <RolesList activeRole={activeRole} setActiveRole={setActiveRole}/>
+                <RoleDetails activeRole={activeRole}/>
+            </Flex>
         </Container>
     );
 }
