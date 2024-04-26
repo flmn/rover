@@ -11,7 +11,15 @@ const Map = () => {
     return (
         <Container fluid p={0}>
             <Flex id="cesium-container" className={classes.map}>
-                <Viewer/>
+                <Viewer animation={false}
+                        baseLayerPicker={false}
+                        fullscreenButton={false}
+                        geocoder={false}
+                        homeButton={false}
+                        infoBox={true}
+                        navigationHelpButton={false}
+                        sceneModePicker={false}
+                        timeline={true}/>
             </Flex>
         </Container>
     );
