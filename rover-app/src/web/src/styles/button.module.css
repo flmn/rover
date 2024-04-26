@@ -1,0 +1,11 @@
+.root {
+    &[data-variant='danger'] {
+        background-color: var(--mantine-color-red-9);
+        color: var(--mantine-color-white);
+        border: none;
+
+        &:hover {
+            background-color: var(--mantine-color-red-8);
+        }
+    }
+}

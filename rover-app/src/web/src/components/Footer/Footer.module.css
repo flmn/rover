@@ -3,7 +3,7 @@
     height: calc(var(--rover-footer-height) - 1px);
 
     border: rem(1px) solid;
-    border-top: 0;
+    border-top: none;
 
     @mixin where-light {
         border-color: var(--mantine-color-gray-3);

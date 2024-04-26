@@ -1,4 +1,5 @@
-import { createTheme, CSSVariablesResolver } from "@mantine/core";
+import { Button, createTheme, CSSVariablesResolver } from "@mantine/core";
+import buttonClasses from '@/styles/button.module.css';
 
 export const theme = createTheme({
     primaryColor: 'paleblue',
@@ -17,6 +18,11 @@ export const theme = createTheme({
         ]
     },
     autoContrast: true,
+    components: {
+        Button: Button.extend({
+            classNames: buttonClasses,
+        }),
+    },
     other: {
         headerHeight: '60px',
         toolbarHeight: '36px',
@@ -24,7 +30,7 @@ export const theme = createTheme({
     }
 });
 
-export const resolver: CSSVariablesResolver = (theme) => ({
+export const cssVariablesResolver: CSSVariablesResolver = (theme) => ({
     variables: {
         '--rover-header-height': theme.other.headerHeight,
         '--rover-toolbar-height': theme.other.toolbarHeight,

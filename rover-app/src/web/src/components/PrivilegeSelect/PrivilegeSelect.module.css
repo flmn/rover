@@ -1,6 +1,6 @@
 .privileges {
     border: rem(1px) solid;
-    border-bottom: 0;
+    border-bottom: none;
 
     @mixin where-light {
         border-color: var(--mantine-color-gray-3);
@@ -48,5 +48,5 @@
 }
 
 .l2:first-child {
-    border-top: 0;
+    border-top: none;
 }

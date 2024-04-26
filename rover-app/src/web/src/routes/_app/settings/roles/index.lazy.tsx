@@ -62,12 +62,36 @@ const EditForm = ({id, setActiveRoleId}: {
         }
     }, [form, role]);
 
-    const {mutateAsync, isPending} = useRoleMutation({
+    const {mutateAsync: saveRole, isPending: isSaving} = useRoleMutation({
         action: id ? 'update' : 'create'
     });
 
+    const {mutateAsync: deleteRole, isPending: isDeleting} = useRoleMutation({
+        action: 'delete'
+    });
+
+    const openDeleteConfirmModal = () => {
+        modals.closeAll();
+
+        modals.openConfirmModal({
+            title: '确认',
+            children: <Text>确定删除角色【{role?.name}】？删除后不可恢复。</Text>,
+            labels: {confirm: '删除', cancel: '取消'},
+            confirmProps: {color: 'red'},
+            onConfirm: async () => {
+                if (role) {
+                    await deleteRole(role);
+
+                    setActiveRoleId(undefined);
+
+                    modals.closeAll();
+                }
+            },
+        });
+    }
+
     const handleSubmit = async (values: RoleDTO) => {
-        const result = await mutateAsync(values);
+        const result = await saveRole(values);
 
         setActiveRoleId(result?.id);
 
@@ -88,9 +112,16 @@ const EditForm = ({id, setActiveRoleId}: {
                     key={form.key('description')}
                     {...form.getInputProps('description')}
                 />
-                <Group justify="end" mt="md">
-                    <Button variant="default" onClick={() => modals.closeAll()}>取消</Button>
-                    <Button type="submit" loading={isPending}>保存</Button>
+                <Group justify="space-between" mt="md" mb="xs">
+                    <Button variant="danger"
+                            onClick={() => openDeleteConfirmModal()}
+                            loading={isDeleting}>
+                        删除角色
+                    </Button>
+                    <Group justify="end">
+                        <Button variant="default" onClick={() => modals.closeAll()}>取消</Button>
+                        <Button type="submit" loading={isSaving}>保存</Button>
+                    </Group>
                 </Group>
             </Stack>
         </form>
@@ -256,21 +287,6 @@ const RoleDetails = ({activeRoleId, setActiveRoleId}: {
 
 const Roles = () => {
     const [activeRoleId, setActiveRoleId] = useState<string | undefined>(undefined);
-
-
-    // const {mutateAsync: deleteRole, isPending: isDeletingRole} = useRoleMutation({
-    //     action: 'delete'
-    // });
-
-    // const openDeleteConfirmModal = (row: MRT_Row<RoleDTO>) => {
-    //     modals.openConfirmModal({
-    //         title: '确认',
-    //         children: <Text>确定删除角色【{row.original.name}】？删除后不可恢复。</Text>,
-    //         labels: {confirm: '删除', cancel: '取消'},
-    //         confirmProps: {color: 'red'},
-    //         onConfirm: () => deleteRole(row.original),
-    //     });
-    // }
 
     return (
         <Container fluid p="sm">
