@@ -22,8 +22,9 @@ import {
 import { useForm, zodResolver } from "@mantine/form";
 import { useDebouncedValue } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
-import { IconListDetails, IconPlus, IconSearch, IconUsers, IconX } from "@tabler/icons-react";
+import { IconListDetails, IconPencil, IconPlus, IconSearch, IconUsers, IconX } from "@tabler/icons-react";
 import { z } from "zod";
+import dayjs from "dayjs";
 import { PrivilegeSelect } from "@/components";
 import { EditorFormProps, useEditor, useGetRoleQuery, useRoleMutation, useRolesQuery } from "@/hooks";
 import { RoleDTO } from "@/types";
@@ -169,8 +170,8 @@ const RolesList = ({activeRoleId, setActiveRoleId}: {
 const UserList = () => {
     return (
         <Stack my="xs">
-            <Flex justify="end" align="center" gap="sm" px="xs">
-                <Button>添加</Button>
+            <Flex justify="end" align="center" gap="sm">
+                <Button>添加用户</Button>
             </Flex>
         </Stack>
     );
@@ -207,15 +208,27 @@ const RoleDetails = ({activeRoleId, setActiveRoleId}: {
     return (
         <Stack w="100%">
             <Card withBorder shadow="xs">
-                <Card.Section m="0.2rem">
-                    <Group justify="space-between">
+                <Card.Section m="0.4rem">
+                    <Group gap={0}>
                         <Title order={4} mr="sm">{role?.name}</Title>
-                        <Tooltip label="修改名称和描述">
-                            <Button onClick={() => editor.edit(activeRoleId)}>编辑</Button>
+                        <Tooltip label="编辑基本信息">
+                            <ActionIcon variant="subtle" onClick={() => editor.edit(activeRoleId)}>
+                                <IconPencil size="1.3rem"/>
+                            </ActionIcon>
                         </Tooltip>
                     </Group>
                 </Card.Section>
-                <Card.Section m="0.2rem">
+                <Card.Section m="0.4rem">
+                    <Group gap="md">
+                        <Text size="sm" c="dark">
+                            <b>创建时间: </b>{dayjs(role?.createdAt).format('YYYY年MM月DD日 HH:mm')}
+                        </Text>
+                        <Text size="sm" c="dark">
+                            <b>最后更新时间: </b>{dayjs(role?.updatedAt).format('YYYY年MM月DD日 HH:mm')}
+                        </Text>
+                    </Group>
+                </Card.Section>
+                <Card.Section m="0.4rem">
                     <Text size="sm" c="dark">
                         <b>描述: </b>{role?.description}
                     </Text>

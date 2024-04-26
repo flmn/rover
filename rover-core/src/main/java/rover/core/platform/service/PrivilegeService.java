@@ -16,6 +16,6 @@ public class PrivilegeService {
     }
 
     public List<PrivilegeEntity> list() {
-        return privilegeRepository.findAll(Sort.by("level"));
+        return privilegeRepository.findAll(Sort.by("level", "displayOrder"));
     }
 }

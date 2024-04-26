@@ -16,7 +16,13 @@
                 <constraints nullable="false"/>
             </column>
             <column name="parent" type="text"/>
+            <column name="display_order" type="int" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
+        <addForeignKeyConstraint baseTableName="platform_privilege" baseColumnNames="parent"
+                                 constraintName="platform_privilege_parent_fk" referencedTableName="platform_privilege"
+                                 referencedColumnNames="id" onDelete="RESTRICT"/>
     </changeSet>
 
     <changeSet author="jitao" id="create table platform_enum">

@@ -20,6 +20,7 @@ import {
     UnstyledButton
 } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
+import { modals } from "@mantine/modals";
 import { IconCheck, IconCopy, IconPencil, IconSearch, IconTrash, IconX } from "@tabler/icons-react";
 import {
     MantineReactTable,
@@ -29,7 +30,6 @@ import {
     MRT_ToggleFullScreenButton
 } from "mantine-react-table";
 import dayjs from "dayjs";
-import { modals } from "@mantine/modals";
 import { Toolbar } from "@/components";
 import { useDataTable, useEnumMembersMutation, useEnumsQuery } from "@/hooks";
 import { EnumDTO, EnumMemberDTO } from "@/types";

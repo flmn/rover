@@ -21,6 +21,9 @@ public class PrivilegeEntity {
     @Column("parent")
     private AggregateReference<PrivilegeEntity, String> parent;
 
+    @Column("display_order")
+    private Integer displayOrder;
+
     public String getId() {
         return id;
     }
@@ -51,5 +54,13 @@ public class PrivilegeEntity {
 
     public void setParent(AggregateReference<PrivilegeEntity, String> parent) {
         this.parent = parent;
+    }
+
+    public Integer getDisplayOrder() {
+        return displayOrder;
+    }
+
+    public void setDisplayOrder(Integer displayOrder) {
+        this.displayOrder = displayOrder;
     }
 }
