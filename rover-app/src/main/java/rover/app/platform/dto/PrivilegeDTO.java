@@ -8,7 +8,7 @@ import java.util.List;
 
 public record PrivilegeDTO(String id,
                            String name,
-                           int level,
+                           Integer level,
                            List<PrivilegeDTO> children) implements DataTransferObject {
 
     public static PrivilegeDTO from(PrivilegeEntity entity) {

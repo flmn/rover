@@ -11,6 +11,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 // Import Routes
+
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
 import { Route as AppImport } from './routes/_app'
@@ -65,7 +66,7 @@ const AppFleetAircraftsLazyRoute = AppFleetAircraftsLazyImport.update({
   path: '/fleet/aircrafts',
   getParentRoute: () => AppRoute,
 } as any).lazy(() =>
-    import('./routes/_app/fleet/aircrafts.lazy').then((d) => d.Route),
+  import('./routes/_app/fleet/aircrafts.lazy').then((d) => d.Route),
 )
 
 const AppAccountProfileLazyRoute = AppAccountProfileLazyImport.update({
@@ -108,7 +109,7 @@ const AppAnalysisMapIndexLazyRoute = AppAnalysisMapIndexLazyImport.update({
   path: '/analysis/map/',
   getParentRoute: () => AppRoute,
 } as any).lazy(() =>
-    import('./routes/_app/analysis/map/index.lazy').then((d) => d.Route),
+  import('./routes/_app/analysis/map/index.lazy').then((d) => d.Route),
 )
 
 // Populate the FileRoutesByPath interface

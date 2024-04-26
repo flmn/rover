@@ -60,16 +60,6 @@ public class TestService {
         return "ok";
     }
 
-    public Object test3() {
-        for (int i = 0; i < 100; i++) {
-            String name = faker.job().title();
-
-            roleService.create(name);
-        }
-
-        return "ok";
-    }
-
     public Object test4() {
         for (int i = 0; i < 10; i++) {
             String id = faker.internet().uuid();

@@ -48,7 +48,8 @@ public class RolesController {
 
     @PostMapping
     public RoleDTO create(@RequestBody RoleDTO request) {
-        RoleEntity entity = roleService.create(request.name());
+        RoleEntity entity = roleService.create(request.name(),
+                request.description());
 
         return RoleDTO.from(entity, roleService.countUsers(entity.getId()));
     }
@@ -72,7 +73,10 @@ public class RolesController {
     @PostMapping("/{id}")
     public RoleDTO update(@PathVariable("id") String id,
                           @RequestBody RoleDTO request) {
-        RoleEntity entity = roleService.update(id, request.name());
+        RoleEntity entity = roleService.update(id,
+                request.name(),
+                request.description(),
+                request.privileges());
 
         return RoleDTO.from(entity, roleService.countUsers(id));
     }

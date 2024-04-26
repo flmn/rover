@@ -8,8 +8,8 @@ import { LoginRequestDTO } from "@/types";
 import classes from "./login.module.css";
 
 const schema = z.object({
-    email: z.string().email({message: '非法电子邮件'}),
-    password: z.string().min(6, {message: '非法密码'}),
+    email: z.string().email('非法电子邮件'),
+    password: z.string().min(6, '密码长度至少6位'),
 });
 
 const Login = () => {

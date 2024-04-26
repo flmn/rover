@@ -7,6 +7,7 @@ import rover.core.platform.entity.DataPermission;
 import rover.core.platform.entity.RoleEntity;
 import rover.core.platform.repository.RoleRepository;
 import rover.core.shared.util.IdHelper;
+import rover.core.shared.util.NullHelper;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,17 +36,17 @@ public class RoleService {
         return roleRepository.countRoleUsers(id);
     }
 
-    public RoleEntity create(String name) {
+    public RoleEntity create(String name, String description) {
         RoleEntity entity = new RoleEntity();
         entity.setId(IdHelper.newTsid(RoleEntity.ID_PREFIX));
         entity.setName(name);
-        entity.setDescription("");
+        entity.setDescription(NullHelper.nullToEmpty(description));
         entity.setDataPermission(DataPermission.ALL);
 
         return roleRepository.save(entity);
     }
 
-    public RoleEntity update(String id, String name) {
+    public RoleEntity update(String id, String name, String description, List<String> privileges) {
         var opt = roleRepository.findById(id);
 
         if (opt.isEmpty()) {
@@ -56,6 +57,14 @@ public class RoleService {
 
         if (StringUtils.hasText(name)) {
             entity.setName(name);
+        }
+
+        if (description != null) {
+            entity.setDescription(description);
+        }
+
+        if (privileges != null) {
+            entity.setPrivileges(privileges);
         }
 
         return roleRepository.save(entity);

@@ -13,18 +13,30 @@ import {
     Stack,
     Tabs,
     Text,
+    Textarea,
     TextInput,
     Title,
     Tooltip,
     UnstyledButton
 } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { useForm, zodResolver } from "@mantine/form";
 import { useDebouncedValue } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import { IconListDetails, IconPlus, IconSearch, IconUsers, IconX } from "@tabler/icons-react";
+import { z } from "zod";
+import { PrivilegeSelect } from "@/components";
 import { EditorFormProps, useEditor, useGetRoleQuery, useRoleMutation, useRolesQuery } from "@/hooks";
 import { RoleDTO } from "@/types";
 import classes from "./index.lazy.module.css";
+
+const schema = z.object({
+    name: z.string()
+        .min(1, '角色名称至少1个字符')
+        .max(10, '角色名称最多10个字符'),
+    description: z.string()
+        .max(100, '描述最多100个字符')
+        .optional(),
+});
 
 const EditForm = ({id, setActiveRoleId}: {
     setActiveRoleId: React.Dispatch<React.SetStateAction<string | undefined>>
@@ -33,6 +45,7 @@ const EditForm = ({id, setActiveRoleId}: {
     const form = useForm<RoleDTO>({
         mode: 'uncontrolled',
         initialValues: {} as RoleDTO,
+        validate: zodResolver(schema),
         enhanceGetInputProps: (payload) => {
             if (!payload.form.initialized) {
                 return {disabled: true};
@@ -67,6 +80,13 @@ const EditForm = ({id, setActiveRoleId}: {
                            data-autofocus
                            key={form.key('name')}
                            {...form.getInputProps('name')}/>
+                <Textarea
+                    label="角色描述"
+                    placeholder="描述角色用途"
+                    autosize minRows={3} maxRows={6}
+                    key={form.key('description')}
+                    {...form.getInputProps('description')}
+                />
                 <Group justify="end" mt="md">
                     <Button variant="default" onClick={() => modals.closeAll()}>取消</Button>
                     <Button type="submit" loading={isPending}>保存</Button>
@@ -90,7 +110,7 @@ const RolesList = ({activeRoleId, setActiveRoleId}: {
 
     const editor = useEditor({
         entityName: '角色',
-        size: 'md',
+        size: 'lg',
         form: (props) => (<EditForm setActiveRoleId={setActiveRoleId} {...props}/>),
     });
 
@@ -146,6 +166,16 @@ const RolesList = ({activeRoleId, setActiveRoleId}: {
     );
 }
 
+const UserList = () => {
+    return (
+        <Stack my="xs">
+            <Flex justify="end" align="center" gap="sm" px="xs">
+                <Button>添加</Button>
+            </Flex>
+        </Stack>
+    );
+}
+
 const RoleDetails = ({activeRoleId, setActiveRoleId}: {
     activeRoleId: string | undefined,
     setActiveRoleId: React.Dispatch<React.SetStateAction<string | undefined>>
@@ -154,7 +184,7 @@ const RoleDetails = ({activeRoleId, setActiveRoleId}: {
 
     const editor = useEditor({
         entityName: '角色',
-        size: 'md',
+        size: 'lg',
         form: (props) => (<EditForm setActiveRoleId={setActiveRoleId} {...props}/>),
     });
 
@@ -180,26 +210,31 @@ const RoleDetails = ({activeRoleId, setActiveRoleId}: {
                 <Card.Section m="0.2rem">
                     <Group justify="space-between">
                         <Title order={4} mr="sm">{role?.name}</Title>
-                        <Tooltip label="创建一个新角色">
-                            <Button onClick={() => editor.edit(activeRoleId)}>修改名称</Button>
+                        <Tooltip label="修改名称和描述">
+                            <Button onClick={() => editor.edit(activeRoleId)}>编辑</Button>
                         </Tooltip>
                     </Group>
                 </Card.Section>
+                <Card.Section m="0.2rem">
+                    <Text size="sm" c="dark">
+                        <b>描述: </b>{role?.description}
+                    </Text>
+                </Card.Section>
             </Card>
-            <Tabs defaultValue="gallery">
+            <Tabs defaultValue="privileges">
                 <Tabs.List>
-                    <Tabs.Tab value="gallery" leftSection={<IconListDetails size="1.2rem"/>}>
+                    <Tabs.Tab value="privileges" leftSection={<IconListDetails size="1.2rem"/>}>
                         权限
                     </Tabs.Tab>
-                    <Tabs.Tab value="messages" leftSection={<IconUsers size="1.2rem"/>}>
+                    <Tabs.Tab value="users" leftSection={<IconUsers size="1.2rem"/>}>
                         用户
                     </Tabs.Tab>
                 </Tabs.List>
-                <Tabs.Panel value="gallery">
-                    Gallery tab content
+                <Tabs.Panel value="privileges">
+                    <PrivilegeSelect/>
                 </Tabs.Panel>
-                <Tabs.Panel value="messages">
-                    Messages tab content
+                <Tabs.Panel value="users">
+                    <UserList/>
                 </Tabs.Panel>
             </Tabs>
         </Stack>
