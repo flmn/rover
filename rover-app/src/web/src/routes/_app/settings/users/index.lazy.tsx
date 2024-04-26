@@ -25,7 +25,7 @@ import {
     MRT_PaginationState,
     MRT_Row,
     MRT_SortingState
-} from 'mantine-react-table';
+} from "mantine-react-table";
 import { Toolbar } from "@/components";
 import { EditorFormProps, useDataTable, useEditor, useGetUserQuery, useUserMutation, useUsersQuery } from "@/hooks";
 import { UserDTO } from "@/types";

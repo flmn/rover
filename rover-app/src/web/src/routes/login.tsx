@@ -3,9 +3,9 @@ import { Alert, Anchor, Box, Button, Card, Group, PasswordInput, Space, TextInpu
 import { useForm, zodResolver } from "@mantine/form";
 import { IconInfoCircle, IconLogin2 } from "@tabler/icons-react";
 import { z } from "zod";
-import classes from './login.module.css';
 import { useLoginMutation } from "@/hooks";
 import { LoginRequestDTO } from "@/types";
+import classes from "./login.module.css";
 
 const schema = z.object({
     email: z.string().email({message: '非法电子邮件'}),

@@ -1,7 +1,9 @@
 import {
     IconAdjustments,
     IconCpu,
+    IconDeviceAnalytics,
     IconHome,
+    IconMap,
     IconPlane,
     IconPlaneTilt,
     IconSettings,
@@ -26,6 +28,18 @@ const defaultMenus: MenuModel[] = [
                 icon: <IconPlane size="1.5rem" stroke={1.5}/>,
                 label: '飞机管理',
                 path: '/fleet/aircrafts',
+            },
+        ]
+    },
+    {
+        icon: <IconDeviceAnalytics size="1.5rem" stroke={1.5}/>,
+        label: '分析',
+        path: '/analysis',
+        children: [
+            {
+                icon: <IconMap size="1.5rem" stroke={1.5}/>,
+                label: '地图',
+                path: '/analysis/map',
             },
         ]
     },

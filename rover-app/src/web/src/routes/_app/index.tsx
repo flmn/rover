@@ -8,7 +8,7 @@ import {
     IconReceipt2,
     IconUserPlus
 } from "@tabler/icons-react";
-import classes from './index.module.css';
+import classes from "./index.module.css";
 
 const Index = () => {
     const icons = {

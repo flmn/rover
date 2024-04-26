@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { createFileRoute, Outlet } from '@tanstack/react-router'
+import { createFileRoute, Outlet } from "@tanstack/react-router"
 import { AppShell } from "@mantine/core";
 import { Header, NavBar } from "@/components";
 import { collapsedAtom } from "@/store";

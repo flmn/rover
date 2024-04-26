@@ -1,1 +1,1 @@
-export { AppMenu } from './AppMenu';
+export { AppMenu } from "./AppMenu";

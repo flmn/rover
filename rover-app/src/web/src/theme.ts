@@ -1,4 +1,4 @@
-import { createTheme, CSSVariablesResolver } from '@mantine/core';
+import { createTheme, CSSVariablesResolver } from "@mantine/core";
 
 export const theme = createTheme({
     primaryColor: 'paleblue',

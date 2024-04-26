@@ -1,0 +1,3 @@
+.map {
+    height: calc(100vh - var(--rover-header-height));
+}

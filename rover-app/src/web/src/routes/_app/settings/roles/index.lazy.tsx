@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute } from "@tanstack/react-router"
 import {
     ActionIcon,
     Button,
@@ -20,11 +20,11 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDebouncedValue } from "@mantine/hooks";
+import { modals } from "@mantine/modals";
 import { IconListDetails, IconPlus, IconSearch, IconUsers, IconX } from "@tabler/icons-react";
 import { EditorFormProps, useEditor, useGetRoleQuery, useRoleMutation, useRolesQuery } from "@/hooks";
 import { RoleDTO } from "@/types";
 import classes from "./index.lazy.module.css";
-import { modals } from "@mantine/modals";
 
 const EditForm = ({id, setActiveRoleId}: {
     setActiveRoleId: React.Dispatch<React.SetStateAction<string | undefined>>

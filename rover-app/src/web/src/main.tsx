@@ -1,18 +1,18 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import React from "react"
+import ReactDOM from "react-dom/client"
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { MantineProvider } from '@mantine/core';
-import { ModalsProvider } from '@mantine/modals';
+import { MantineProvider } from "@mantine/core";
+import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
-import '@mantine/core/styles.css';
-import '@mantine/dates/styles.css';
-import '@mantine/notifications/styles.css';
-import 'mantine-react-table/styles.css';
-import { resolver, theme } from '@/theme';
-import './index.css'
-import { routeTree } from './routeTree.gen'
+import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
+import "@mantine/notifications/styles.css";
+import "mantine-react-table/styles.css";
+import { resolver, theme } from "@/theme";
+import { routeTree } from "./routeTree.gen"
+import "./index.css"
 
 const queryClient = new QueryClient()
 

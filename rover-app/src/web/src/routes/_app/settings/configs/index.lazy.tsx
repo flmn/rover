@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute } from "@tanstack/react-router"
 import { MantineReactTable, MRT_ColumnDef, MRT_TableOptions } from "mantine-react-table";
 import dayjs from "dayjs";
 import {
@@ -19,7 +19,7 @@ import {
 import { useForm } from "@mantine/form";
 import { IconExternalLink, IconInfoCircle, IconPencil } from "@tabler/icons-react";
 import { ConfigDTO } from "@/types";
-import { Toolbar } from '@/components';
+import { Toolbar } from "@/components";
 import {
     EditorFormProps,
     useConfigMutation,
