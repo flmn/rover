@@ -25,7 +25,7 @@ import { modals } from "@mantine/modals";
 import { IconListDetails, IconPencil, IconPlus, IconSearch, IconUsers, IconX } from "@tabler/icons-react";
 import { z } from "zod";
 import dayjs from "dayjs";
-import { PrivilegeSelect } from "@/components";
+import { EditFormToolbar, PrivilegeSelect } from "@/components";
 import { EditorFormProps, useEditor, useGetRoleQuery, useRoleMutation, useRolesQuery } from "@/hooks";
 import { RoleDTO } from "@/types";
 import classes from "./index.lazy.module.css";
@@ -70,25 +70,7 @@ const EditForm = ({id, setActiveRoleId}: {
         action: 'delete'
     });
 
-    const openDeleteConfirmModal = () => {
-        modals.closeAll();
-
-        modals.openConfirmModal({
-            title: '确认',
-            children: <Text>确定删除角色【{role?.name}】？删除后不可恢复。</Text>,
-            labels: {confirm: '删除', cancel: '取消'},
-            confirmProps: {color: 'red'},
-            onConfirm: async () => {
-                if (role) {
-                    await deleteRole(role);
-
-                    setActiveRoleId(undefined);
-
-                    modals.closeAll();
-                }
-            },
-        });
-    }
+    const isEdit = !!role?.id;
 
     const handleSubmit = async (values: RoleDTO) => {
         const result = await saveRole(values);
@@ -97,6 +79,14 @@ const EditForm = ({id, setActiveRoleId}: {
 
         modals.closeAll();
     };
+
+    const onDeleteConfirmed = async () => {
+        if (role) {
+            setActiveRoleId(undefined);
+
+            await deleteRole(role);
+        }
+    }
 
     return (
         <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -112,17 +102,12 @@ const EditForm = ({id, setActiveRoleId}: {
                     key={form.key('description')}
                     {...form.getInputProps('description')}
                 />
-                <Group justify="space-between" mt="md" mb="xs">
-                    <Button variant="danger"
-                            onClick={() => openDeleteConfirmModal()}
-                            loading={isDeleting}>
-                        删除角色
-                    </Button>
-                    <Group justify="end">
-                        <Button variant="default" onClick={() => modals.closeAll()}>取消</Button>
-                        <Button type="submit" loading={isSaving}>保存</Button>
-                    </Group>
-                </Group>
+                <EditFormToolbar enableDelete={isEdit}
+                                 isEdit={isEdit}
+                                 isSaving={isSaving}
+                                 isDeleting={isDeleting}
+                                 deleteConfirmContent={<Text>确定删除角色【{role?.name}】？删除后不可恢复。</Text>}
+                                 onDeleteConfirmed={onDeleteConfirmed}/>
             </Stack>
         </form>
     );
