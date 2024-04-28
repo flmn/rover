@@ -102,7 +102,8 @@ const EditForm = ({id, setActiveRoleId}: {
                     key={form.key('description')}
                     {...form.getInputProps('description')}
                 />
-                <EditFormToolbar enableDelete={isEdit}
+                <EditFormToolbar entityName="角色"
+                                 enableDelete={isEdit}
                                  isEdit={isEdit}
                                  isSaving={isSaving}
                                  isDeleting={isDeleting}

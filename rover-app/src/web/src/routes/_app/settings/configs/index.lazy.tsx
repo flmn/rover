@@ -19,7 +19,7 @@ import {
 import { useForm } from "@mantine/form";
 import { IconExternalLink, IconInfoCircle, IconPencil } from "@tabler/icons-react";
 import { ConfigDTO } from "@/types";
-import { Toolbar } from "@/components";
+import { EditFormToolbar, Toolbar } from "@/components";
 import {
     EditorFormProps,
     useConfigMutation,
@@ -50,7 +50,7 @@ const EditForm = (props: EditorFormProps) => {
         }
     }, [form, config]);
 
-    const {mutateAsync, isPending} = useConfigMutation();
+    const {mutateAsync, isPending: isSaving} = useConfigMutation();
 
     const handleSubmit = async (values: ConfigDTO) => {
         await mutateAsync(values);
@@ -83,10 +83,8 @@ const EditForm = (props: EditorFormProps) => {
                             key={form.key('value')}
                             {...form.getInputProps('value')}/>
                     </>}
-                <Group justify="end" mt="md">
-                    <Button variant="default" onClick={() => modals.closeAll()}>取消</Button>
-                    <Button type="submit" loading={isPending}>保存</Button>
-                </Group>
+                <EditFormToolbar isEdit={true}
+                                 isSaving={isSaving}/>
             </Stack>
         </form>
     );

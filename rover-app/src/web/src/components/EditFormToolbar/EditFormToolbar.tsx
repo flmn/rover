@@ -3,11 +3,12 @@ import { Button, Group } from "@mantine/core";
 import { modals } from "@mantine/modals";
 
 interface EditFormToolbarProps {
+    entityName: string;
     enableDelete?: boolean;
     isEdit: boolean;
     isSaving: boolean;
-    isDeleting: boolean;
-    deleteConfirmContent: ReactNode;
+    isDeleting?: boolean;
+    deleteConfirmContent?: ReactNode;
     onDeleteConfirmed?: () => void;
 }
 
@@ -35,7 +36,7 @@ export function EditFormToolbar(props: EditFormToolbarProps) {
             {props.enableDelete && props.isEdit &&
                 <Button variant="danger"
                         onClick={() => openDeleteConfirmModal()}
-                        loading={props.isDeleting}>删除角色</Button>}
+                        loading={props.isDeleting}>删除{props.entityName}</Button>}
             <Group flex={1} justify="end">
                 <Button variant="default" onClick={() => modals.closeAll()}>取消</Button>
                 <Button type="submit" loading={props.isSaving}>保存</Button>

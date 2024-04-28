@@ -7,7 +7,6 @@ import {
     Button,
     Container,
     Flex,
-    Group,
     MultiSelect,
     PasswordInput,
     Stack,
@@ -18,15 +17,9 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { modals } from "@mantine/modals";
-import { IconPencil, IconTrash } from "@tabler/icons-react";
-import {
-    MantineReactTable,
-    type MRT_ColumnDef,
-    MRT_PaginationState,
-    MRT_Row,
-    MRT_SortingState
-} from "mantine-react-table";
-import { Toolbar } from "@/components";
+import { IconPencil } from "@tabler/icons-react";
+import { MantineReactTable, type MRT_ColumnDef, MRT_PaginationState, MRT_SortingState } from "mantine-react-table";
+import { EditFormToolbar, Toolbar } from "@/components";
 import { EditorFormProps, useDataTable, useEditor, useGetUserQuery, useUserMutation, useUsersQuery } from "@/hooks";
 import { UserDTO } from "@/types";
 import { useComboboxQuery } from "@/hooks/use-combobox-items";
@@ -55,17 +48,27 @@ const EditForm = (props: EditorFormProps) => {
         }
     }, [form, user]);
 
-    const {mutateAsync, isPending} = useUserMutation({
+    const {mutateAsync: saveUser, isPending: isSaving} = useUserMutation({
         action: props.id ? 'update' : 'create'
     });
 
+    const {mutateAsync: deleteUser, isPending: isDeleting} = useUserMutation({
+        action: 'delete'
+    });
+
+    const isEdit = !!props.id;
+
     const handleSubmit = async (values: UserDTO) => {
-        await mutateAsync(values);
+        await saveUser(values);
 
         modals.closeAll();
     };
 
-    const isEditing = !!props.id;
+    const onDeleteConfirmed = async () => {
+        if (user) {
+            await deleteUser(user);
+        }
+    }
 
     return (
         <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -79,7 +82,7 @@ const EditForm = (props: EditorFormProps) => {
                            key={form.key('email')}
                            {...form.getInputProps('email')} />
                 <PasswordInput label="密码" placeholder="密码"
-                               required={!isEditing}
+                               required={!isEdit}
                                key={form.key('password')}
                                {...form.getInputProps('password')} />
                 <MultiSelect clearable searchable label="角色"
@@ -93,10 +96,13 @@ const EditForm = (props: EditorFormProps) => {
                 <Switch label="是否锁定" size="md"
                         key={form.key('isLocked')}
                         {...form.getInputProps('isLocked', {type: 'checkbox'})}/>
-                <Group justify="end" mt="md">
-                    <Button variant="default" onClick={() => modals.closeAll()}>取消</Button>
-                    <Button type="submit" loading={isPending}>保存</Button>
-                </Group>
+                <EditFormToolbar entityName="用户"
+                                 enableDelete={isEdit}
+                                 isEdit={isEdit}
+                                 isSaving={isSaving}
+                                 isDeleting={isDeleting}
+                                 deleteConfirmContent={<Text>确定删除用户【{user?.name}】？删除后不可恢复。</Text>}
+                                 onDeleteConfirmed={onDeleteConfirmed}/>
             </Stack>
         </form>
     );
@@ -175,25 +181,11 @@ const Users = () => {
         sorting,
     });
 
-    const {mutateAsync: deleteUser, isPending: isDeletingUser} = useUserMutation({
-        action: 'delete'
-    });
-
     const editor = useEditor({
         entityName: '用户',
         size: 'xl',
         form: (props) => (<EditForm {...props}/>),
     });
-
-    const openDeleteConfirmModal = (row: MRT_Row<UserDTO>) => {
-        modals.openConfirmModal({
-            title: '确认',
-            children: <Text>确定删除用户【{row.original.name}】？删除后不可恢复。</Text>,
-            labels: {confirm: '删除', cancel: '取消'},
-            confirmProps: {color: 'red'},
-            onConfirm: () => deleteUser(row.original),
-        });
-    }
 
     const items = data?.items ?? [];
     const total = data?.total ?? 0;
@@ -218,11 +210,6 @@ const Users = () => {
                         <IconPencil size="1.3rem"/>
                     </ActionIcon>
                 </Tooltip>
-                <Tooltip label="删除用户">
-                    <ActionIcon variant="subtle" color="red" onClick={() => openDeleteConfirmModal(row)}>
-                        <IconTrash size="1.3rem"/>
-                    </ActionIcon>
-                </Tooltip>
             </Flex>
         ),
         // toolbar
@@ -232,7 +219,6 @@ const Users = () => {
         // state
         state: {
             isLoading,
-            isSaving: isDeletingUser,
             pagination,
             globalFilter,
             sorting,
