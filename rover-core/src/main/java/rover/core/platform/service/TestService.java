@@ -47,7 +47,7 @@ public class TestService {
         return "test ok";
     }
 
-    public Object test2() {
+    public Object testUsers() {
         for (int i = 0; i < 100; i++) {
             String email = faker.internet().emailAddress();
             String password = faker.internet().password();

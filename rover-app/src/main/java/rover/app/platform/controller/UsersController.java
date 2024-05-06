@@ -41,7 +41,7 @@ public class UsersController {
                 .map(UserDTO::from)
                 .toList();
 
-        return new ListResultDTO<>(pageNumber, pageSize, items.size(), items);
+        return new ListResultDTO<>(pageNumber, pageSize, page.getTotalElements(), items);
     }
 
     @PostMapping
