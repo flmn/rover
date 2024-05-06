@@ -1,5 +1,29 @@
 insert into platform_privilege (id, name, level, display_order)
-values ('settings', '系统设置', 1, 1);
+values ('fleet', '机队管理', 1, 1);
+
+insert into platform_privilege (id, name, level, parent, display_order)
+values ('fleet.aircrafts', '飞机管理', 2, 'fleet', 1),
+       ('fleet.aircrafts.read', '查看', 3, 'fleet.aircrafts', 1),
+       ('fleet.aircrafts.create', '添加', 3, 'fleet.aircrafts', 2),
+       ('fleet.aircrafts.update', '修改', 3, 'fleet.aircrafts', 3),
+       ('fleet.aircrafts.delete', '删除', 3, 'fleet.aircrafts', 4),
+       ('fleet.aircrafts.import', '导入', 3, 'fleet.aircrafts', 5),
+       ('fleet.aircrafts.export', '导出', 3, 'fleet.aircrafts', 6);
+
+insert into platform_privilege (id, name, level, display_order)
+values ('data', '数据', 1, 2);
+
+insert into platform_privilege (id, name, level, parent, display_order)
+values ('data.airports', '机场数据库', 2, 'data', 1),
+       ('data.airports.read', '查看', 3, 'data.airports', 1),
+       ('data.airports.create', '添加', 3, 'data.airports', 2),
+       ('data.airports.update', '修改', 3, 'data.airports', 3),
+       ('data.airports.delete', '删除', 3, 'data.airports', 4),
+       ('data.airports.import', '导入', 3, 'data.airports', 5),
+       ('data.airports.export', '导出', 3, 'data.airports', 6);
+
+insert into platform_privilege (id, name, level, display_order)
+values ('settings', '系统设置', 1, 3);
 
 insert into platform_privilege (id, name, level, parent, display_order)
 values ('settings.users', '用户管理', 2, 'settings', 1),

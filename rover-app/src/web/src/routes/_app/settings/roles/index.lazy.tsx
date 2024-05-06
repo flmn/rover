@@ -223,7 +223,7 @@ const RoleDetails = ({activeRoleId, setActiveRoleId}: {
     }
 
     return (
-        <Stack w="100%">
+        <Stack gap="sm" w="100%">
             <Card withBorder shadow="xs">
                 <Card.Section m="0.4rem">
                     <Group gap={0}>

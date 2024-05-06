@@ -6,5 +6,7 @@ export * from "./use-roles-apis"
 export * from "./use-server-apis"
 export * from "./use-users-apis"
 
+export * from "./data"
+
 export * from "./use-data-table"
 export * from "./use-editor"

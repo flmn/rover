@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { MRT_PaginationState, MRT_SortingState } from "mantine-react-table";
 import { deleteWithAuthHeader, getWithAuthHeader, postWithAuthHeader } from "@/auth";
-import { ListResultDTO, UserDTO } from "@/types";
+import { AirportDTO, ListResultDTO } from "@/types";
 
 interface QueryParams {
     pagination: MRT_PaginationState;
@@ -9,8 +9,8 @@ interface QueryParams {
     sorting: MRT_SortingState;
 }
 
-const useUsersQuery = ({globalFilter, pagination, sorting}: QueryParams) => {
-    const fetchURL = new URL('/api/platform/users', 'http://localhost:5173'); // todo remove base
+const useAirportsQuery = ({globalFilter, pagination, sorting}: QueryParams) => {
+    const fetchURL = new URL('/api/data/airports', 'http://localhost:5173'); // todo remove base
     fetchURL.searchParams.set('pageNumber', `${pagination.pageIndex}`,);
     fetchURL.searchParams.set('pageSize', `${pagination.pageSize}`);
 
@@ -24,49 +24,49 @@ const useUsersQuery = ({globalFilter, pagination, sorting}: QueryParams) => {
         fetchURL.searchParams.set('desc', `${sort.desc}`);
     }
 
-    return useQuery<ListResultDTO<UserDTO>>({
-        queryKey: ['users', fetchURL.href],
-        queryFn: () => getWithAuthHeader(fetchURL.href) as Promise<ListResultDTO<UserDTO>>,
+    return useQuery<ListResultDTO<AirportDTO>>({
+        queryKey: ['airports', fetchURL.href],
+        queryFn: () => getWithAuthHeader(fetchURL.href) as Promise<ListResultDTO<AirportDTO>>,
         refetchOnWindowFocus: false,
         staleTime: 30_000, // 30s
     });
 }
 
-const useGetUserQuery = (id?: string) => {
-    return useQuery<UserDTO>({
-        queryKey: ['users', id],
+const useGetAirportQuery = (id?: string) => {
+    return useQuery<AirportDTO>({
+        queryKey: ['airports', id],
         queryFn: () => {
             if (!id) {
-                return {} as UserDTO;
+                return {} as AirportDTO;
             }
 
-            return getWithAuthHeader(`/api/platform/users/${id}`) as Promise<UserDTO>;
+            return getWithAuthHeader(`/api/data/airports/${id}`) as Promise<AirportDTO>;
         },
         refetchOnWindowFocus: false,
         gcTime: 0, // no cache
     });
 }
 
-const useUserMutation = ({action}: { action: string }) => {
+const useAirportMutation = ({action}: { action: string }) => {
     const queryClient = useQueryClient();
 
-    const mutationFn = async (userDTO: UserDTO): Promise<unknown> => {
+    const mutationFn = async (airportDTO: AirportDTO): Promise<unknown> => {
         switch (action) {
             case 'create':
-                return postWithAuthHeader('/api/platform/users', userDTO)
+                return postWithAuthHeader('/api/data/airports', airportDTO)
             case 'update':
-                return postWithAuthHeader(`/api/platform/users/${userDTO.id}`, userDTO)
+                return postWithAuthHeader(`/api/data/airports/${airportDTO.id}`, airportDTO)
             case 'delete':
-                return deleteWithAuthHeader(`/api/platform/users/${userDTO.id}`)
+                return deleteWithAuthHeader(`/api/data/airports/${airportDTO.id}`)
         }
     }
 
     return useMutation({
         mutationFn,
         onSettled: async () => {
-            await queryClient.invalidateQueries({queryKey: ['users']})
+            await queryClient.invalidateQueries({queryKey: ['airports']})
         },
     });
 }
 
-export { useUsersQuery, useGetUserQuery, useUserMutation }
+export { useAirportsQuery, useGetAirportQuery, useAirportMutation }

@@ -1,4 +1,4 @@
-GET http://localhost:8000/api/fleet/aircrafts
+GET http://localhost:8000/api/data/airports
 Content-Type: application/json
 Authorization: Bearer aed1edb934a44923be6635dcbb9e4381
 

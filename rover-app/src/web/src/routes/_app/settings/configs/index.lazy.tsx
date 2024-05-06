@@ -83,7 +83,8 @@ const EditForm = (props: EditorFormProps) => {
                             key={form.key('value')}
                             {...form.getInputProps('value')}/>
                     </>}
-                <EditFormToolbar isEdit={true}
+                <EditFormToolbar entityName="系统参数"
+                                 isEdit={true}
                                  isSaving={isSaving}/>
             </Stack>
         </form>
@@ -169,7 +170,7 @@ const Configs = () => {
                 size: 80,
                 enableColumnFilter: false,
                 Cell: ({cell}) => (
-                    <span>{dayjs(cell.getValue<Date>()).format('YYYY-MM-DD日 HH:mm:ss')}</span>
+                    <span>{dayjs(cell.getValue<Date>()).format('YYYY-MM-DD HH:mm:ss')}</span>
                 ),
             },
             {
@@ -179,7 +180,7 @@ const Configs = () => {
                 enableColumnFilter: false,
                 Cell: ({cell}) => (
                     cell.getValue() != null &&
-                    <span>{dayjs(cell.getValue<Date>()).format('YYYY-MM-DD日 HH:mm:ss')}</span>
+                    <span>{dayjs(cell.getValue<Date>()).format('YYYY-MM-DD HH:mm:ss')}</span>
                 ),
             },
         ],

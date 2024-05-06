@@ -11,7 +11,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 // Import Routes
-
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
 import { Route as AppImport } from './routes/_app'
@@ -36,6 +35,7 @@ const AppSettingsEnumsIndexLazyImport = createFileRoute(
 const AppSettingsConfigsIndexLazyImport = createFileRoute(
   '/_app/settings/configs/',
 )()
+const AppDataAirportsIndexLazyImport = createFileRoute('/_app/data/airports/')()
 const AppAnalysisMapIndexLazyImport = createFileRoute('/_app/analysis/map/')()
 
 // Create/Update Routes
@@ -105,6 +105,13 @@ const AppSettingsConfigsIndexLazyRoute =
     import('./routes/_app/settings/configs/index.lazy').then((d) => d.Route),
   )
 
+const AppDataAirportsIndexLazyRoute = AppDataAirportsIndexLazyImport.update({
+    path: '/data/airports/',
+    getParentRoute: () => AppRoute,
+} as any).lazy(() =>
+    import('./routes/_app/data/airports/index.lazy').then((d) => d.Route),
+)
+
 const AppAnalysisMapIndexLazyRoute = AppAnalysisMapIndexLazyImport.update({
   path: '/analysis/map/',
   getParentRoute: () => AppRoute,
@@ -144,6 +151,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAnalysisMapIndexLazyImport
       parentRoute: typeof AppImport
     }
+      '/_app/data/airports/': {
+          preLoaderRoute: typeof AppDataAirportsIndexLazyImport
+          parentRoute: typeof AppImport
+      }
     '/_app/settings/configs/': {
       preLoaderRoute: typeof AppSettingsConfigsIndexLazyImport
       parentRoute: typeof AppImport
@@ -172,6 +183,7 @@ export const routeTree = rootRoute.addChildren([
     AppFleetAircraftsLazyRoute,
     AppSettingsServerInfoLazyRoute,
     AppAnalysisMapIndexLazyRoute,
+      AppDataAirportsIndexLazyRoute,
     AppSettingsConfigsIndexLazyRoute,
     AppSettingsEnumsIndexLazyRoute,
     AppSettingsRolesIndexLazyRoute,

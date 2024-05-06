@@ -153,7 +153,7 @@ const Users = () => {
                 header: '创建时间',
                 filterVariant: 'date-range',
                 Cell: ({cell}) => (
-                    <span>{dayjs(cell.getValue<Date>()).format('YYYY-MM-DD日 HH:mm:ss')}</span>
+                    <span>{dayjs(cell.getValue<Date>()).format('YYYY-MM-DD HH:mm:ss')}</span>
                 ),
             },
             {
@@ -162,7 +162,7 @@ const Users = () => {
                 filterVariant: 'date-range',
                 Cell: ({cell}) => (
                     cell.getValue() != null &&
-                    <span>{dayjs(cell.getValue<Date>()).format('YYYY-MM-DD日 HH:mm:ss')}</span>
+                    <span>{dayjs(cell.getValue<Date>()).format('YYYY-MM-DD HH:mm:ss')}</span>
                 ),
             },
         ],

@@ -1,10 +1,12 @@
 import {
     IconAdjustments,
     IconCpu,
+    IconDatabase,
     IconDeviceAnalytics,
     IconHome,
     IconMap,
     IconPlane,
+    IconPlaneDeparture,
     IconPlaneTilt,
     IconSettings,
     IconUsers,
@@ -40,6 +42,18 @@ const defaultMenus: MenuModel[] = [
                 icon: <IconMap size="1.5rem" stroke={1.5}/>,
                 label: '地图',
                 path: '/analysis/map',
+            },
+        ]
+    },
+    {
+        icon: <IconDatabase size="1.5rem" stroke={1.5}/>,
+        label: '数据',
+        path: '/data',
+        children: [
+            {
+                icon: <IconPlaneDeparture size="1.5rem" stroke={1.5}/>,
+                label: '机场数据库',
+                path: '/data/airports',
             },
         ]
     },
