@@ -3,6 +3,7 @@ package rover.core.platform.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -22,6 +23,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private JdbcClient jdbcClient;
+
     public UserService(UserRepository userRepository,
                        PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -35,12 +38,7 @@ public class UserService {
             pageRequest = pageRequest.withSort(direction, sortProperty);
         }
 
-        if (StringUtils.hasText(search)) {
-            search = "%" + search + "%";
-            return userRepository.findByEmailLikeIgnoreCaseOrNameLikeIgnoreCase(search, search, pageRequest);
-        } else {
-            return userRepository.findAll(pageRequest);
-        }
+        return userRepository.search(search, pageRequest);
     }
 
     public Optional<UserEntity> getById(String id) {
