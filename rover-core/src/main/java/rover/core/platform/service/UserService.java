@@ -31,14 +31,14 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Page<UserEntity> list(String search, int pageNumber, int pageSize, String sortProperty, Sort.Direction direction) {
+    public Page<UserEntity> list(String search, String roleId, int pageNumber, int pageSize, String sortProperty, Sort.Direction direction) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
 
         if (StringUtils.hasText(sortProperty)) {
             pageRequest = pageRequest.withSort(direction, sortProperty);
         }
 
-        return userRepository.search(search, pageRequest);
+        return userRepository.search(search, roleId, pageRequest);
     }
 
     public Optional<UserEntity> getById(String id) {

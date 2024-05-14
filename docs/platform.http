@@ -81,3 +81,9 @@ Authorization: Bearer aed1edb934a44923be6635dcbb9e4381
 GET http://localhost:8000/api/platform/users
 Content-Type: application/json
 Authorization: Bearer aed1edb934a44923be6635dcbb9e4381
+
+### users by role
+
+GET http://localhost:8000/api/platform/users?roleId=rol-system-admin
+Content-Type: application/json
+Authorization: Bearer aed1edb934a44923be6635dcbb9e4381
