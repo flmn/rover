@@ -2,8 +2,8 @@ package rover.core.platform.repository;
 
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.stereotype.Repository;
+import rover.core.platform.constants.PlatformTableNames;
 import rover.core.platform.entity.RoleEntity;
-import rover.core.shared.constants.PlatformTableNames;
 import rover.core.shared.repository.BaseRepository;
 
 @Repository

@@ -1,4 +1,4 @@
-package rover.core.shared.constants;
+package rover.core.platform.constants;
 
 public interface PlatformTableNames {
     String CONFIG = "platform_config";

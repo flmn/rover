@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
-import rover.core.shared.constants.PlatformTableNames;
+import rover.core.platform.constants.PlatformTableNames;
 
 @Table(PlatformTableNames.PRIVILEGE)
 public class PrivilegeEntity {
