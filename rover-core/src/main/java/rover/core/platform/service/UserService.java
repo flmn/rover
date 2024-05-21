@@ -106,6 +106,10 @@ public class UserService {
         return userRepository.save(entity);
     }
 
+    public UserEntity save(UserEntity userEntity) {
+        return userRepository.save(userEntity);
+    }
+
     public UserEntity delete(String id) {
         var opt = userRepository.findById(id);
 

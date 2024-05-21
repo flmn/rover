@@ -12,6 +12,7 @@ import rover.core.platform.entity.UserEntity;
 import rover.core.platform.service.RoleService;
 import rover.core.platform.service.UserService;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -48,6 +49,9 @@ public class AuthService {
                 session.put(Session.ATTR_AUTHORITIES, getAuthorities(user));
 
                 sessionManager.save(session);
+
+                user.setLastLoginAt(LocalDateTime.now());
+                userService.save(user);
 
                 return Optional.of(session);
             }

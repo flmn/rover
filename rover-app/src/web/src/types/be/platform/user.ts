@@ -4,6 +4,7 @@ export interface UserDTO {
     name: string;
     isEnabled: boolean;
     isLocked: boolean;
+    lastLoginAt?: Date;
     roles: string[];
     createdAt: Date;
     updatedAt?: Date;

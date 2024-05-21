@@ -129,6 +129,7 @@
             <column name="is_locked" type="boolean" defaultValueBoolean="false">
                 <constraints nullable="false"/>
             </column>
+            <column name="last_login_at" type="timestamptz"/>
             <column name="created_by" type="text">
                 <constraints nullable="false"/>
             </column>

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { createLazyFileRoute } from "@tanstack/react-router"
 import {
     ActionIcon,
-    Button,
     Card,
     Center,
     Container,
@@ -22,12 +21,21 @@ import {
 import { useForm, zodResolver } from "@mantine/form";
 import { useDebouncedValue } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
+import { MantineReactTable, MRT_ColumnDef, MRT_PaginationState, MRT_SortingState } from "mantine-react-table";
 import { IconListDetails, IconPencil, IconPlus, IconSearch, IconUsers, IconX } from "@tabler/icons-react";
 import { z } from "zod";
 import dayjs from "dayjs";
 import { EditFormToolbar, PrivilegeSelect } from "@/components";
-import { EditorFormProps, useEditor, useGetRoleQuery, useRoleMutation, useRolesQuery } from "@/hooks";
-import { RoleDTO } from "@/types";
+import {
+    EditorFormProps,
+    useDataTable,
+    useEditor,
+    useGetRoleQuery,
+    useRoleMutation,
+    useRolesQuery,
+    useUsersQuery
+} from "@/hooks";
+import { RoleDTO, UserDTO } from "@/types";
 import classes from "./index.lazy.module.css";
 
 const schema = z.object({
@@ -185,11 +193,80 @@ const RolesList = ({activeRoleId, setActiveRoleId}: {
 }
 
 const UserList = () => {
+    const columns = useMemo<MRT_ColumnDef<UserDTO>[]>(
+        () => [
+            {
+                accessorKey: 'name',
+                header: '姓名',
+                size: 80,
+            },
+            {
+                accessorKey: 'email',
+                header: '电子邮件',
+                enableClickToCopy: true,
+            },
+            {
+                accessorKey: 'lastLoginAt',
+                header: '最后登录时间',
+                Cell: ({cell}) => (
+                    cell.getValue() != null &&
+                    <span>{dayjs(cell.getValue<Date>()).format('YYYY-MM-DD HH:mm:ss')}</span>
+                ),
+            },
+        ],
+        [],
+    );
+
+    const [pagination, setPagination] = useState<MRT_PaginationState>({
+        pageIndex: 0,
+        pageSize: 10,
+    });
+    const [globalFilter, setGlobalFilter] = useState('');
+    const [sorting, setSorting] = useState<MRT_SortingState>([]);
+    const {data, isError, isLoading} = useUsersQuery({
+        pagination,
+        globalFilter,
+        sorting,
+    });
+
+    const items = data?.items ?? [];
+    const total = data?.total ?? 0;
+
+    const table = useDataTable({
+        columns,
+        data: items,
+        rowCount: total,
+        // display
+        enableRowActions: false,
+        enableRowNumbers: false,
+        enableRowSelection: true,
+        manualSorting: true,
+        mantineToolbarAlertBannerProps: isError ? {color: 'red', children: '加载数据失败',} : undefined,
+        // filtering
+        manualFiltering: true,
+        // pagination
+        manualPagination: true,
+        // toolbar
+        renderBottomToolbarCustomActions: () => (
+            <Text pl="xs">用户数：{total}</Text>
+        ),
+        // state
+        state: {
+            isLoading,
+            pagination,
+            globalFilter,
+            sorting,
+            showAlertBanner: isError,
+        },
+        // callback
+        onPaginationChange: setPagination,
+        onGlobalFilterChange: setGlobalFilter,
+        onSortingChange: setSorting,
+    });
+
     return (
         <Stack my="xs">
-            <Flex justify="end" align="center" gap="sm">
-                <Button>添加用户</Button>
-            </Flex>
+            <MantineReactTable table={table}/>
         </Stack>
     );
 }

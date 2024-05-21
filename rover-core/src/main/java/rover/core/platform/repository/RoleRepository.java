@@ -9,6 +9,6 @@ import rover.core.shared.repository.BaseRepository;
 @Repository
 public interface RoleRepository extends BaseRepository<RoleEntity, String> {
 
-    @Query("select count(user_id) from " + PlatformTableNames.ROLE_REF + " where role_id=:roleId")
+    @Query("select count(distinct user_id) from " + PlatformTableNames.ROLE_REF + " where role_id=:roleId")
     int countRoleUsers(String roleId);
 }
