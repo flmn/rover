@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class JobApp {
+public class RoverJobApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(JobApp.class, args);
+        SpringApplication.run(RoverJobApp.class, args);
     }
 }

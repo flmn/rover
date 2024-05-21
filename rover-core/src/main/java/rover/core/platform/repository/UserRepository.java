@@ -11,7 +11,6 @@ import org.springframework.util.StringUtils;
 import rover.core.platform.constants.PlatformTableNames;
 import rover.core.platform.entity.UserEntity;
 import rover.core.shared.repository.BaseRepository;
-import rover.core.shared.repository.CriteriaExecutor;
 import rover.core.shared.repository.JdbcSupport;
 import rover.core.shared.repository.MoreCriteria;
 
@@ -19,9 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends BaseRepository<UserEntity, String>,
-        CriteriaExecutor<UserEntity>,
-        JdbcSupport {
+public interface UserRepository extends BaseRepository<UserEntity, String>, JdbcSupport {
 
     Optional<UserEntity> findByEmail(String email);
 

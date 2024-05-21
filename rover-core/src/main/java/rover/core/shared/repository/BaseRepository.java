@@ -6,5 +6,6 @@ import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
 public interface BaseRepository<T, ID> extends ListPagingAndSortingRepository<T, ID>,
-        ListCrudRepository<T, ID> {
+        ListCrudRepository<T, ID>,
+        CriteriaExecutor<T> {
 }

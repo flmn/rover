@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DbApp {
+public class RoverDbApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(DbApp.class, args);
+        SpringApplication.run(RoverDbApp.class, args);
     }
 }
