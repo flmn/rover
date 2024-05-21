@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import rover.core.platform.auth.session.Session;
 import rover.core.platform.auth.session.SessionManager;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Component
 public class OpaqueTokenAuthenticationProvider implements AuthenticationProvider {
@@ -57,11 +59,13 @@ public class OpaqueTokenAuthenticationProvider implements AuthenticationProvider
         return (BearerTokenAuthenticationToken.class.isAssignableFrom(authentication));
     }
 
+    @SuppressWarnings("unchecked")
     private RoverUserDetails toUserDetails(Session session) {
         String email = session.getString(Session.ATTR_EMAIL, "");
         String name = session.getString(Session.ATTR_NAME, "用户");
         boolean enabled = session.getBoolean(Session.ATTR_ENABLED, true);
         boolean locked = session.getBoolean(Session.ATTR_LOCKED, false);
+        List<GrantedAuthority> authorities = (List<GrantedAuthority>) session.get(Session.ATTR_AUTHORITIES, AuthorityUtils.NO_AUTHORITIES);
 
         return new RoverUserDetails(session.getUserId(),
                 session.getAccessToken(),
@@ -72,7 +76,7 @@ public class OpaqueTokenAuthenticationProvider implements AuthenticationProvider
                 true,
                 true,
                 !locked,
-                AuthorityUtils.NO_AUTHORITIES); // todo
+                authorities);
     }
 
     private void checkUserDetails(UserDetails user) {

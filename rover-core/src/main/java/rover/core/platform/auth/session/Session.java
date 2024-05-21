@@ -31,6 +31,14 @@ public class Session {
         data.put(key, value);
     }
 
+    public Object get(String key) {
+        return get(key, null);
+    }
+
+    public Object get(String key, Object defaultValue) {
+        return data.getOrDefault(key, defaultValue);
+    }
+
     public String getString(String key, String defaultValue) {
         var obj = data.getOrDefault(key, null);
 
