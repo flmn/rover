@@ -5,10 +5,10 @@ Content-Type: application/json
 
 ### configs
 
-GET http://localhost:8000/api/public/configs/cnf-system-title
+GET http://localhost:8000/api/public/configs/cfg-system-title
 Content-Type: application/json
 
 ### not public access
 
-GET http://localhost:8000/api/public/configs/cnf-server-alarm-disk
+GET http://localhost:8000/api/public/configs/cfg-server-alarm-disk
 Content-Type: application/json
