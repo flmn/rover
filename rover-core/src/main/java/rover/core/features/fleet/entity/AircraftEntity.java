@@ -3,10 +3,10 @@ package rover.core.features.fleet.entity;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 import rover.core.features.fleet.constants.FleetTableNames;
-import rover.core.shared.entity.SoftDeletableEntity;
+import rover.core.shared.entity.BaseEntity;
 
 @Table(FleetTableNames.AIRCRAFT)
-public class AircraftEntity extends SoftDeletableEntity {
+public class AircraftEntity extends BaseEntity {
 
     @Column("reg_num")
     private String regNum;

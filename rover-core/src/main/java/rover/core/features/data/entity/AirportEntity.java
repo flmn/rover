@@ -3,12 +3,12 @@ package rover.core.features.data.entity;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 import rover.core.features.data.constants.DataTableNames;
-import rover.core.shared.entity.SoftDeletableEntity;
+import rover.core.shared.entity.BaseEntity;
 
 import java.math.BigDecimal;
 
 @Table(DataTableNames.AIRPORT)
-public class AirportEntity extends SoftDeletableEntity {
+public class AirportEntity extends BaseEntity {
 
     @Column("iata_code")
     private String iataCode;

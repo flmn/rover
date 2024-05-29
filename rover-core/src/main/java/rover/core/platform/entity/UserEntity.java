@@ -4,14 +4,14 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 import rover.core.platform.constants.PlatformTableNames;
-import rover.core.shared.entity.SoftDeletableEntity;
+import rover.core.shared.entity.BaseEntity;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Table(PlatformTableNames.USER)
-public class UserEntity extends SoftDeletableEntity {
+public class UserEntity extends BaseEntity {
     public static final String ID_PREFIX = "usr";
 
     @Column("email")

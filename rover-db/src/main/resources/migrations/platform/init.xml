@@ -138,11 +138,6 @@
             </column>
             <column name="updated_by" type="text"/>
             <column name="updated_at" type="timestamptz"/>
-            <column name="is_deleted" type="boolean" defaultValueBoolean="false">
-                <constraints nullable="false"/>
-            </column>
-            <column name="deleted_by" type="text"/>
-            <column name="deleted_at" type="timestamptz"/>
             <column name="version" type="int" defaultValue="0">
                 <constraints nullable="false"/>
             </column>

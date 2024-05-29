@@ -3,10 +3,10 @@ package rover.core.platform.entity;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 import rover.core.platform.constants.PlatformTableNames;
-import rover.core.shared.entity.SoftDeletableEntity;
+import rover.core.shared.entity.BaseEntity;
 
 @Table(PlatformTableNames.FILE)
-public class FileEntity extends SoftDeletableEntity {
+public class FileEntity extends BaseEntity {
 
     @Column("name")
     private String name;

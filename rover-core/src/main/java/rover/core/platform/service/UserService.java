@@ -12,7 +12,6 @@ import rover.core.platform.entity.UserEntity;
 import rover.core.platform.repository.UserRepository;
 import rover.core.shared.util.IdHelper;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -119,9 +118,8 @@ public class UserService {
 
         UserEntity entity = opt.get();
 
-        entity.setDeleted(true);
-        entity.setDeletedAt(LocalDateTime.now());
+        userRepository.delete(entity);
 
-        return userRepository.save(entity);
+        return entity;
     }
 }
