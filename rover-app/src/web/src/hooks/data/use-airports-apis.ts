@@ -10,23 +10,25 @@ interface QueryParams {
 }
 
 const useAirportsQuery = ({globalFilter, pagination, sorting}: QueryParams) => {
-    const fetchURL = new URL('/api/data/airports', 'http://localhost:5173'); // todo remove base
-    fetchURL.searchParams.set('pageNumber', `${pagination.pageIndex}`,);
-    fetchURL.searchParams.set('pageSize', `${pagination.pageSize}`);
+    const urlSearchParams = new URLSearchParams();
+    urlSearchParams.set('pageNumber', `${pagination.pageIndex}`,);
+    urlSearchParams.set('pageSize', `${pagination.pageSize}`);
 
     if (globalFilter) {
-        fetchURL.searchParams.set('search', globalFilter ?? '');
+        urlSearchParams.set('search', globalFilter ?? '');
     }
 
     if (sorting.length > 0) {
         const sort = sorting[0];
-        fetchURL.searchParams.set('sort', sort.id);
-        fetchURL.searchParams.set('desc', `${sort.desc}`);
+        urlSearchParams.set('sort', sort.id);
+        urlSearchParams.set('desc', `${sort.desc}`);
     }
 
+    const query = urlSearchParams.toString();
+
     return useQuery<ListResultDTO<AirportDTO>>({
-        queryKey: ['airports', fetchURL.href],
-        queryFn: () => getWithAuthHeader(fetchURL.href) as Promise<ListResultDTO<AirportDTO>>,
+        queryKey: ['airports', query],
+        queryFn: () => getWithAuthHeader(`/api/data/airports?${query}`) as Promise<ListResultDTO<AirportDTO>>,
         refetchOnWindowFocus: false,
         staleTime: 30_000, // 30s
     });

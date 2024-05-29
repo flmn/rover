@@ -10,23 +10,25 @@ interface QueryParams {
 }
 
 const useUsersQuery = ({globalFilter, pagination, sorting}: QueryParams) => {
-    const fetchURL = new URL('/api/platform/users', 'http://localhost:5173'); // todo remove base
-    fetchURL.searchParams.set('pageNumber', `${pagination.pageIndex}`,);
-    fetchURL.searchParams.set('pageSize', `${pagination.pageSize}`);
+    const urlSearchParams = new URLSearchParams();
+    urlSearchParams.set('pageNumber', `${pagination.pageIndex}`,);
+    urlSearchParams.set('pageSize', `${pagination.pageSize}`);
 
     if (globalFilter) {
-        fetchURL.searchParams.set('search', globalFilter ?? '');
+        urlSearchParams.set('search', globalFilter ?? '');
     }
 
     if (sorting.length > 0) {
         const sort = sorting[0];
-        fetchURL.searchParams.set('sort', sort.id);
-        fetchURL.searchParams.set('desc', `${sort.desc}`);
+        urlSearchParams.set('sort', sort.id);
+        urlSearchParams.set('desc', `${sort.desc}`);
     }
 
+    const query = urlSearchParams.toString();
+
     return useQuery<ListResultDTO<UserDTO>>({
-        queryKey: ['users', fetchURL.href],
-        queryFn: () => getWithAuthHeader(fetchURL.href) as Promise<ListResultDTO<UserDTO>>,
+        queryKey: ['users', query],
+        queryFn: () => getWithAuthHeader(`/api/platform/users?${query}`) as Promise<ListResultDTO<UserDTO>>,
         refetchOnWindowFocus: false,
         staleTime: 30_000, // 30s
     });
