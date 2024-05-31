@@ -1,1 +1,1 @@
-export { EditFormToolbar } from "./EditFormToolbar";
+export { EditFormToolbar } from './EditFormToolbar'

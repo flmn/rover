@@ -1,4 +1,4 @@
-package rover.app.platform.dto;
+package rover.app.shared.dto;
 
 public record ComboboxItemDTO(String value, String label) {
 }

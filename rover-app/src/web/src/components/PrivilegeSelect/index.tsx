@@ -1,1 +1,1 @@
-export { PrivilegeSelect } from "./PrivilegeSelect";
+export { PrivilegeSelect } from './PrivilegeSelect'

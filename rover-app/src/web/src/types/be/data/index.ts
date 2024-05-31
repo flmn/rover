@@ -1,1 +1,1 @@
-export * from "./airport"
+export * from './airport'
