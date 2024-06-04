@@ -11,6 +11,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 // Import Routes
+
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
 import { Route as AppImport } from './routes/_app'
@@ -106,10 +107,10 @@ const AppSettingsConfigsIndexLazyRoute =
   )
 
 const AppDataAirportsIndexLazyRoute = AppDataAirportsIndexLazyImport.update({
-    path: '/data/airports/',
-    getParentRoute: () => AppRoute,
+  path: '/data/airports/',
+  getParentRoute: () => AppRoute,
 } as any).lazy(() =>
-    import('./routes/_app/data/airports/index.lazy').then((d) => d.Route),
+  import('./routes/_app/data/airports/index.lazy').then((d) => d.Route),
 )
 
 const AppAnalysisMapIndexLazyRoute = AppAnalysisMapIndexLazyImport.update({
@@ -124,86 +125,86 @@ const AppAnalysisMapIndexLazyRoute = AppAnalysisMapIndexLazyImport.update({
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/_app': {
-        id: '/_app'
-        path: ''
-        fullPath: ''
+      id: '/_app'
+      path: ''
+      fullPath: ''
       preLoaderRoute: typeof AppImport
       parentRoute: typeof rootRoute
     }
     '/login': {
-        id: '/login'
-        path: '/login'
-        fullPath: '/login'
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
     '/_app/': {
-        id: '/_app/'
-        path: '/'
-        fullPath: '/'
+      id: '/_app/'
+      path: '/'
+      fullPath: '/'
       preLoaderRoute: typeof AppIndexImport
       parentRoute: typeof AppImport
     }
     '/_app/account/profile': {
-        id: '/_app/account/profile'
-        path: '/account/profile'
-        fullPath: '/account/profile'
+      id: '/_app/account/profile'
+      path: '/account/profile'
+      fullPath: '/account/profile'
       preLoaderRoute: typeof AppAccountProfileLazyImport
       parentRoute: typeof AppImport
     }
     '/_app/fleet/aircrafts': {
-        id: '/_app/fleet/aircrafts'
-        path: '/fleet/aircrafts'
-        fullPath: '/fleet/aircrafts'
+      id: '/_app/fleet/aircrafts'
+      path: '/fleet/aircrafts'
+      fullPath: '/fleet/aircrafts'
       preLoaderRoute: typeof AppFleetAircraftsLazyImport
       parentRoute: typeof AppImport
     }
     '/_app/settings/server-info': {
-        id: '/_app/settings/server-info'
-        path: '/settings/server-info'
-        fullPath: '/settings/server-info'
+      id: '/_app/settings/server-info'
+      path: '/settings/server-info'
+      fullPath: '/settings/server-info'
       preLoaderRoute: typeof AppSettingsServerInfoLazyImport
       parentRoute: typeof AppImport
     }
     '/_app/analysis/map/': {
-        id: '/_app/analysis/map/'
-        path: '/analysis/map'
-        fullPath: '/analysis/map'
+      id: '/_app/analysis/map/'
+      path: '/analysis/map'
+      fullPath: '/analysis/map'
       preLoaderRoute: typeof AppAnalysisMapIndexLazyImport
       parentRoute: typeof AppImport
     }
-      '/_app/data/airports/': {
-          id: '/_app/data/airports/'
-          path: '/data/airports'
-          fullPath: '/data/airports'
-          preLoaderRoute: typeof AppDataAirportsIndexLazyImport
-          parentRoute: typeof AppImport
-      }
+    '/_app/data/airports/': {
+      id: '/_app/data/airports/'
+      path: '/data/airports'
+      fullPath: '/data/airports'
+      preLoaderRoute: typeof AppDataAirportsIndexLazyImport
+      parentRoute: typeof AppImport
+    }
     '/_app/settings/configs/': {
-        id: '/_app/settings/configs/'
-        path: '/settings/configs'
-        fullPath: '/settings/configs'
+      id: '/_app/settings/configs/'
+      path: '/settings/configs'
+      fullPath: '/settings/configs'
       preLoaderRoute: typeof AppSettingsConfigsIndexLazyImport
       parentRoute: typeof AppImport
     }
     '/_app/settings/enums/': {
-        id: '/_app/settings/enums/'
-        path: '/settings/enums'
-        fullPath: '/settings/enums'
+      id: '/_app/settings/enums/'
+      path: '/settings/enums'
+      fullPath: '/settings/enums'
       preLoaderRoute: typeof AppSettingsEnumsIndexLazyImport
       parentRoute: typeof AppImport
     }
     '/_app/settings/roles/': {
-        id: '/_app/settings/roles/'
-        path: '/settings/roles'
-        fullPath: '/settings/roles'
+      id: '/_app/settings/roles/'
+      path: '/settings/roles'
+      fullPath: '/settings/roles'
       preLoaderRoute: typeof AppSettingsRolesIndexLazyImport
       parentRoute: typeof AppImport
     }
     '/_app/settings/users/': {
-        id: '/_app/settings/users/'
-        path: '/settings/users'
-        fullPath: '/settings/users'
+      id: '/_app/settings/users/'
+      path: '/settings/users'
+      fullPath: '/settings/users'
       preLoaderRoute: typeof AppSettingsUsersIndexLazyImport
       parentRoute: typeof AppImport
     }
@@ -213,18 +214,18 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
-    AppRoute: AppRoute.addChildren({
+  AppRoute: AppRoute.addChildren({
     AppIndexRoute,
     AppAccountProfileLazyRoute,
     AppFleetAircraftsLazyRoute,
     AppSettingsServerInfoLazyRoute,
     AppAnalysisMapIndexLazyRoute,
-        AppDataAirportsIndexLazyRoute,
+    AppDataAirportsIndexLazyRoute,
     AppSettingsConfigsIndexLazyRoute,
     AppSettingsEnumsIndexLazyRoute,
     AppSettingsRolesIndexLazyRoute,
     AppSettingsUsersIndexLazyRoute,
-    }),
+  }),
   LoginRoute,
 })
 

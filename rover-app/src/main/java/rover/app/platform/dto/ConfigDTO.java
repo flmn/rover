@@ -12,6 +12,7 @@ public record ConfigDTO(String id,
                         String typeText,
                         String value,
                         Boolean publicAccess,
+                        Boolean readonly,
                         String description,
                         String createdBy,
                         LocalDateTime createdAt,
@@ -29,6 +30,7 @@ public record ConfigDTO(String id,
                 name(entity.getType()),
                 entity.getValue(),
                 entity.getPublicAccess(),
+                entity.getReadonly(),
                 entity.getDescription(),
                 entity.getCreatedBy(),
                 entity.getCreatedAt(),
@@ -51,6 +53,7 @@ public record ConfigDTO(String id,
                 null,
                 null,
                 null,
+                null,
                 null);
     }
 
@@ -58,10 +61,13 @@ public record ConfigDTO(String id,
         return switch (type) {
             case BOOLEAN -> "布尔";
             case COLOR -> "颜色";
+            case DATE -> "日期";
             case ENUM -> "枚举值";
             case INTEGER -> "数字";
+            case JSON -> "JSON";
             case PERCENT -> "百分比";
             case TEXT -> "文字";
+            case TIME -> "时间";
             case URL -> "URL";
         };
     }

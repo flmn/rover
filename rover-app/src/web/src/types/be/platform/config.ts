@@ -5,6 +5,7 @@ export interface ConfigDTO {
   typeText: string;
   value: string;
   publicAccess: boolean;
+  readonly: boolean;
   description: string;
   createdBy: string;
   createdAt: Date;

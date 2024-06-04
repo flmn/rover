@@ -20,6 +20,9 @@ public class ConfigEntity extends BaseEntity {
     @Column("public_access")
     private Boolean publicAccess;
 
+    @Column("readonly")
+    private Boolean readonly;
+
     @Column("description")
     private String description;
 
@@ -53,6 +56,14 @@ public class ConfigEntity extends BaseEntity {
 
     public void setPublicAccess(Boolean publicAccess) {
         this.publicAccess = publicAccess;
+    }
+
+    public Boolean getReadonly() {
+        return readonly;
+    }
+
+    public void setReadonly(Boolean readonly) {
+        this.readonly = readonly;
     }
 
     public String getDescription() {

@@ -6,6 +6,7 @@ import {
   ActionIcon,
   Anchor,
   Badge,
+  Box,
   Button,
   Container,
   Flex,
@@ -17,7 +18,7 @@ import {
   Tooltip
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { IconExternalLink, IconInfoCircle, IconPencil } from '@tabler/icons-react'
+import { IconCalendar, IconClock, IconExternalLink, IconInfoCircle, IconPencil } from '@tabler/icons-react'
 import { ConfigDTO } from '@/types'
 import { EditFormToolbar, Toolbar } from '@/components'
 import {
@@ -65,10 +66,6 @@ const EditForm = (props: EditorFormProps) => {
         <TextInput disabled label="ID"
                    key={form.key('id')}
                    {...form.getInputProps('id')} />
-        {(config?.type === 'TEXT' || config?.type === 'URL') &&
-          <TextInput required label="值"
-                     key={form.key('value')}
-                     {...form.getInputProps('value')} />}
         {config?.type === 'PERCENT' &&
           <>
             <Text size="sm" fw={500}>值</Text>
@@ -83,6 +80,10 @@ const EditForm = (props: EditorFormProps) => {
               key={form.key('value')}
               {...form.getInputProps('value')} />
           </>}
+        {(config?.type === 'TEXT' || config?.type === 'URL') &&
+          <TextInput required label="值"
+                     key={form.key('value')}
+                     {...form.getInputProps('value')} />}
         <EditFormToolbar entityName="系统参数"
                          isEdit={true}
                          isSaving={isSaving} />
@@ -138,8 +139,31 @@ const Configs = () => {
           required: true
         },
         Cell: ({ cell, row }) => {
-          if (row.original.type == 'PERCENT') {
+          if (row.original.type == 'COLOR') {
+            return (
+              <Group align="center" gap="xs">
+                <Box bg={'#' + cell.getValue<string>()} w="1rem" h="1rem" />
+                <span>{cell.getValue<string>()}</span>
+              </Group>
+            )
+          } else if (row.original.type == 'DATE') {
+            return (
+              <Group align="center" gap="xs">
+                <IconCalendar size="1.2rem" />
+                <span>{cell.getValue<string>()}</span>
+              </Group>
+            )
+          } else if (row.original.type == 'JSON') {
+            return (<span>{'{...}'}</span>)
+          } else if (row.original.type == 'PERCENT') {
             return (<span>{cell.getValue<string>()}%</span>)
+          } else if (row.original.type == 'TIME') {
+            return (
+              <Group align="center" gap="xs">
+                <IconClock size="1.2rem" />
+                <span>{cell.getValue<string>()}</span>
+              </Group>
+            )
           } else if (row.original.type == 'URL') {
             return (
               <Group align="center" gap="2">
@@ -220,11 +244,11 @@ const Configs = () => {
     // row actions
     renderRowActions: ({ row }) => (
       <Flex gap="md">
-        <Tooltip label="修改参数">
+        {!row.original.readonly && <Tooltip label="修改参数">
           <ActionIcon variant="subtle" onClick={() => editor.edit(row.original.id)}>
             <IconPencil size="1.3rem" />
           </ActionIcon>
-        </Tooltip>
+        </Tooltip>}
       </Flex>
     ),
     // state

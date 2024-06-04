@@ -227,7 +227,6 @@ const EnumDetails = ({ activeEnum }: {
       <Group mih={56}>
         <Text pl="xs">条目数量：{records.length}</Text>
       </Group>
-
     ),
     // state
     state: {

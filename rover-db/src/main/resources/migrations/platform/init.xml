@@ -92,6 +92,9 @@
             <column name="public_access" type="boolean" defaultValueBoolean="false">
                 <constraints nullable="false"/>
             </column>
+            <column name="readonly" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
             <column name="description" type="text" defaultValue="">
                 <constraints nullable="false"/>
             </column>
